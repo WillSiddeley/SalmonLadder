@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 public class Fish extends Actor {
 
+    private int orientation = 0;
     private Sprite sprite;
 
     public Fish(String img) {
@@ -20,20 +21,6 @@ public class Fish extends Actor {
         this.sprite.setScale(2f);
 
         this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
-
-        this.setTouchable(Touchable.enabled);
-
-        this.addListener(new ActorGestureListener() {
-
-            @Override
-            public void fling(InputEvent event, float velocityX, float velocityY, int button) {
-
-                move(1);
-
-            }
-
-        });
-
     }
 
     @Override
@@ -43,36 +30,11 @@ public class Fish extends Actor {
 
     }
 
-    @Override
-    public void positionChanged() {
-
-        sprite.setPosition(getX(), getY());
-
+    public int getOrientation(){
+        return orientation;
     }
 
-    public void move(int direction) {
-
-        switch (direction) {
-
-            case 1:
-                setPosition(getX(), getY() + 16);
-                break;
-
-            case 2:
-                setPosition(getX(), getY() - 16);
-                break;
-
-            case 3:
-                setPosition(getX() + 16, getY());
-                break;
-
-            case 4:
-                setPosition(getX() - 16, getY());
-                break;
-
-
-        }
-
+    public void setOrientation(int o){
+        orientation = o;
     }
-
 }
