@@ -2,18 +2,27 @@ package com.spill.salmonladder.Scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spill.salmonladder.Fish;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
 
 public class LevelParser implements Screen {
 
@@ -30,7 +39,6 @@ public class LevelParser implements Screen {
     // CREATE A NEW WORLD AND STAGE
     private World world;
     private Stage stage;
-    private Fish fish;
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
@@ -51,6 +59,9 @@ public class LevelParser implements Screen {
     // LEVEL NUMBER VARIABLE IS USED TO DETERMINE THE MAP THAT WILL BE LOADED WHEN PARSED IN FROM SCREENLEVELSELECT
     public static int levelNumber;
 
+    // FISH PLAYER
+    private Fish fish;
+
     public LevelParser(int LevelNumber) {
 
         XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Levels.xml"));
@@ -68,11 +79,10 @@ public class LevelParser implements Screen {
         //MapParser.parseMapLayers(world, tiledMap);
 
         // PLAYER
-        fish = new Fish(world);
-        texture = new Texture("Skins/e.");
+        //texture = new Texture("Skins/e.");
 
         // HUD
-        stage = new Stage(new ScreenViewport());
+        //stage = new Stage(new ScreenViewport());
         //InputTable.createInputTable(stage, debug);
 
     }
@@ -81,6 +91,11 @@ public class LevelParser implements Screen {
     @Override
     public void show() {
 
+        fish = new Fish("Sprites/salmon.png");
+        stage = new Stage(new ScreenViewport());
+
+        stage.addActor(fish);
+
     }
 
     @Override
@@ -88,6 +103,9 @@ public class LevelParser implements Screen {
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+
+        stage.act();
+        stage.draw();
 
     }
 
@@ -113,6 +131,8 @@ public class LevelParser implements Screen {
 
     @Override
     public void dispose() {
+
+        stage.dispose();
 
     }
 }

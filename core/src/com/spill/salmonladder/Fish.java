@@ -1,16 +1,37 @@
-/*package com.spill.salmonladder;
+package com.spill.salmonladder;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.XmlReader;
-import com.spill.salmonladder.Scenes.LevelParser;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Fish {
+public class Fish extends Actor {
 
+    private Sprite sprite;
 
+    public Fish(String img) {
 
-}*/
+        this.sprite = new Sprite(new Texture(Gdx.files.internal(img)));
+
+        this.sprite.setScale(2f);
+
+        this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
+
+    }
+
+    @Override
+    public void draw(Batch batch, float alpha){
+
+        sprite.draw(batch);
+
+    }
+
+    @Override
+    public void positionChanged(){
+
+        sprite.setPosition(getX(), getY());
+
+    }
+
+}

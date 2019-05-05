@@ -3,12 +3,14 @@ package com.spill.salmonladder;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spill.salmonladder.Scenes.ScreenStart;
 
 public class
@@ -26,18 +28,8 @@ SalmonLadder extends Game implements ApplicationListener {
     public void create() {
 
         // INSTANTIATE BATCH AND FONT
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-
-        stage = new Stage();
-        final Texture fishTexture = new Texture("Sprites/testFish.png");
-        Actor fish = new Actor(){
-            public void draw(Batch batch, float alpha){
-                batch.draw(fishTexture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0, fishTexture.getWidth(), fishTexture.getHeight(), false, false);
-            }
-        };
-
-        stage.addActor(fish);
+        //batch = new SpriteBatch();
+       // font = new BitmapFont();
 
         // AS SOON AS THE GAME LOADS UP, PUTS USER INTO THE START SCREEN
         this.setScreen(new ScreenStart());
@@ -46,8 +38,9 @@ SalmonLadder extends Game implements ApplicationListener {
 
     @Override
     public void render() {
+
         super.render();
-        stage.draw();
+
     }
 
     @Override
