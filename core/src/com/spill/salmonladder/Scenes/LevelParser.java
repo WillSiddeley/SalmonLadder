@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.spill.salmonladder.Fish;
 
 public class LevelParser implements Screen {
 
@@ -29,6 +30,7 @@ public class LevelParser implements Screen {
     // CREATE A NEW WORLD AND STAGE
     private World world;
     private Stage stage;
+    private Fish fish;
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
@@ -57,25 +59,21 @@ public class LevelParser implements Screen {
         levelNumber = LevelNumber;
 
         // CAMERA
-        camera.setToOrtho(false, Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 4f);
+        camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.7f, Gdx.graphics.getHeight() / 1.7f);
         camera.update();
-
-        // GRAVITY
-        world = new World(new Vector2(0f, LevelAttributes.getChildByName("Movement").getFloatAttribute("gravity")), false);
-        world.setContactListener(new WorldContactListener());
 
         // MAP PARSING
         tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        MapParser.parseMapLayers(world, tiledMap);
+        //MapParser.parseMapLayers(world, tiledMap);
 
         // PLAYER
-        player = new Player(world);
-        texture = new Texture(player.getPlayerSkin());
+        fish = new Fish(world);
+        texture = new Texture("Skins/e.");
 
         // HUD
         stage = new Stage(new ScreenViewport());
-        InputTable.createInputTable(stage, debug);
+        //InputTable.createInputTable(stage, debug);
 
     }
 
@@ -87,6 +85,9 @@ public class LevelParser implements Screen {
 
     @Override
     public void render(float delta) {
+
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
 
     }
 
