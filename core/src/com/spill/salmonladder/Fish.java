@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 public class Fish extends Actor {
 
@@ -18,14 +15,15 @@ public class Fish extends Actor {
 
         this.sprite = new Sprite(new Texture(Gdx.files.internal(img)));
 
-        this.sprite.setScale(2f);
+        this.sprite.setScale((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 
-        this.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
+        this.sprite.setOrigin(16f, 32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
     }
 
     @Override
     public void draw(Batch batch, float alpha) {
 
+        sprite.setPosition(getX(), getY());
         sprite.draw(batch);
 
     }

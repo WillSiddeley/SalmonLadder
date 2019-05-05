@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spill.salmonladder.Fish;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.rotateBy;
 
 public class LevelParser implements Screen, GestureListener {
@@ -56,6 +58,7 @@ public class LevelParser implements Screen, GestureListener {
     private MoveByAction[] moves;
     private RotateByAction[] rotate;
     private SequenceAction sequence = new SequenceAction();
+    private RunnableAction run = new RunnableAction();
 
     LevelParser(int LevelNumber) {
 
@@ -63,7 +66,7 @@ public class LevelParser implements Screen, GestureListener {
         XmlReader.Element LevelAttributes = root.getChildByName("Level" + LevelNumber);
 
         // CAMERA
-        camera = new OrthographicCamera(640, (640f) * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+        camera = new OrthographicCamera(640f, 640f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         camera.position.set(320, 320, 0);
         camera.update();
 
@@ -87,11 +90,11 @@ public class LevelParser implements Screen, GestureListener {
             moves[i] = new MoveByAction();
         }
         for(MoveByAction i: moves){
-            i.setDuration(0.3f);
+            i.setDuration(0.01f);
         }
-        moves[0].setAmountY(32f);
+        moves[0].setAmountY(32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         moves[1].setAmountX(32f);
-        moves[2].setAmountY(-32f);
+        moves[2].setAmountY(-32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         moves[3].setAmountX(-32f);
 
         rotate = new RotateByAction[3];
@@ -99,13 +102,24 @@ public class LevelParser implements Screen, GestureListener {
             rotate[i] = new RotateByAction();
         }
         for(RotateByAction i: rotate){
-            i.setDuration(0.2f);
+            i.setDuration(0.03f);
         }
         rotate[0].setAmount(90f);
         rotate[1].setAmount(-90f);
         rotate[2].setAmount(180f);
 
         stage.addActor(fish);
+
+        run.setRunnable(new Runnable() {
+
+            @Override
+            public void run() {
+
+                fish.removeAction(sequence);
+                sequence.reset();
+
+            }
+        });
 
     }
 
@@ -220,9 +234,10 @@ public class LevelParser implements Screen, GestureListener {
            case 3: sequence.addAction(rotate[0]);
        }
        sequence.addAction(moves[0]);
+       sequence.addAction(run);
        fish.addAction(sequence);
        fish.setOrientation(0);
-       System.out.println("here");
+
     }
 
     private void moveRight(){
@@ -234,13 +249,13 @@ public class LevelParser implements Screen, GestureListener {
             case 3: sequence.addAction(rotate[2]);
         }
         sequence.addAction(moves[1]);
+        sequence.addAction(run);
         fish.addAction(sequence);
         fish.setOrientation(1);
 
     }
 
     private void moveDown(){
-        System.out.println("There");
         switch(fish.getOrientation()){
             case 0: sequence.addAction(rotate[2]);
                 break;
@@ -249,9 +264,9 @@ public class LevelParser implements Screen, GestureListener {
             case 3: sequence.addAction(rotate[1]);
         }
         sequence.addAction(moves[2]);
+        sequence.addAction(run);
         fish.addAction(sequence);
         fish.setOrientation(2);
-
     }
 
     private void moveLeft(){
@@ -263,8 +278,8 @@ public class LevelParser implements Screen, GestureListener {
             case 2: sequence.addAction(rotate[0]);
         }
         sequence.addAction(moves[3]);
+        sequence.addAction(run);
         fish.addAction(sequence);
         fish.setOrientation(3);
-
     }
 }
