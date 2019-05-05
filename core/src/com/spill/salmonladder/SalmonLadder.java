@@ -2,8 +2,13 @@ package com.spill.salmonladder;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spill.salmonladder.Scenes.ScreenStart;
 
 public class
@@ -12,6 +17,7 @@ SalmonLadder extends Game implements ApplicationListener {
     // SET UP VARIABLES FOR SPRITES AND FONT
     private SpriteBatch batch;
     private BitmapFont font;
+    private Stage stage;
 
     // THIS IS THE NUMBER OF PIXELS PER TILE / SPRITES.  ALL ASSETS MUST BE 32 x 32 OR MULTIPLE OF 32
     public static final float PIXEL_PER_METER = 32f;
@@ -23,6 +29,16 @@ SalmonLadder extends Game implements ApplicationListener {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+        stage = new Stage();
+        final Texture fishTexture = new Texture("Sprites/testFish.png");
+        Actor fish = new Actor(){
+            public void draw(Batch batch, float alpha){
+                batch.draw(fishTexture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0, fishTexture.getWidth(), fishTexture.getHeight(), false, false);
+            }
+        };
+
+        stage.addActor(fish);
+
         // AS SOON AS THE GAME LOADS UP, PUTS USER INTO THE START SCREEN
         this.setScreen(new ScreenStart());
 
@@ -30,9 +46,8 @@ SalmonLadder extends Game implements ApplicationListener {
 
     @Override
     public void render() {
-
         super.render();
-
+        stage.draw();
     }
 
     @Override
@@ -46,6 +61,7 @@ SalmonLadder extends Game implements ApplicationListener {
         // DISPOSE OF BATCH AND FONT SO THEY DON'T TAKE UP MEMORY
         batch.dispose();
         font.dispose();
+        stage.dispose();
 
     }
 }
