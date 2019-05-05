@@ -85,7 +85,7 @@ public class LevelParser implements Screen, GestureListener {
         fish = new Fish("Sprites/salmon.png");
         stage = new Stage(new ExtendViewport(640f, 640f));
 
-        fish.setPosition(0f, -7f);
+        fish.setPosition(0f, -7);
 
         moves = new MoveByAction[4];
         for(int i = 0; i < moves.length; i++){
