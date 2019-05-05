@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.spill.salmonladder.Scenes.LevelParser;
 
 public class Fish extends Actor {
 
@@ -15,9 +16,7 @@ public class Fish extends Actor {
 
         this.sprite = new Sprite(new Texture(Gdx.files.internal(img)));
 
-        this.sprite.setScale((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
-
-        this.sprite.setOrigin(16f, 32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+        this.sprite.setScale(LevelParser.tiledMapRenderer.getUnitScale());
     }
 
     @Override

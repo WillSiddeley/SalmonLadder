@@ -41,7 +41,7 @@ public class LevelParser implements Screen, GestureListener {
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    public static OrthogonalTiledMapRenderer tiledMapRenderer;
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
@@ -83,7 +83,9 @@ public class LevelParser implements Screen, GestureListener {
 
         Gdx.input.setInputProcessor(new GestureDetector(this));
         fish = new Fish("Sprites/salmon.png");
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ExtendViewport(640f, 640f));
+
+        fish.setPosition(0f, -7f);
 
         moves = new MoveByAction[4];
         for(int i = 0; i < moves.length; i++){
@@ -92,10 +94,10 @@ public class LevelParser implements Screen, GestureListener {
         for(MoveByAction i: moves){
             i.setDuration(0.01f);
         }
-        moves[0].setAmountY(32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
-        moves[1].setAmountX(32f);
-        moves[2].setAmountY(-32f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
-        moves[3].setAmountX(-32f);
+        moves[0].setAmountY(32f * tiledMapRenderer.getUnitScale());
+        moves[1].setAmountX(32f * tiledMapRenderer.getUnitScale());
+        moves[2].setAmountY(32f * -tiledMapRenderer.getUnitScale());
+        moves[3].setAmountX(32f * -tiledMapRenderer.getUnitScale());
 
         rotate = new RotateByAction[3];
         for(int i = 0; i < rotate.length; i++){
