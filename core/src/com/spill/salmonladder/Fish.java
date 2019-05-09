@@ -9,7 +9,7 @@ import com.spill.salmonladder.Scenes.LevelParser;
 
 public class Fish extends Actor {
 
-    private int orientation = 0;
+    private int orientation = 0, xPos, yPos;
     private Sprite sprite;
 
     public Fish(String img) {
