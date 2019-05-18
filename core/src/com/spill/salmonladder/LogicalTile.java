@@ -1,9 +1,9 @@
 package com.spill.salmonladder;
-public class logicalTile {
+public class LogicalTile {
     private int x, y;
     private boolean up, right, down, left;
 
-    public logicalTile(int x, int y){
+    public LogicalTile(int x, int y){
         this.x = x;
         this.y = y;
         up = false;
@@ -12,7 +12,7 @@ public class logicalTile {
         left = false;
     }
 
-    public logicalTile(int x, int y, boolean up, boolean right, boolean down, boolean left){
+    public LogicalTile(int x, int y, boolean up, boolean right, boolean down, boolean left){
         this.x = x;
         this.y = y;
         this.up = up;

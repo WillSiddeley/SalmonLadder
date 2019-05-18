@@ -54,9 +54,9 @@ public class LevelParser implements Screen, GestureListener {
     private Boolean debug = true;
 
     private Fish fish;
-    private boolean panMode = false;
+    private boolean panMode = false, screenLock = false;
     private MoveByAction[] moves;
-    private RotateByAction[] rotate;
+    private RotateByAction[] rotation;
     private SequenceAction sequence = new SequenceAction();
     private RunnableAction run = new RunnableAction();
 
@@ -99,16 +99,16 @@ public class LevelParser implements Screen, GestureListener {
         moves[2].setAmountY(32f * -tiledMapRenderer.getUnitScale());
         moves[3].setAmountX(32f * -tiledMapRenderer.getUnitScale());
 
-        rotate = new RotateByAction[3];
-        for(int i = 0; i < rotate.length; i++){
-            rotate[i] = new RotateByAction();
+        rotation = new RotateByAction[3];
+        for(int i = 0; i < rotation.length; i++){
+            rotation[i] = new RotateByAction();
         }
-        for(RotateByAction i: rotate){
+        for(RotateByAction i: rotation){
             i.setDuration(0.03f);
         }
-        rotate[0].setAmount(90f);
-        rotate[1].setAmount(-90f);
-        rotate[2].setAmount(180f);
+        rotation[0].setAmount(90f);
+        rotation[1].setAmount(-90f);
+        rotation[2].setAmount(180f);
 
         stage.addActor(fish);
 
@@ -181,23 +181,24 @@ public class LevelParser implements Screen, GestureListener {
 
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
-        if(!panMode) {
+        int d;
+        if(!panMode && !screenLock) {
             if (Math.abs(velocityY) > Math.abs(velocityX)) {
                 if (velocityY < 0) {
-                    moveUp();
+                   d = 0;
                 }
                 else{
-                    moveDown();
+                   d = 2;
                 }
             }
-            else{
-                if(velocityX > 0){
-                    moveRight();
-                }
-                else{
-                    moveLeft();
+            else {
+                if (velocityX > 0) {
+                    d = 1;
+                } else {
+                    d = 3;
                 }
             }
+            move(d);
         }
         return false;
     }
@@ -227,61 +228,57 @@ public class LevelParser implements Screen, GestureListener {
 
     }
 
-    private void moveUp(){
-       switch(fish.getOrientation()){
-           case 1: sequence.addAction(rotate[1]);
-           break;
-           case 2: sequence.addAction(rotate[2]);
-           break;
-           case 3: sequence.addAction(rotate[0]);
-       }
-       sequence.addAction(moves[0]);
-       sequence.addAction(run);
-       fish.addAction(sequence);
-       fish.setOrientation(0);
-
-    }
-
-    private void moveRight(){
-        switch(fish.getOrientation()){
-            case 0: sequence.addAction(rotate[0]);
-                break;
-            case 2: sequence.addAction(rotate[1]);
-                break;
-            case 3: sequence.addAction(rotate[2]);
-        }
-        sequence.addAction(moves[1]);
+    private void move(int d){
+        int o = fish.getOrientation();
+        rotate(d, o);
+        fish.setOrientation(d);
+        sequence.addAction(moves[d]);
         sequence.addAction(run);
         fish.addAction(sequence);
-        fish.setOrientation(1);
-
     }
 
-    private void moveDown(){
-        switch(fish.getOrientation()){
-            case 0: sequence.addAction(rotate[2]);
-                break;
-            case 1: sequence.addAction(rotate[0]);
-                break;
-            case 3: sequence.addAction(rotate[1]);
+    private void rotate(int d, int o){
+        //rotate 180
+        if (Math.abs(d - o) == 2){
+            switch(d){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
         }
-        sequence.addAction(moves[2]);
-        sequence.addAction(run);
-        fish.addAction(sequence);
-        fish.setOrientation(2);
-    }
+        else if(d == o){
 
-    private void moveLeft(){
-        switch(fish.getOrientation()){
-            case 0: sequence.addAction(rotate[1]);
-                break;
-            case 1: sequence.addAction(rotate[2]);
-                break;
-            case 2: sequence.addAction(rotate[0]);
         }
-        sequence.addAction(moves[3]);
-        sequence.addAction(run);
-        fish.addAction(sequence);
-        fish.setOrientation(3);
+        //rotate clockwise
+        else if((d > o && (!(d == 3 && o == 0)) || (d == 0 && o == 3))){
+            switch(d){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+        //rotate ccw
+        else{
+            switch(d){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
     }
 }
