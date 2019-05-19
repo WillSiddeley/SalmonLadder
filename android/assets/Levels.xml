@@ -2,7 +2,7 @@
     <Level1 path="Levels/Level1.tmx">
         <Stars stars="3" />
         <Status defaultstatus="unlocked" status="unlocked" />
-        <StartCoords x="4.5" y="5.5" />
+        <StartCoords x="9" y="2" />
     </Level1>
     <Level2 path="Levels/Level2.tmx">
         <Status defaultstatus="locked" status="locked" />

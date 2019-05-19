@@ -13,20 +13,23 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.spill.salmonladder.FishSprite;
+import com.spill.salmonladder.SalmonLadder;
 
 public class LevelParser implements Screen {
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
-    public static OrthogonalTiledMapRenderer tiledMapRenderer;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
 
     // BOOLEANS FOR LOCKING SCREEN AND PANNING
     public static boolean panMode = false, screenLock = false;
+
     // CREATE A FISH SPRITE
     private FishSprite fish;
+
     // LEVEL NUMBER THAT IS PARSED IN
     private int levelNumber;
 
@@ -40,20 +43,32 @@ public class LevelParser implements Screen {
     @Override
     public void show() {
 
+        // PARSE THE XML FILE
         XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Levels.xml"));
 
+        // GRAB THE ROOT OF THE ENTIRE LEVEL, ALLOWS EASY ACCESS TO LEVEL ATTRIBUTES
         XmlReader.Element LevelAttributes = root.getChildByName("Level" + levelNumber);
 
+        // GRAB START COORDINATES FROM THE XML FILE
+        int startX = LevelAttributes.getChildByName("StartCoords").getInt("x");
+        int starty = LevelAttributes.getChildByName("StartCoords").getInt("y");
+
+        // LOAD MAP INTO VARIABLE
         tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
 
+        // SET THE RENDERER TO RENDER THE TILEMAP
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
+        // SET CAMERA TO ORTHOGRAPHIC (TOP-DOWN)
         camera = new OrthographicCamera();
 
-        fish = new FishSprite(new Sprite(new Texture("Sprites/salmon.png")), (TiledMapTileLayer) tiledMap.getLayers().get(0));
+        // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
+        fish = new FishSprite(new Sprite(new Texture("Sprites/salmon.png")), (TiledMapTileLayer) tiledMap.getLayers().get(0), tiledMapRenderer.getUnitScale());
 
-        fish.setPosition(9 * 32f, 2 * 32f);
+        // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
+        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, starty * SalmonLadder.PIXEL_PER_METER);
 
+        // SET THE INPUT PROCESSOR TO THE FISH
         Gdx.input.setInputProcessor(new GestureDetector(fish));
 
     }
@@ -61,15 +76,19 @@ public class LevelParser implements Screen {
     @Override
     public void render(float delta) {
 
+        // BACKGROUND SET TO ALL WHITE
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(255f, 255f, 255f, 0);
 
-        camera.position.set(fish.getX() + 16f, fish.getY() + 16f, 0);
+        // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
+        camera.position.set(fish.getX() + SalmonLadder.PIXEL_PER_METER / 2, fish.getY() + SalmonLadder.PIXEL_PER_METER / 2, 0);
         camera.update();
 
+        // SET THE CAMERA TO RENDER THE TILEMAP
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
+        // DRAW THE FISH WITH RESPECT TO THE TILEMAP
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
         tiledMapRenderer.getBatch().end();

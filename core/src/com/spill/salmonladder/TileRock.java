@@ -1,8 +1,8 @@
 package com.spill.salmonladder;
 
-public class RockTile extends LogicalTile{
+public class TileRock extends TileLogical {
 
-    public RockTile(int x, int y){
+    public TileRock(int x, int y) {
         super(x, y, true, true, true, true);
     }
 

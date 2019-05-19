@@ -11,11 +11,15 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private TiledMapTileLayer collisionCheck;
 
-    public FishSprite(Sprite sprite, TiledMapTileLayer tiledMap) {
+    private float unitScale;
+
+    public FishSprite(Sprite sprite, TiledMapTileLayer tiledMap, float unitScale) {
 
         super(sprite);
 
         this.collisionCheck = tiledMap;
+
+        this.unitScale = unitScale;
 
     }
 
@@ -66,7 +70,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if (!LevelParser.panMode && !LevelParser.screenLock) {  //ADD PAN MODE AND SCREENLOCK
+        if (!LevelParser.panMode && !LevelParser.screenLock) {
 
             if (Math.abs(velocityY) > Math.abs(velocityX)) {
 
@@ -74,7 +78,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (CheckCollision("up")) {
 
-                        this.setPosition(getX(), getY() + 32f * LevelParser.tiledMapRenderer.getUnitScale());
+                        this.setPosition(getX(), getY() + 32f * unitScale);
 
                     }
 
@@ -82,7 +86,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (CheckCollision("down")) {
 
-                        this.setPosition(getX(), getY() - 32f * LevelParser.tiledMapRenderer.getUnitScale());
+                        this.setPosition(getX(), getY() - 32f * unitScale);
 
                     }
 
@@ -94,7 +98,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (CheckCollision("right")) {
 
-                        this.setPosition(getX() + 32f * LevelParser.tiledMapRenderer.getUnitScale(), getY());
+                        this.setPosition(getX() + 32f * unitScale, getY());
 
                     }
 
@@ -102,7 +106,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (CheckCollision("left")) {
 
-                        this.setPosition(getX() - 32f * LevelParser.tiledMapRenderer.getUnitScale(), getY());
+                        this.setPosition(getX() - 32f * unitScale, getY());
 
                     }
                 }
@@ -134,6 +138,6 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     @Override
     public void pinchStop() {
-
     }
+
 }

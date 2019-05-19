@@ -108,8 +108,8 @@ public class ScreenStart implements Screen {
     @Override
     public void resize(int width, int height) {
 
-        // IF THE PHONE SUPPORTS SPLITSCREEN APPS, AND THE APP IS RESIZED, UPDATE THE CAMERA TO THE NEW SIZE
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
         camera.update();
 
     }
@@ -132,10 +132,8 @@ public class ScreenStart implements Screen {
     @Override
     public void dispose() {
 
-        // DISPOSE OF UNUSED ASSESTS
         skin.dispose();
         atlas.dispose();
-
 
     }
 }

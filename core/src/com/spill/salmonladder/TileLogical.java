@@ -1,11 +1,12 @@
 package com.spill.salmonladder;
-public class LogicalTile {
+
+public class TileLogical {
 
     private int x, y;
     private boolean up, right, down, left;
     private boolean containsFish;
 
-    public LogicalTile(int x, int y){
+    public TileLogical(int x, int y) {
 
         this.x = x;
         this.y = y;
@@ -17,7 +18,7 @@ public class LogicalTile {
 
     }
 
-    LogicalTile(int x, int y, boolean up, boolean right, boolean down, boolean left) {
+    TileLogical(int x, int y, boolean up, boolean right, boolean down, boolean left) {
 
         this.x = x;
         this.y = y;
