@@ -1,43 +1,20 @@
 package com.spill.salmonladder.Scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.utils.XmlReader;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.spill.salmonladder.Fish;
+import com.spill.salmonladder.FishSprite;
 
-import java.util.concurrent.TimeUnit;
-
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.rotateBy;
-
-public class LevelParser implements Screen, GestureListener {
-
-    // THESE VARIABLES CONTROL THE STATE THE GAME IS IN (RUNNING, PAUSED, ETC)
-    public static final int GAME_RUNNING = 0;
-    public static final int GAME_PAUSED = 1;
-    public static final int GAME_CUTSCENE = 2;
-    public static final int GAME_OVER = 3;
-
-    // THE STATE INT IS EVALUATED AS THE INTEGER ABOVE DEPENDING ON THE STATE OF THE GAME
-    // THE STATE INT IS USED FOR SWITCH AND COMPARISONS
-    public static int state;
-
-    // CREATE A NEW STAGE
-    private Stage stage;
+public class LevelParser implements Screen {
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
@@ -45,100 +22,65 @@ public class LevelParser implements Screen, GestureListener {
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
-    private ExtendViewport viewport;
 
-    // CREATE TEXTURES THAT WILL BE USED FOR BUTTONS (MOVEMENT, PAUSE, ETC.)
-    private Texture texture;
+    // BOOLEANS FOR LOCKING SCREEN AND PANNING
+    public static boolean panMode = false, screenLock = false;
+    // CREATE A FISH SPRITE
+    private FishSprite fish;
+    // LEVEL NUMBER THAT IS PARSED IN
+    private int levelNumber;
 
-    // DEBUG BOOLEAN USED FOR DEBUGGING ONLY.  SET TO TRUE TO BE ABLE TO SEE THE HITBOXES OF BUTTONS, AND OBJECTS
-    private Boolean debug = true;
-
-    private Fish fish;
-    private boolean panMode = false, screenLock = false;
-    private MoveByAction[] moves;
-    private RotateByAction[] rotation;
-    private SequenceAction sequence = new SequenceAction();
-    private RunnableAction run = new RunnableAction();
-
+    // DEFAULT CONSTRUCTOR
     LevelParser(int LevelNumber) {
 
-        XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Levels.xml"));
-        XmlReader.Element LevelAttributes = root.getChildByName("Level" + LevelNumber);
-
-        // CAMERA
-        camera = new OrthographicCamera(640f, 640f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
-        camera.position.set(320, 320, 0);
-        camera.update();
-
-        // MAP PARSING
-        tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        //MapParser.parseMapLayers(world, tiledMap);
+        this.levelNumber = LevelNumber;
 
     }
-
 
     @Override
     public void show() {
 
-        Gdx.input.setInputProcessor(new GestureDetector(this));
-        fish = new Fish("Sprites/salmon.png");
-        stage = new Stage(new ExtendViewport(640f, 640f));
+        XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Levels.xml"));
 
-        fish.setPosition(0f, -7);
+        XmlReader.Element LevelAttributes = root.getChildByName("Level" + levelNumber);
 
-        moves = new MoveByAction[4];
-        for(int i = 0; i < moves.length; i++){
-            moves[i] = new MoveByAction();
-        }
-        for(MoveByAction i: moves){
-            i.setDuration(0.01f);
-        }
-        moves[0].setAmountY(32f * tiledMapRenderer.getUnitScale());
-        moves[1].setAmountX(32f * tiledMapRenderer.getUnitScale());
-        moves[2].setAmountY(32f * -tiledMapRenderer.getUnitScale());
-        moves[3].setAmountX(32f * -tiledMapRenderer.getUnitScale());
+        tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
 
-        rotation = new RotateByAction[3];
-        for(int i = 0; i < rotation.length; i++){
-            rotation[i] = new RotateByAction();
-        }
-        for(RotateByAction i: rotation){
-            i.setDuration(0.03f);
-        }
-        rotation[0].setAmount(90f);
-        rotation[1].setAmount(-90f);
-        rotation[2].setAmount(180f);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        stage.addActor(fish);
+        camera = new OrthographicCamera();
 
-        run.setRunnable(new Runnable() {
+        fish = new FishSprite(new Sprite(new Texture("Sprites/salmon.png")), (TiledMapTileLayer) tiledMap.getLayers().get(0));
 
-            @Override
-            public void run() {
+        fish.setPosition(9 * 32f, 2 * 32f);
 
-                fish.removeAction(sequence);
-                sequence.reset();
-
-            }
-        });
+        Gdx.input.setInputProcessor(new GestureDetector(fish));
 
     }
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(255f, 255f, 255f, 0);
+
+        camera.position.set(fish.getX() + 16f, fish.getY() + 16f, 0);
+        camera.update();
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
-        stage.act();
-        stage.draw();
+        tiledMapRenderer.getBatch().begin();
+        fish.draw(tiledMapRenderer.getBatch());
+        tiledMapRenderer.getBatch().end();
 
     }
 
     @Override
     public void resize(int width, int height) {
+
+        camera.viewportWidth = width / 2.5f;
+        camera.viewportHeight = height / 2.5f;
 
     }
 
@@ -155,130 +97,15 @@ public class LevelParser implements Screen, GestureListener {
     @Override
     public void hide() {
 
+        dispose();
+
     }
 
     @Override
     public void dispose() {
 
-        stage.dispose();
+        tiledMap.dispose();
+        tiledMapRenderer.dispose();
 
-    }
-
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-        int d;
-        if(!panMode && !screenLock) {
-            if (Math.abs(velocityY) > Math.abs(velocityX)) {
-                if (velocityY < 0) {
-                   d = 0;
-                }
-                else{
-                   d = 2;
-                }
-            }
-            else {
-                if (velocityX > 0) {
-                    d = 1;
-                } else {
-                    d = 3;
-                }
-            }
-            move(d);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
-    }
-
-    @Override
-    public void pinchStop() {
-
-    }
-
-    private void move(int d){
-        int o = fish.getOrientation();
-        rotate(d, o);
-        fish.setOrientation(d);
-        sequence.addAction(moves[d]);
-        sequence.addAction(run);
-        fish.addAction(sequence);
-    }
-
-    private void rotate(int d, int o){
-        //rotate 180
-        if (Math.abs(d - o) == 2){
-            switch(d){
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-        }
-        else if(d == o){
-
-        }
-        //rotate clockwise
-        else if((d > o && (!(d == 3 && o == 0)) || (d == 0 && o == 3))){
-            switch(d){
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-        }
-        //rotate ccw
-        else{
-            switch(d){
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-        }
     }
 }
