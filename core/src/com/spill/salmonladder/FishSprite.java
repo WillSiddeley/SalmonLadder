@@ -8,13 +8,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.spill.salmonladder.Scenes.LevelParser;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
+    private int orientation = 0;
+
+    private Timer.Task[] movement = new Timer.Task[4];
+
     private TiledMapTileLayer collisionCheck;
 
-    private Animation<Texture> swimUp, swimRight, swimDown, swimLeft;
+    private Animation<Texture> swim;
 
     private float elapsedTime = 0;
 
@@ -24,12 +29,43 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         super(fishTextures[0]);
 
-        swimUp = new Animation(1 / 20f, fishTextures);
+        init();
+
+        swim = new Animation(1 / 20f, fishTextures);
 
         this.collisionCheck = tiledMap;
 
         this.unitScale = unitScale;
+    }
 
+    private void init(){
+        movement[0] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(0f, 4f);
+            }
+        };
+
+        movement[1] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(4f, 0f);
+            }
+        };
+
+        movement[2] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(0f, -4f);
+            }
+        };
+
+        movement[3] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(-4f, 0f);
+            }
+        };
     }
 
     @Override
@@ -37,23 +73,23 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-        setTexture(swimUp.getKeyFrame(elapsedTime, true));
+        setTexture(swim.getKeyFrame(elapsedTime, true));
 
         super.draw(batch);
 
     }
 
-    private boolean CheckCollision(String direction) {
+    private boolean CheckCollision(int direction) {
 
-        if (direction.equals("up")) {
+        if (direction == 0) {
 
             return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoOn", boolean.class);
 
-        } else if (direction.equals("down")) {
+        } else if (direction == 2) {
 
             return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoOn", boolean.class);
 
-        } else if (direction.equals("right")) {
+        } else if (direction == 1) {
 
             return collisionCheck.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoOn", boolean.class);
 
@@ -89,23 +125,15 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if (velocityY < 0) {
 
+                    this.orientation = 0;
+
                     this.setRotation(0);
-
-                    if (CheckCollision("up")) {
-
-                        this.translate(0f, 32f * unitScale);
-
-                    }
 
                 } else {
 
+                    this.orientation = 2;
+
                     this.setRotation(180);
-
-                    if (CheckCollision("down")) {
-
-                        this.translate(0f, -32f * unitScale);
-
-                    }
 
                 }
 
@@ -113,24 +141,21 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if (velocityX > 0) {
 
+                    this.orientation = 1;
+
                     this.setRotation(270);
-
-                    if (CheckCollision("right")) {
-
-                        this.translate(32f * unitScale, 0f);
-
-                    }
 
                 } else {
 
+                    this.orientation = 3;
+
                     this.setRotation(90);
 
-                    if (CheckCollision("left")) {
-
-                        this.translate(-32f * unitScale, 0f);
-
-                    }
                 }
+            }
+
+            if(CheckCollision(orientation)){
+                Timer.schedule(movement[orientation], 0, 1/64f, 7);
             }
         }
 

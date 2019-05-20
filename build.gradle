@@ -11,6 +11,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.9'
 
     }
 }

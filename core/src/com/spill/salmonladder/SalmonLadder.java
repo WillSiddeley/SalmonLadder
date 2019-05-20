@@ -13,7 +13,7 @@ public class SalmonLadder extends Game implements ApplicationListener {
     @Override
     public void create() {
 
-        TexturePacker.process("Sprites/Textures", "Sprites/TextureAtlas", "ChinookStagnant");
+        //TexturePacker.process("Sprites/Textures", "Sprites/TextureAtlas", "ChinookStagnant");
 
         this.setScreen(new ScreenStart());
 
