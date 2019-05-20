@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -17,6 +18,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.repeat;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
@@ -26,7 +30,10 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     private OrthographicCamera camera;
 
     // ADD THE TEXTURE FOR THE TITLE SCREEN
-    private Texture texture;
+    private Texture textureTitle;
+
+    // ADD THE TEXTURE FOR THE SPLASH
+    private Texture textureSplash;
 
     // ADD THE STAGE FOR USER INPUT
     private Stage stage;
@@ -51,25 +58,33 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         camera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
 
         // SET THE IMAGE TO A TEXTURE
-        texture = new Texture("Images/TitleTransparent.png");
+        textureTitle = new Texture("Images/TitleTransparent.png");
+        textureSplash = new Texture("Images/SplashTransparent.png");
 
         // INSTANTIATE IMAGE
-        Image image = new Image();
+        Image imageTitle = new Image();
+        Image imageSplash = new Image();
 
         // SET THE IMAGE TEXTURE TO THE TITLE SCREEN
-        image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
+        imageTitle.setDrawable(new TextureRegionDrawable(new TextureRegion(textureTitle)));
+        imageSplash.setDrawable(new TextureRegionDrawable(new TextureRegion(textureSplash)));
 
         // SET THE SIZE OF THE IMAGE
-        image.setSize(texture.getWidth(), texture.getHeight());
+        imageTitle.setSize(textureTitle.getWidth(), textureTitle.getHeight());
+        imageSplash.setSize(textureSplash.getWidth(), textureSplash.getHeight());
 
         // CENTER THE IMAGE
-        image.setPosition(camera.position.x - (texture.getWidth() / 2f), camera.position.y - (texture.getHeight() / 2f));
+        imageTitle.setPosition(camera.position.x - (textureTitle.getWidth() / 2f), camera.position.y - (textureTitle.getHeight() / 7f));
+        imageSplash.setPosition(camera.position.x - (textureSplash.getWidth() / 2f), camera.position.y - (textureSplash.getHeight() * 1.5f));
 
         // ADD THE IMAGE TO THE STAGE
-        stage.addActor(image);
+        stage.addActor(imageTitle);
+        stage.addActor(imageSplash);
 
         // FADE IN THE STAGE
-        stage.addAction(sequence(alpha(0), fadeIn(1)));
+        stage.addAction(sequence(alpha(0), parallel(fadeIn(1), moveBy(0, 100, 1))));
+
+        imageSplash.addAction(repeat(RepeatAction.FOREVER, sequence(fadeIn(0.5f), fadeOut(0.5f))));
 
     }
 
@@ -116,7 +131,8 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     public void dispose() {
 
         stage.dispose();
-        texture.dispose();
+        textureTitle.dispose();
+        textureSplash.dispose();
 
     }
 
