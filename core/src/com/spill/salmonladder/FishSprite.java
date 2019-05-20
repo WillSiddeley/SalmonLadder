@@ -79,26 +79,47 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     }
 
-    private boolean CheckCollision(int direction) {
+    private boolean CheckCollisionIn(int direction) {
 
         if (direction == 0) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUp", boolean.class);
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpIn", boolean.class);
 
         } else if (direction == 2) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDown", boolean.class);
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownIn", boolean.class);
 
         } else if (direction == 1) {
 
-            return collisionCheck.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRight", boolean.class);
+            return collisionCheck.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightIn", boolean.class);
 
         } else {
 
-            return collisionCheck.getCell((int) ((getX() - getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeft", boolean.class);
+            return collisionCheck.getCell((int) ((getX() - getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftIn", boolean.class);
 
         }
 
+    }
+
+    private boolean CheckCollisionOut(int direction){
+
+        if (direction == 0) {
+
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpOut", boolean.class);
+
+        } else if (direction == 2) {
+
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownOut", boolean.class);
+
+        } else if (direction == 1) {
+
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightOut", boolean.class);
+
+        } else {
+
+            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftOut", boolean.class);
+
+        }
     }
 
     @Override
@@ -150,11 +171,11 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                     this.orientation = 3;
 
                     this.setRotation(90);
-
+                    
                 }
             }
 
-            if(CheckCollision(orientation)){
+            if(CheckCollisionIn(orientation) && CheckCollisionOut(orientation)){
                 Timer.schedule(movement[orientation], 0, 1/64f, 7);
             }
         }

@@ -1,121 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.3" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="16" columns="4">
- <image source="SalmonLadderTextures.png" width="128" height="128"/>
+<tileset version="1.2" tiledversion="1.2.3" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="64" columns="8">
+ <image source="SalmonLadderTextures.png" width="256" height="256"/>
  <tile id="0">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Background"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Background"/>
   </properties>
  </tile>
  <tile id="2">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Background"/>
   </properties>
  </tile>
  <tile id="3">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Water"/>
   </properties>
  </tile>
  <tile id="4">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Dam Up"/>
   </properties>
  </tile>
  <tile id="5">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Dam Right"/>
   </properties>
  </tile>
  <tile id="6">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Dam Down"/>
   </properties>
  </tile>
  <tile id="7">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Dam Left"/>
   </properties>
  </tile>
  <tile id="8">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Dam Left Up"/>
   </properties>
  </tile>
  <tile id="9">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="true"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="Dam Right Up"/>
   </properties>
  </tile>
- <tile id="12">
+ <tile id="10">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="true"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="false"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
+   <property name="Name" value="Rock"/>
+  </properties>
+ </tile>
+ <tile id="16">
+  <properties>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
+   <property name="CanGoRightIn" type="bool" value="false"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Dam Left Down"/>
   </properties>
  </tile>
- <tile id="13">
+ <tile id="17">
   <properties>
-   <property name="CanGoDown" type="bool" value="true"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="true"/>
-   <property name="CanGoUp" type="bool" value="false"/>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
+   <property name="CanGoLeftIn" type="bool" value="false"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
+   <property name="CanGoUpIn" type="bool" value="false"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
    <property name="Name" value="Dam Right Down"/>
   </properties>
  </tile>
- <tile id="15">
+ <tile id="19">
   <properties>
-   <property name="CanGoDown" type="bool" value="false"/>
-   <property name="CanGoLeft" type="bool" value="false"/>
-   <property name="CanGoRight" type="bool" value="false"/>
-   <property name="CanGoUp" type="bool" value="false"/>
-   <property name="Name" value="Rock"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
   </properties>
  </tile>
 </tileset>
