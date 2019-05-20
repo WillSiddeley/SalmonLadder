@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -67,6 +66,7 @@ public class LevelParser implements Screen {
         for(int i = 0; i < fishTextures.length; i++){
             fishTextures[i] = new Texture("Sprites/Textures/ChinookStagnant_" + (i+1) + ".png");
         }
+
         fish = new FishSprite(fishTextures, (TiledMapTileLayer) tiledMap.getLayers().get(0), tiledMapRenderer.getUnitScale());
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE

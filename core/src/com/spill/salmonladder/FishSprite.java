@@ -2,14 +2,13 @@ package com.spill.salmonladder;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.spill.salmonladder.Scenes.LevelParser;
-import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
@@ -25,7 +24,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         super(fishTextures[0]);
 
-        swimUp = new Animation(1/20f, fishTextures);
+        swimUp = new Animation(1 / 20f, fishTextures);
 
         this.collisionCheck = tiledMap;
 
@@ -90,17 +89,21 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if (velocityY < 0) {
 
+                    this.setRotation(0);
+
                     if (CheckCollision("up")) {
 
-                        this.setPosition(getX(), getY() + 32f * unitScale);
+                        this.translate(0f, 32f * unitScale);
 
                     }
 
                 } else {
 
+                    this.setRotation(180);
+
                     if (CheckCollision("down")) {
 
-                        this.setPosition(getX(), getY() - 32f * unitScale);
+                        this.translate(0f, -32f * unitScale);
 
                     }
 
@@ -110,17 +113,21 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if (velocityX > 0) {
 
+                    this.setRotation(270);
+
                     if (CheckCollision("right")) {
 
-                        this.setPosition(getX() + 32f * unitScale, getY());
+                        this.translate(32f * unitScale, 0f);
 
                     }
 
                 } else {
 
+                    this.setRotation(90);
+
                     if (CheckCollision("left")) {
 
-                        this.setPosition(getX() - 32f * unitScale, getY());
+                        this.translate(-32f * unitScale, 0f);
 
                     }
                 }
@@ -132,26 +139,35 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
+
         return false;
+
     }
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
+
         return false;
+
     }
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
+
         return false;
+
     }
 
     @Override
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+
         return false;
+
     }
 
     @Override
     public void pinchStop() {
+
     }
 
 }

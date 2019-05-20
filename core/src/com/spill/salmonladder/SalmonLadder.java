@@ -3,7 +3,6 @@ package com.spill.salmonladder;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.spill.salmonladder.Scenes.ScreenStart;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 public class SalmonLadder extends Game implements ApplicationListener {
 
