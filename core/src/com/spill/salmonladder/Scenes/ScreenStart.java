@@ -75,15 +75,14 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
 
         // CENTER THE IMAGE
         imageTitle.setPosition(camera.position.x - (textureTitle.getWidth() / 2f), camera.position.y - (textureTitle.getHeight() / 7f));
-        imageSplash.setPosition(camera.position.x - (textureSplash.getWidth() / 2f), camera.position.y - (textureSplash.getHeight() * 1.5f));
+        imageSplash.setPosition(camera.position.x - (textureSplash.getWidth() / 2f), camera.position.y - (textureSplash.getHeight() * 1.25f));
 
         // ADD THE IMAGE TO THE STAGE
         stage.addActor(imageTitle);
         stage.addActor(imageSplash);
 
         // FADE IN THE STAGE
-        stage.addAction(sequence(alpha(0), parallel(fadeIn(1), moveBy(0, 100, 1))));
-
+        imageTitle.addAction(sequence(alpha(0), parallel(fadeIn(1), moveBy(0, 100, 1))));
         imageSplash.addAction(repeat(RepeatAction.FOREVER, sequence(fadeIn(0.5f), fadeOut(0.5f))));
 
     }
