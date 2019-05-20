@@ -2,6 +2,8 @@ package com.spill.salmonladder;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.spill.salmonladder.Scenes.ScreenStart;
 
 public class SalmonLadder extends Game implements ApplicationListener {
@@ -19,8 +21,12 @@ public class SalmonLadder extends Game implements ApplicationListener {
     @Override
     public void render() {
 
-        super.render();
+        // SET THE BACKGROUND COLOUR OF THE TITLE SCREEN
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(255f, 255f, 255f, 0f);
 
+        // CALL THE SUPERCLASS RENDER
+        super.render();
     }
 
     @Override
