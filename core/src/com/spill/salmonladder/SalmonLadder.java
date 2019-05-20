@@ -2,7 +2,6 @@ package com.spill.salmonladder;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.spill.salmonladder.Scenes.ScreenStart;
 
 public class SalmonLadder extends Game implements ApplicationListener {
@@ -12,8 +11,6 @@ public class SalmonLadder extends Game implements ApplicationListener {
 
     @Override
     public void create() {
-
-        //TexturePacker.process("Sprites/Textures", "Sprites/TextureAtlas", "ChinookStagnant");
 
         this.setScreen(new ScreenStart());
 
