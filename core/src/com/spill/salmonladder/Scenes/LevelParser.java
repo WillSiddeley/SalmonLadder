@@ -63,7 +63,11 @@ public class LevelParser implements Screen {
         camera = new OrthographicCamera();
 
         // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
-        fish = new FishSprite(new Sprite(new Texture("Sprites/salmon.png")), (TiledMapTileLayer) tiledMap.getLayers().get(0), tiledMapRenderer.getUnitScale());
+        Texture[] fishTextures = new Texture[26];
+        for(int i = 0; i < fishTextures.length; i++){
+            fishTextures[i] = new Texture("Sprites/Textures/ChinookStagnant_" + (i+1) + ".png");
+        }
+        fish = new FishSprite(fishTextures, (TiledMapTileLayer) tiledMap.getLayers().get(0), tiledMapRenderer.getUnitScale());
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
         fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, starty * SalmonLadder.PIXEL_PER_METER);

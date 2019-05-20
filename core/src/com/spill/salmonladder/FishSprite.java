@@ -1,21 +1,31 @@
 package com.spill.salmonladder;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.spill.salmonladder.Scenes.LevelParser;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
     private TiledMapTileLayer collisionCheck;
 
+    private Animation<Texture> swimUp, swimRight, swimDown, swimLeft;
+
+    private float elapsedTime = 0;
+
     private float unitScale;
 
-    public FishSprite(Sprite sprite, TiledMapTileLayer tiledMap, float unitScale) {
+    public FishSprite(Texture[] fishTextures, TiledMapTileLayer tiledMap, float unitScale) {
 
-        super(sprite);
+        super(fishTextures[0]);
+
+        swimUp = new Animation(1/20f, fishTextures);
 
         this.collisionCheck = tiledMap;
 
@@ -25,6 +35,10 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     @Override
     public void draw(Batch batch) {
+
+        elapsedTime += Gdx.graphics.getDeltaTime();
+
+        setTexture(swimUp.getKeyFrame(elapsedTime, true));
 
         super.draw(batch);
 
