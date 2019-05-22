@@ -171,7 +171,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                     this.orientation = 3;
 
                     this.setRotation(90);
-                    
+
                 }
             }
 
