@@ -1,16 +1,18 @@
 package com.spill.salmonladder.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.spill.salmonladder.FishSprite;
 import com.spill.salmonladder.SalmonLadder;
 
@@ -18,17 +20,26 @@ public class LevelParser implements Screen {
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
+
+    // TABLE FOR PAUSE MENU
+    public static PauseTable PauseTable;
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
 
     // BOOLEANS FOR LOCKING SCREEN AND PANNING
     public static boolean panMode = false, screenLock = false;
+    // CREATE A TILED MAP RENDERER THAT RENDERS THE MAP
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    // STAGE FOR THE HUD
+    private Stage stage;
+    // TABLE FOR HUD
+    private HUDTable HUDTable;
 
     // CREATE A FISH SPRITE
     private FishSprite fish;
-    private int skin = 0;
+    // VARIABLE FOR SKIN OF THE FISH
+    private int fishSkin = 0;
 
     // LEVEL NUMBER THAT IS PARSED IN
     private int levelNumber;
@@ -51,7 +62,7 @@ public class LevelParser implements Screen {
 
         // GRAB START COORDINATES FROM THE XML FILE
         int startX = LevelAttributes.getChildByName("StartCoords").getInt("x");
-        int starty = LevelAttributes.getChildByName("StartCoords").getInt("y");
+        int startY = LevelAttributes.getChildByName("StartCoords").getInt("y");
 
         // LOAD MAP INTO VARIABLE
         tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
@@ -63,13 +74,28 @@ public class LevelParser implements Screen {
         camera = new OrthographicCamera();
 
         // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
-        fish = new FishSprite(skin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
+        fish = new FishSprite(fishSkin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
-        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, starty * SalmonLadder.PIXEL_PER_METER);
+        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
 
-        // SET THE INPUT PROCESSOR TO THE FISH
-        Gdx.input.setInputProcessor(new GestureDetector(fish));
+        stage = new Stage(new ScreenViewport());
+
+        HUDTable = new HUDTable();
+
+        PauseTable = new PauseTable();
+
+        stage.addActor(HUDTable);
+
+        stage.addActor(PauseTable);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+
+        Gdx.input.setInputProcessor(multiplexer);
+
+        multiplexer.addProcessor(new GestureDetector(fish));
+
+        multiplexer.addProcessor(stage);
 
     }
 
@@ -92,6 +118,11 @@ public class LevelParser implements Screen {
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
         tiledMapRenderer.getBatch().end();
+
+        stage.act();
+        stage.draw();
+
+
     }
 
     @Override
@@ -123,7 +154,9 @@ public class LevelParser implements Screen {
     public void dispose() {
 
         tiledMap.dispose();
+
         tiledMapRenderer.dispose();
 
     }
+
 }

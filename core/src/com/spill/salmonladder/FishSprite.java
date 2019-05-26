@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.spill.salmonladder.Scenes.HUDTable;
 import com.spill.salmonladder.Scenes.LevelParser;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
@@ -467,6 +468,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
             }
 
             if (CheckCollisionIn() && CheckCollisionOut()) {
+
+                HUDTable.setMoves(HUDTable.getMoves() + 1);
+
                 if(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")){
                     try{
                         event = map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);

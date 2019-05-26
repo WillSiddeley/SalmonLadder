@@ -36,6 +36,7 @@ public class ScreenLevelSelect implements Screen {
     // ADD THE STAGE FOR USER INPUT
     private Stage stage;
 
+    // ADD THE CONTAINER TO HOLD LEVELS
     private Table container = new Table();
 
     // ADD THE CLICK LISTENER FOR BUTTONS
@@ -62,6 +63,8 @@ public class ScreenLevelSelect implements Screen {
 
         // ADD A TABLE TO CONTAIN ALL THE PAGES
         stage.addActor(container);
+
+        // SET THE CONTAINER TO SCREEN SIZE
         container.setFillParent(true);
 
         // ENABLE OUR STAGE TO BE ABLE TO ACCEPT TOUCH PRESSES AS A FORM OF INPUT
