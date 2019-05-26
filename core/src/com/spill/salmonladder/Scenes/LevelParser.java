@@ -92,7 +92,6 @@ public class LevelParser implements Screen {
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
         tiledMapRenderer.getBatch().end();
-
     }
 
     @Override

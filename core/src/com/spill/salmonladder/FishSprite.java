@@ -15,6 +15,12 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private int orientation = 0;
 
+    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone;
+
+    private String event;
+
+    private Thread threadExit, threadEnter;
+
     private Timer.Task[] movement = new Timer.Task[4];
 
     private Texture[] fishTextures = new Texture[26], jumpLeftTextures = new Texture[28], jumpRightTextures = new Texture[28], winLeftTextures = new Texture[8], winRightTextures = new Texture[8];
@@ -23,9 +29,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
 
-    private float elapsedTime = 0;
-
-    private float unitScale;
+    private float elapsedTime = 0, unitScale;
 
     public FishSprite(int skin, TiledMapTileLayer tiledMap, float unitScale) {
 
@@ -73,6 +77,30 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         this.map = tiledMap;
 
         this.unitScale = unitScale;
+
+        threadExit = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    doExitEvent(event);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        threadEnter = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    doEntranceEvent(event);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void init(){
@@ -107,13 +135,48 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     @Override
     public void draw(Batch batch) {
-
         elapsedTime += Gdx.graphics.getDeltaTime();
 
         setTexture(show.getKeyFrame(elapsedTime, true));
 
         super.draw(batch);
 
+        System.out.println(isWaitingStart);
+        System.out.println(swim.getKeyFrame(elapsedTime).equals(fishTextures[3]));//ALWAYS RETURNS FALSE
+        System.out.println(swim.getKeyFrame(elapsedTime).equals(fishTextures[16]));//ALWAYS RETURNS FALSE
+
+        if(isWaitingStart){
+            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) || swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                System.out.println("c");
+                isWaitingStart = false;
+                synchronized (this){
+                    notifyAll();
+                }
+            }
+        }
+        else if(isWaitingJump){
+            if(elapsedTime >= 1/2){
+                isWaitingJump = false;
+                synchronized (this){
+                    notifyAll();
+                }
+            }
+        }
+        else if(isWaitingJumpDone){
+            if(jumpRight.isAnimationFinished(elapsedTime)){
+                isWaitingJumpDone = false;
+                synchronized (this){
+                    notifyAll();
+                }
+            }
+        }
+        else if(isWaitingWinDone){
+            if(winRight.isAnimationFinished(elapsedTime)){
+                synchronized (this){
+                    notifyAll();
+                }
+            }
+        }
     }
 
     private boolean CheckCollisionIn() {
@@ -180,215 +243,171 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         }
     }
 
-    private void doExitEvent(String event){
+    private void doExitEvent(String event) throws InterruptedException{
         if(event.equals("EventLadder")){
-            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                try{
-                    wait(1/20);
-                }
-                catch(Exception e){
-                    System.out.println(e);
-                }
+            isWaitingStart = true;
+            synchronized (this){
+                wait();
             }
 
             if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
-                elapsedTime = 0;
                 show = jumpLeft;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
+                elapsedTime = 0;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
                 }
 
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                while(!jumpLeft.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
 
                 elapsedTime = 1/2f;
                 show = swim;
             }
             else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                elapsedTime = 0;
                 show = jumpRight;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
+                elapsedTime = 0;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
                 }
 
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                while(!jumpRight.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
 
                 elapsedTime = 23/20f;
                 show = swim;
             }
         }
+        threadExit.join();
     }
 
-    private void doEntranceEvent(String event){
+    private void doEntranceEvent(String event) throws InterruptedException{
         if(event.equals("EventWin")){
-            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                try{
-                    wait(1/20);
-                }
-                catch(Exception e){
-                    System.out.println(e);
+            if(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                isWaitingStart = true;
+                synchronized (this){
+                    wait();
                 }
             }
 
             if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
-                elapsedTime = 0;
                 show = jumpLeft;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                while(!jumpLeft.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
-                }
-
                 elapsedTime = 0;
-                show = winLeft;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
+                }
+
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                try{
-                    wait(1);
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
-                catch(Exception e){
-                    System.out.println(e);
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                show = winLeft;
+                elapsedTime = 0;
+                isWaitingWinDone = true;
+                synchronized (this){
+                    wait();
+                }
+
+                while(0 < 1){
+
                 }
 
                 //LEVEL WIN MENU METHOD HERE
 
             }
             else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                elapsedTime = 0;
                 show = jumpRight;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                while(!jumpRight.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
-                }
-
                 elapsedTime = 0;
-                show = winRight;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
+                }
+
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                try{
-                    wait(1);
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
-                catch(Exception e){
-                    System.out.println(e);
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                show = winRight;
+                elapsedTime = 0;
+                isWaitingWinDone = true;
+                synchronized (this){
+                    wait();
+                }
+
+                while(0 < 1){
+
                 }
 
                 //LEVEL WIN MENU METHOD HERE
 
             }
         }
-        else if(event.equals("EventLadder")){
-            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                try{
-                    wait(1/20);
-                }
-                catch(Exception e){
-                    System.out.println(e);
-                }
+        else if(event.substring(0, 11).equals("EventLadder")){
+            isWaitingStart = true;
+            synchronized (this){
+                System.out.println("a");
+                wait();
             }
+            System.out.println("d");
 
             if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
-                elapsedTime = 0;
                 show = jumpLeft;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
+                elapsedTime = 0;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
                 }
 
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                while(!jumpLeft.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
 
                 elapsedTime = 1/2f;
                 show = swim;
             }
             else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                elapsedTime = 0;
                 show = jumpRight;
-
-                try{
-                    wait(1/2);
-                }
-                catch(Exception e){
-                    System.out.println(e);
+                elapsedTime = 0;
+                isWaitingJump = true;
+                synchronized (this){
+                    wait();
                 }
 
                 Timer.schedule(movement[orientation], 0, 1/20f, 7);
 
-                while(!jumpRight.isAnimationFinished(elapsedTime)){
-                    try{
-                        wait(1/20);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
+                isWaitingJumpDone = true;
+                synchronized (this){
+                    wait();
                 }
 
                 elapsedTime = 23/20f;
                 show = swim;
             }
         }
+        threadEnter.join();
     }
 
     @Override
@@ -446,12 +465,24 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
             if (CheckCollisionIn() && CheckCollisionOut()) {
                 if(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")){
-                    doExitEvent(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class));
+                    try{
+                        event = map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+                        threadExit.start();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
                 if(nextTile().substring(0, 5).equals("Event")){
-                    doEntranceEvent(nextTile());
+                    try{
+                        event = nextTile();
+                        threadEnter.start();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
-                else{
+                if(!map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event") && !nextTile().substring(0, 5).equals("Event")){
                     Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
                 }
             }
