@@ -17,23 +17,60 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private Timer.Task[] movement = new Timer.Task[4];
 
-    private TiledMapTileLayer collisionCheck;
+    private Texture[] fishTextures = new Texture[26], jumpLeftTextures = new Texture[28], jumpRightTextures = new Texture[28], winLeftTextures = new Texture[8], winRightTextures = new Texture[8];
 
-    private Animation<Texture> swim;
+    private TiledMapTileLayer map;
+
+    private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
 
     private float elapsedTime = 0;
 
     private float unitScale;
 
-    public FishSprite(Texture[] fishTextures, TiledMapTileLayer tiledMap, float unitScale) {
+    public FishSprite(int skin, TiledMapTileLayer tiledMap, float unitScale) {
 
-        super(fishTextures[0]);
+        super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
 
-        init();
+        switch(skin){
+            case 0: for(int i = 0; i < fishTextures.length; i++){
+                        fishTextures[i] = new Texture("Sprites/Textures/ChinookStagnant_" + (i+1) + ".png");
+                    }
+
+                    for(int i = 0; i < jumpLeftTextures.length; i++){
+                        jumpLeftTextures[i] = new Texture("Sprites/Textures/ChinookJumpLeft_" + (i+1) + ".png");
+                    }
+
+                    for(int i = 0; i < jumpRightTextures.length; i++){
+                        jumpRightTextures[i] = new Texture("Sprites/Textures/ChinookJumpRight_" + (i+1) + ".png");
+                    }
+
+                    for(int i = 0; i < winLeftTextures.length; i++){
+                        winLeftTextures[i] = new Texture("Sprites/Textures/ChinookWinLeft_" + (i+1) + ".png");
+                    }
+
+                    for(int i = 0; i < winRightTextures.length; i++){
+                        winRightTextures[i] = new Texture("Sprites/Textures/ChinookWinRight_" + (i+1) + ".png");
+                    }
+            break;
+        }
+
+        setTexture(fishTextures[0]);
 
         swim = new Animation(1 / 20f, fishTextures);
 
-        this.collisionCheck = tiledMap;
+        jumpLeft = new Animation(1/20f, jumpLeftTextures);
+
+        jumpRight = new Animation(1/20f, jumpRightTextures);
+
+        winLeft = new Animation(1/20f, winLeftTextures);
+
+        winRight = new Animation(1/20f, winRightTextures);
+
+        show = swim;
+
+        init();
+
+        this.map = tiledMap;
 
         this.unitScale = unitScale;
     }
@@ -73,52 +110,284 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-        setTexture(swim.getKeyFrame(elapsedTime, true));
+        setTexture(show.getKeyFrame(elapsedTime, true));
 
         super.draw(batch);
 
     }
 
-    private boolean CheckCollisionIn(int direction) {
+    private boolean CheckCollisionIn() {
 
-        if (direction == 0) {
+        if (orientation == 0) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpIn", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpIn", boolean.class);
 
-        } else if (direction == 2) {
+        } else if (orientation == 2) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownIn", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownIn", boolean.class);
 
-        } else if (direction == 1) {
+        } else if (orientation == 1) {
 
-            return collisionCheck.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightIn", boolean.class);
+            return map.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightIn", boolean.class);
 
         } else {
 
-            return collisionCheck.getCell((int) ((getX() - getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftIn", boolean.class);
+            return map.getCell((int) ((getX() - getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftIn", boolean.class);
 
         }
 
     }
 
-    private boolean CheckCollisionOut(int direction){
+    private boolean CheckCollisionOut(){
 
-        if (direction == 0) {
+        if (orientation == 0) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpOut", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpOut", boolean.class);
 
-        } else if (direction == 2) {
+        } else if (orientation == 2) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownOut", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownOut", boolean.class);
 
-        } else if (direction == 1) {
+        } else if (orientation == 1) {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightOut", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightOut", boolean.class);
 
         } else {
 
-            return collisionCheck.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftOut", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftOut", boolean.class);
 
+        }
+    }
+
+    private String nextTile(){
+
+        if (orientation == 0) {
+
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+
+        } else if (orientation == 2) {
+
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+
+        } else if (orientation == 1) {
+
+            return map.getCell((int) ((getX() + getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+
+        } else {
+
+            return map.getCell((int) ((getX() - getWidth()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+
+        }
+    }
+
+    private void doExitEvent(String event){
+        if(event.equals("EventLadder")){
+            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                try{
+                    wait(1/20);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+
+            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+                elapsedTime = 0;
+                show = jumpLeft;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpLeft.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 1/2f;
+                show = swim;
+            }
+            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                elapsedTime = 0;
+                show = jumpRight;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpRight.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 23/20f;
+                show = swim;
+            }
+        }
+    }
+
+    private void doEntranceEvent(String event){
+        if(event.equals("EventWin")){
+            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                try{
+                    wait(1/20);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+
+            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+                elapsedTime = 0;
+                show = jumpLeft;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpLeft.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 0;
+                show = winLeft;
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                try{
+                    wait(1);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                //LEVEL WIN MENU METHOD HERE
+
+            }
+            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                elapsedTime = 0;
+                show = jumpRight;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpRight.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 0;
+                show = winRight;
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                try{
+                    wait(1);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                //LEVEL WIN MENU METHOD HERE
+
+            }
+        }
+        else if(event.equals("EventLadder")){
+            while(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                try{
+                    wait(1/20);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+
+            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+                elapsedTime = 0;
+                show = jumpLeft;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpLeft.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 1/2f;
+                show = swim;
+            }
+            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+                elapsedTime = 0;
+                show = jumpRight;
+
+                try{
+                    wait(1/2);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+
+                Timer.schedule(movement[orientation], 0, 1/20f, 7);
+
+                while(!jumpRight.isAnimationFinished(elapsedTime)){
+                    try{
+                        wait(1/20);
+                    }
+                    catch(Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+                elapsedTime = 23/20f;
+                show = swim;
+            }
         }
     }
 
@@ -175,8 +444,16 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
             }
 
-            if(CheckCollisionIn(orientation) && CheckCollisionOut(orientation)){
-                Timer.schedule(movement[orientation], 0, 1/64f, 7);
+            if (CheckCollisionIn() && CheckCollisionOut()) {
+                if(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")){
+                    doExitEvent(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class));
+                }
+                if(nextTile().substring(0, 5).equals("Event")){
+                    doEntranceEvent(nextTile());
+                }
+                else{
+                    Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                }
             }
         }
 

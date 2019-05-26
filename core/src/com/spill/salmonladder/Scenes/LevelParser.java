@@ -28,6 +28,7 @@ public class LevelParser implements Screen {
 
     // CREATE A FISH SPRITE
     private FishSprite fish;
+    private int skin = 0;
 
     // LEVEL NUMBER THAT IS PARSED IN
     private int levelNumber;
@@ -62,12 +63,7 @@ public class LevelParser implements Screen {
         camera = new OrthographicCamera();
 
         // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
-        Texture[] fishTextures = new Texture[26];
-        for(int i = 0; i < fishTextures.length; i++){
-            fishTextures[i] = new Texture("Sprites/Textures/ChinookStagnant_" + (i+1) + ".png");
-        }
-
-        fish = new FishSprite(fishTextures, (TiledMapTileLayer) tiledMap.getLayers().get(0), tiledMapRenderer.getUnitScale());
+        fish = new FishSprite(skin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
         fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, starty * SalmonLadder.PIXEL_PER_METER);
