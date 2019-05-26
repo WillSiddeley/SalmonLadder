@@ -20,6 +20,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
 public class ScreenLevelSelect implements Screen {
 
     // ADD THE CAMERA
@@ -30,6 +35,10 @@ public class ScreenLevelSelect implements Screen {
 
     // ADD THE STAGE FOR USER INPUT
     private Stage stage;
+
+    private Table container = new Table();
+
+    // ADD THE CLICK LISTENER FOR BUTTONS
     private ClickListener levelClickListener = new ClickListener() {
 
         @Override
@@ -51,6 +60,13 @@ public class ScreenLevelSelect implements Screen {
         // SET THE STAGE TO THE SIZE OF THE PHONE SCREEN
         stage = new Stage(new ScreenViewport());
 
+        // ADD A TABLE TO CONTAIN ALL THE PAGES
+        stage.addActor(container);
+        container.setFillParent(true);
+
+        // ENABLE OUR STAGE TO BE ABLE TO ACCEPT TOUCH PRESSES AS A FORM OF INPUT
+        Gdx.input.setInputProcessor(stage);
+
         // ENABLE THE APP TO LISTEN TO IF THE BACK KEY IS PRESSED ON ANDROID
         Gdx.input.setCatchBackKey(true);
 
@@ -60,8 +76,8 @@ public class ScreenLevelSelect implements Screen {
         skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
         skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
 
-        // ENABLE OUR STAGE TO BE ABLE TO ACCEPT TOUCH PRESSES AS A FORM OF INPUT
-        Gdx.input.setInputProcessor(stage);
+        // MOVE IN THE LEVELS
+        stage.addAction(sequence(alpha(0f), moveTo(Gdx.graphics.getWidth() + stage.getWidth(), 0, 0f), alpha(1f), moveTo(0, 0, 0.5f)));
 
     }
 
@@ -74,10 +90,6 @@ public class ScreenLevelSelect implements Screen {
         int pages = 1;
         int levelLabel = 1;
 
-        // ADD A TABLE TO CONTAIN ALL THE PAGES
-        Table container = new Table();
-        stage.addActor(container);
-        container.setFillParent(true);
 
         // NEW SCROLL PANE THAT CONTROLS SCROLLING
         PagedPane scroll = new PagedPane();
@@ -145,10 +157,19 @@ public class ScreenLevelSelect implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        // IF THE PHYSICAL BACK BUTTON IS PRESSED ON THE PHONE, EXIT THE APP
+        // IF THE PHYSICAL BACK BUTTON IS PRESSED ON THE PHONE, GO BACK TO START
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenStart());
+            stage.addAction(sequence(alpha(1), moveTo(Gdx.graphics.getWidth() + stage.getWidth(), 0, 0.5f), run(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenStart());
+
+                }
+
+            })));
 
         }
 

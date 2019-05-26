@@ -19,6 +19,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.repeat;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
@@ -82,7 +83,7 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         stage.addActor(imageSplash);
 
         // FADE IN THE STAGE
-        imageTitle.addAction(sequence(alpha(0), parallel(fadeIn(1), moveBy(0, 100, 1))));
+        imageTitle.addAction(sequence(alpha(0), parallel(fadeIn(0.5f), moveBy(0, 100, 1))));
         imageSplash.addAction(repeat(RepeatAction.FOREVER, sequence(fadeIn(0.5f), fadeOut(0.5f))));
 
     }
@@ -130,7 +131,9 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     public void dispose() {
 
         stage.dispose();
+
         textureTitle.dispose();
+
         textureSplash.dispose();
 
     }
@@ -143,7 +146,7 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     @Override
     public boolean tap(float x, float y, int count, int button) {
 
-        stage.addAction(sequence(alpha(1), fadeOut(2), run(new Runnable() {
+        stage.addAction(sequence(alpha(1), moveTo((-Gdx.graphics.getWidth() - stage.getWidth()), 0, 0.5f), run(new Runnable() {
             @Override
             public void run() {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
