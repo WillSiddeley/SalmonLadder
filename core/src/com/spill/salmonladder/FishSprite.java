@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.spill.salmonladder.Scenes.LevelParser;
 
@@ -23,7 +24,15 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private Timer.Task[] movement = new Timer.Task[4];
 
-    private Texture[] fishTextures = new Texture[26], jumpLeftTextures = new Texture[28], jumpRightTextures = new Texture[28], winLeftTextures = new Texture[8], winRightTextures = new Texture[8];
+    private Array<Texture> fishTextures = new Array<Texture>();
+
+    private Array<Texture> jumpLeftTextures = new Array<Texture>();
+
+    private Array<Texture> jumpRightTextures = new Array<Texture>();
+
+    private Array<Texture> winLeftTextures = new Array<Texture>();
+
+    private Array<Texture> winRightTextures = new Array<Texture>();
 
     private TiledMapTileLayer map;
 
@@ -36,39 +45,40 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
 
         switch(skin){
-            case 0: for(int i = 0; i < fishTextures.length; i++){
-                        fishTextures[i] = new Texture("Sprites/Textures/ChinookStagnant_" + (i+1) + ".png");
+            case 0:
+                for (int i = 0; i < 26; i++) {
+                    fishTextures.add(new Texture("Sprites/Textures/ChinookStagnant_" + (i + 1) + ".png"));
                     }
 
-                    for(int i = 0; i < jumpLeftTextures.length; i++){
-                        jumpLeftTextures[i] = new Texture("Sprites/Textures/ChinookJumpLeft_" + (i+1) + ".png");
+                for (int i = 0; i < 28; i++) {
+                    jumpLeftTextures.add(new Texture("Sprites/Textures/ChinookJumpLeft_" + (i + 1) + ".png"));
                     }
 
-                    for(int i = 0; i < jumpRightTextures.length; i++){
-                        jumpRightTextures[i] = new Texture("Sprites/Textures/ChinookJumpRight_" + (i+1) + ".png");
+                for (int i = 0; i < 28; i++) {
+                    jumpRightTextures.add(new Texture("Sprites/Textures/ChinookJumpRight_" + (i + 1) + ".png"));
                     }
 
-                    for(int i = 0; i < winLeftTextures.length; i++){
-                        winLeftTextures[i] = new Texture("Sprites/Textures/ChinookWinLeft_" + (i+1) + ".png");
+                for (int i = 0; i < 8; i++) {
+                    winLeftTextures.add(new Texture("Sprites/Textures/ChinookWinLeft_" + (i + 1) + ".png"));
                     }
 
-                    for(int i = 0; i < winRightTextures.length; i++){
-                        winRightTextures[i] = new Texture("Sprites/Textures/ChinookWinRight_" + (i+1) + ".png");
+                for (int i = 0; i < 8; i++) {
+                    winRightTextures.add(new Texture("Sprites/Textures/ChinookWinRight_" + (i + 1) + ".png"));
                     }
             break;
         }
 
-        setTexture(fishTextures[0]);
+        setTexture(fishTextures.first());
 
-        swim = new Animation(1 / 20f, fishTextures);
+        swim = new Animation<Texture>(1 / 20f, fishTextures, Animation.PlayMode.LOOP);
 
-        jumpLeft = new Animation(1/20f, jumpLeftTextures);
+        jumpLeft = new Animation<Texture>(1 / 20f, jumpLeftTextures, Animation.PlayMode.LOOP);
 
-        jumpRight = new Animation(1/20f, jumpRightTextures);
+        jumpRight = new Animation<Texture>(1 / 20f, jumpRightTextures, Animation.PlayMode.LOOP);
 
-        winLeft = new Animation(1/20f, winLeftTextures);
+        winLeft = new Animation<Texture>(1 / 20f, winLeftTextures, Animation.PlayMode.LOOP);
 
-        winRight = new Animation(1/20f, winRightTextures);
+        winRight = new Animation<Texture>(1 / 20f, winRightTextures, Animation.PlayMode.LOOP);
 
         show = swim;
 
@@ -141,13 +151,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         super.draw(batch);
 
-        System.out.println(isWaitingStart);
-        System.out.println(swim.getKeyFrame(elapsedTime).equals(fishTextures[3]));//ALWAYS RETURNS FALSE
-        System.out.println(swim.getKeyFrame(elapsedTime).equals(fishTextures[16]));//ALWAYS RETURNS FALSE
-
         if(isWaitingStart){
-            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) || swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
-                System.out.println("c");
+            if (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16) {
+                System.out.println("FIXED");
                 isWaitingStart = false;
                 synchronized (this){
                     notifyAll();
@@ -250,7 +256,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 wait();
             }
 
-            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
                 show = jumpLeft;
                 elapsedTime = 0;
                 isWaitingJump = true;
@@ -267,8 +273,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 elapsedTime = 1/2f;
                 show = swim;
-            }
-            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
                 show = jumpRight;
                 elapsedTime = 0;
                 isWaitingJump = true;
@@ -292,14 +297,14 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private void doEntranceEvent(String event) throws InterruptedException{
         if(event.equals("EventWin")){
-            if(!swim.getKeyFrame(elapsedTime).equals(fishTextures[3]) && !swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+            if (!(swim.getKeyFrameIndex(elapsedTime) == 3) && !(swim.getKeyFrameIndex(elapsedTime) == 16)) {
                 isWaitingStart = true;
                 synchronized (this){
                     wait();
                 }
             }
 
-            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
                 show = jumpLeft;
                 elapsedTime = 0;
                 isWaitingJump = true;
@@ -329,8 +334,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 //LEVEL WIN MENU METHOD HERE
 
-            }
-            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
                 show = jumpRight;
                 elapsedTime = 0;
                 isWaitingJump = true;
@@ -370,7 +374,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
             }
             System.out.println("d");
 
-            if(swim.getKeyFrame(elapsedTime).equals(fishTextures[3])){
+            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
                 show = jumpLeft;
                 elapsedTime = 0;
                 isWaitingJump = true;
@@ -387,8 +391,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 elapsedTime = 1/2f;
                 show = swim;
-            }
-            else if(swim.getKeyFrame(elapsedTime).equals(fishTextures[16])){
+            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
                 show = jumpRight;
                 elapsedTime = 0;
                 isWaitingJump = true;
