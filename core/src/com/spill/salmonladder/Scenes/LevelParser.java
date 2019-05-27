@@ -22,7 +22,7 @@ public class LevelParser implements Screen {
     private TiledMap tiledMap;
 
     // TABLE FOR PAUSE MENU
-    public static PauseTable PauseTable;
+    public static PopUpMenu PauseTable;
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
@@ -83,7 +83,7 @@ public class LevelParser implements Screen {
 
         HUDTable = new HUDTable();
 
-        PauseTable = new PauseTable();
+        PauseTable = new PopUpMenu(2f, 1.5f);
 
         stage.addActor(HUDTable);
 

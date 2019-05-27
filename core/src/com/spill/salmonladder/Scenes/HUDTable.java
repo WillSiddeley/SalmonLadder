@@ -14,10 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-
 public class HUDTable extends Table {
 
     private static Label movesLabel;
@@ -30,34 +26,17 @@ public class HUDTable extends Table {
         @Override
         public void clicked(InputEvent event, float x, float y) {
 
-            float widthCenter = (Gdx.graphics.getWidth() / 2f) - (LevelParser.PauseTable.getWidth() / 2f);
-
-            float heightCenter = (Gdx.graphics.getHeight() / 2f) - (LevelParser.PauseTable.getHeight() / 2f);
-
             if (LevelParser.PauseTable.isVisible()) {
 
-                LevelParser.PauseTable.addAction(sequence(moveTo(widthCenter, Gdx.graphics.getHeight() * 2f, 0.2f), run(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        LevelParser.PauseTable.setVisible(false);
-
-                        LevelParser.screenLock = false;
-
-                    }
-
-                })));
+                LevelParser.PauseTable.bringUp(0.3f);
 
             } else {
 
-                LevelParser.PauseTable.setVisible(true);
-
-                LevelParser.PauseTable.addAction(moveTo(widthCenter, heightCenter, 0.2f));
-
-                LevelParser.screenLock = true;
+                LevelParser.PauseTable.bringDown(0.3f);
 
             }
+
+
         }
     };
 
