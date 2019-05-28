@@ -267,6 +267,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
     private void doExitEvent(String event) throws InterruptedException{
+        LevelParser.screenLock = true;
         if (event.substring(0, 11).equals("EventLadder") || (event.substring(0, 14).equals("EventWaterfall") && !waterfallJump())) {
             isWaitingStart = true;
             synchronized (this){
@@ -309,9 +310,13 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 show = swim;
             }
         }
+        LevelParser.screenLock = false;
     }
 
     private void doEntranceEvent(String event) throws InterruptedException{
+
+        LevelParser.screenLock = true;
+
         if(event.equals("EventWin")){
             if (!(swim.getKeyFrameIndex(elapsedTime) == 3) && !(swim.getKeyFrameIndex(elapsedTime) == 16)) {
                 isWaitingStart = true;
@@ -424,6 +429,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 show = swim;
             }
         }
+
+        LevelParser.screenLock = false;
+
     }
 
     @Override
@@ -489,9 +497,11 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")){
                     event = map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+                    threadExit = new Thread(exitMove);
                     threadExit.start();
                 }
                 if(nextTile().substring(0, 5).equals("Event")){
+                    event = nextTile();
                     threadEnter = new Thread(enterMove);
                     threadEnter.start();
                 }

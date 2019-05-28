@@ -133,4 +133,15 @@ public class PopUpMenu extends Table {
 
     }
 
+    public void setPauseMenu() {
+
+        this.row().expand();
+
+        this.row().expand();
+
+        this.row().expand();
+
+
+    }
+
 }

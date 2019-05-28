@@ -11,7 +11,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.9'
 
     }
 }
@@ -47,16 +46,6 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile group: 'com.badlogicgames.jlayer', name: 'jlayer', version: '1.0.2-gdx'
-        compile group: 'org.jcraft', name: 'jorbis', version: '0.0.17'
-        compile group: 'net.java.jinput', name: 'jinput', version: '2.0.5'
-        compile group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: '2.9.3', ext: 'pom'
-        compile group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: '2.9.3'
-        compile group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: '2.9.3'
-        testCompile group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.9.9'
-        compile group: 'com.badlogicgames.gdx', name: 'gdx-backend-headless', version: '1.9.9'
-        compile group: 'com.badlogicgames.gdx', name: 'gdx-freetype', version: '1.9.9'
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
 
     }
 }

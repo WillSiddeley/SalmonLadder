@@ -85,6 +85,10 @@ public class LevelParser implements Screen {
 
         PauseTable = new PopUpMenu(2f, 1.5f, "up");
 
+        PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
+
+        PauseTable.setPauseMenu();
+
         stage.addActor(HUDTable);
 
         stage.addActor(PauseTable);
