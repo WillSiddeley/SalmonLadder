@@ -28,7 +28,7 @@ public class LevelParser implements Screen {
     private OrthographicCamera camera;
 
     // BOOLEANS FOR LOCKING SCREEN AND PANNING
-    public static boolean panMode = false, screenLock = false;
+    public static boolean screenLock = false;
     // CREATE A TILED MAP RENDERER THAT RENDERS THE MAP
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     // STAGE FOR THE HUD

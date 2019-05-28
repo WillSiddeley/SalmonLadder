@@ -167,7 +167,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="Waterfall Down"/>
+   <property name="Name" value="EventWaterfallDown"/>
   </properties>
  </tile>
  <tile id="13">
@@ -180,7 +180,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="Waterfall Left"/>
+   <property name="Name" value="EventWaterfallLeft"/>
   </properties>
  </tile>
  <tile id="14">
@@ -193,7 +193,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="Waterfall Up"/>
+   <property name="Name" value="EventWaterfallUp"/>
   </properties>
  </tile>
  <tile id="15">
@@ -206,7 +206,7 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="Waterfall Right"/>
+   <property name="Name" value="EventWaterfallRight"/>
   </properties>
  </tile>
  <tile id="16">

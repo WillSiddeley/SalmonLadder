@@ -15,19 +15,13 @@ import com.spill.salmonladder.Scenes.LevelParser;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
-    private int orientation = 0;
-
-    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone;
-
-    private boolean exitThreadStarted = false, entranceThreadStarted = false;
+    private int orientation = 0, frameIndex;
 
     private String event;
 
-    private Thread threadExit, threadEnter;
+    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone;
 
-    private Runnable exitMove, enterMove;
-
-    private Timer.Task[] movement = new Timer.Task[4];
+    private Timer.Task[] movement = new Timer.Task[4], jumpMovement = new Timer.Task[4];
 
     private Array<Texture> fishTextures = new Array<Texture>();
 
@@ -93,29 +87,6 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         this.unitScale = unitScale;
 
-        exitMove = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    doExitEvent(event);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        enterMove = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    doEntranceEvent(event);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
     }
 
     private void init(){
@@ -146,6 +117,34 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 translate(-4f, 0f);
             }
         };
+
+        jumpMovement[0] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(0f, 2f);
+            }
+        };
+
+        jumpMovement[1] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(2f, 0f);
+            }
+        };
+
+        jumpMovement[2] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(0f, -2f);
+            }
+        };
+
+        jumpMovement[3] = new Timer.Task() {
+            @Override
+            public void run() {
+                translate(-2f, 0f);
+            }
+        };
     }
 
     @Override
@@ -156,37 +155,49 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         super.draw(batch);
 
-        if(isWaitingStart){
-            if (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16) {
-                isWaitingStart = false;
-                synchronized (this){
-                    notifyAll();
+        if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
+            isWaitingStart = false;
+            frameIndex = swim.getKeyFrameIndex(elapsedTime);
+            elapsedTime = 0;
+            if (frameIndex == 3) {
+                show = jumpLeft;
+            } else if (frameIndex == 16) {
+                show = jumpRight;
+            }
+            isWaitingJump = true;
+        }
+
+        if (isWaitingJump && jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
+            isWaitingJump = false;
+            Timer.schedule(jumpMovement[orientation], 0, 1 / 15f, 15);
+            isWaitingJumpDone = true;
+        }
+
+        if (isWaitingJumpDone && jumpRight.isAnimationFinished(elapsedTime)) {
+            isWaitingJumpDone = false;
+            elapsedTime = 0;
+            if (event.equals("EventWin")) {
+                if (frameIndex == 3) {
+                    show = winLeft;
+                } else if (frameIndex == 16) {
+                    show = winRight;
                 }
+                Timer.schedule(movement[orientation], 0, 1 / 20f, 7);
+                isWaitingWinDone = true;
+            } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
+                show = swim;
+                if (frameIndex == 3) {
+                    elapsedTime = 9 / 20f;
+                } else if (frameIndex == 16) {
+                    elapsedTime = 11 / 10f;
+                }
+                LevelParser.screenLock = false;
             }
         }
-        else if(isWaitingJump){
-            if (jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
-                isWaitingJump = false;
-                synchronized (this){
-                    notifyAll();
-                }
-            }
-        }
-        else if(isWaitingJumpDone){
-            if(jumpRight.isAnimationFinished(elapsedTime)){
-                isWaitingJumpDone = false;
-                synchronized (this){
-                    notifyAll();
-                }
-            }
-        }
-        else if(isWaitingWinDone){
-            if(winRight.isAnimationFinished(elapsedTime)){
-                isWaitingWinDone = false;
-                synchronized (this){
-                    notifyAll();
-                }
-            }
+
+        if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
+            isWaitingWinDone = false;
+            //WIN POP UP MENU CODE HERE
         }
     }
 
@@ -235,13 +246,13 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private boolean waterfallJump() {
         if (orientation == 0) {
-            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownIn", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() + getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoDownOut", boolean.class);
         } else if (orientation == 2) {
-            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpIn", boolean.class);
+            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) ((getY() - getHeight()) / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoUpOut", boolean.class);
         } else if (orientation == 1) {
-            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftIn", boolean.class);
+            return map.getCell((int) ((getX() + getHeight()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoLeftOut", boolean.class);
         } else {
-            return map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightIn", boolean.class);
+            return map.getCell((int) ((getX() - getHeight()) / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("CanGoRightOut", boolean.class);
         }
     }
 
@@ -266,174 +277,6 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         }
     }
 
-    private void doExitEvent(String event) throws InterruptedException{
-        LevelParser.screenLock = true;
-        if (event.substring(0, 11).equals("EventLadder") || (event.substring(0, 14).equals("EventWaterfall") && !waterfallJump())) {
-            isWaitingStart = true;
-            synchronized (this){
-                wait();
-            }
-
-            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
-                show = jumpLeft;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                elapsedTime = 9 / 20f;
-                show = swim;
-            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
-                show = jumpRight;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                elapsedTime = 11 / 10f;
-                show = swim;
-            }
-        }
-        LevelParser.screenLock = false;
-    }
-
-    private void doEntranceEvent(String event) throws InterruptedException{
-
-        LevelParser.screenLock = true;
-
-        if(event.equals("EventWin")){
-            if (!(swim.getKeyFrameIndex(elapsedTime) == 3) && !(swim.getKeyFrameIndex(elapsedTime) == 16)) {
-                isWaitingStart = true;
-                synchronized (this){
-                    wait();
-                }
-            }
-
-            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
-                show = jumpLeft;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                show = winLeft;
-                elapsedTime = 0;
-                isWaitingWinDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                while(0 < 1){
-
-                }
-
-                //LEVEL WIN MENU METHOD HERE
-
-            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
-                show = jumpRight;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                show = winRight;
-                elapsedTime = 0;
-                isWaitingWinDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                while(0 < 1){
-
-                }
-
-                //LEVEL WIN MENU METHOD HERE
-
-            }
-        }
-        else if(event.substring(0, 11).equals("EventLadder")){
-            isWaitingStart = true;
-            synchronized (this){
-                wait();
-            }
-
-            if (swim.getKeyFrameIndex(elapsedTime) == 3) {
-                show = jumpLeft;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                elapsedTime = 9 / 20f;
-                show = swim;
-            } else if (swim.getKeyFrameIndex(elapsedTime) == 16) {
-                show = jumpRight;
-                elapsedTime = 0;
-                isWaitingJump = true;
-                synchronized (this){
-                    wait();
-                }
-
-                Timer.schedule(movement[orientation], 0, 1/20f, 7);
-
-                isWaitingJumpDone = true;
-                synchronized (this){
-                    wait();
-                }
-
-                elapsedTime = 11 / 10f;
-                show = swim;
-            }
-        }
-
-        LevelParser.screenLock = false;
-
-    }
-
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
         return false;
@@ -452,19 +295,17 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if (!LevelParser.panMode && !LevelParser.screenLock) {
+        if (!LevelParser.screenLock) {
+
+            LevelParser.screenLock = true;
 
             if (Math.abs(velocityY) > Math.abs(velocityX)) {
 
                 if (velocityY < 0) {
 
-                    System.out.println("a");
-
                     this.orientation = 0;
 
                     this.setRotation(0);
-
-                    System.out.println("b");
 
                 } else {
 
@@ -497,18 +338,25 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if(map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")){
                     event = map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
-                    threadExit = new Thread(exitMove);
-                    threadExit.start();
+                    if (event.substring(0, 11).equals("EventLadder")) {
+                        isWaitingStart = true;
+                    } else {
+                        Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                    }
                 }
                 if(nextTile().substring(0, 5).equals("Event")){
                     event = nextTile();
-                    threadEnter = new Thread(enterMove);
-                    threadEnter.start();
+                    if (event.equals("EventWin") || event.substring(0, 11).equals("EventLadder") || (event.substring(0, 14).equals("EventWaterfall") && !waterfallJump())) {
+                        isWaitingStart = true;
+                    } else {
+                        Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                    }
                 }
                 if(!map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event") && !nextTile().substring(0, 5).equals("Event")){
                     Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
                 }
             }
+            LevelParser.screenLock = false;
         }
 
         return false;
