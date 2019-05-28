@@ -59,8 +59,8 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         camera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
 
         // SET THE IMAGE TO A TEXTURE
-        textureTitle = new Texture("Images/TitleTransparent.png");
-        textureSplash = new Texture("Images/SplashTransparent.png");
+        textureTitle = new Texture("Images/StartScreenTitle.png");
+        textureSplash = new Texture("Images/StartScreenSplash.png");
 
         // INSTANTIATE IMAGE
         Image imageTitle = new Image();

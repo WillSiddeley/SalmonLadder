@@ -3,13 +3,10 @@ package com.spill.salmonladder.Scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
@@ -34,7 +31,7 @@ public class PopUpMenu extends Table {
 
     private float heightCenter;
 
-    public PopUpMenu(float heightModifier, float widthModifier) {
+    public PopUpMenu(float heightModifier, float widthModifier, String initialPlacement) {
 
         this.setVisible(false);
 
@@ -46,17 +43,31 @@ public class PopUpMenu extends Table {
 
         this.heightCenter = (Gdx.graphics.getHeight() / 2f) - (this.getHeight() / 2f);
 
-        this.setPosition(widthCenter, height * 2f);
+        if (initialPlacement.equals("up")) {
 
-        this.setDebug(true);
+            this.setPosition(widthCenter, height * 2f);
+
+        } else if (initialPlacement.equals("down")) {
+
+            this.setPosition(widthCenter, height * -2f);
+
+        } else if (initialPlacement.equals("left")) {
+
+            this.setPosition(width * -2f, heightCenter);
+
+        } else if (initialPlacement.equals("right")) {
+
+            this.setPosition(width * 2f, heightCenter);
+
+        } else {
+
+            this.setPosition(widthCenter, heightCenter);
+
+        }
 
         this.row().expand();
 
-        Drawable bg = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/white_color_texture.png"))));
-
-        this.setBackground(bg);
-
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("Images/pause_menu_texture2.9.png")), 10, 10, 10, 10);
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("Images/PauseMenuBackground.png")), 10, 10, 10, 10);
 
         NinePatchDrawable background = new NinePatchDrawable(patch);
 
@@ -64,7 +75,7 @@ public class PopUpMenu extends Table {
 
     }
 
-    public void bringDown(float duration) {
+    public void bringToCenter(float duration) {
 
         this.setVisible(true);
 
@@ -81,7 +92,38 @@ public class PopUpMenu extends Table {
             public void run() {
 
                 setVisible(false);
-                
+
+                LevelParser.screenLock = false;
+
+            }
+        })));
+
+    }
+
+
+    public void bringLeft(float duration) {
+
+        this.addAction(sequence(moveTo(width * -2f, heightCenter, duration), run(new Runnable() {
+            @Override
+            public void run() {
+
+                setVisible(false);
+
+                LevelParser.screenLock = false;
+
+            }
+        })));
+
+    }
+
+    public void bringRight(float duration) {
+
+        this.addAction(sequence(moveTo(width * 2f, heightCenter, duration), run(new Runnable() {
+            @Override
+            public void run() {
+
+                setVisible(false);
+
                 LevelParser.screenLock = false;
 
             }

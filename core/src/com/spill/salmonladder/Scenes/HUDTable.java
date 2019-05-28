@@ -32,7 +32,7 @@ public class HUDTable extends Table {
 
             } else {
 
-                LevelParser.PauseTable.bringDown(0.3f);
+                LevelParser.PauseTable.bringToCenter(0.3f);
 
             }
 
@@ -88,7 +88,7 @@ public class HUDTable extends Table {
 
     private ImageButton createPauseButton() {
 
-        Drawable gearUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseGear.png"))));
+        Drawable gearUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseMenuGear.png"))));
 
         ImageButton button = new ImageButton(gearUp);
 

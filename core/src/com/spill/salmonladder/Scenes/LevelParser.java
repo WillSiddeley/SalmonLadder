@@ -83,7 +83,7 @@ public class LevelParser implements Screen {
 
         HUDTable = new HUDTable();
 
-        PauseTable = new PopUpMenu(2f, 1.5f);
+        PauseTable = new PopUpMenu(2f, 1.5f, "up");
 
         stage.addActor(HUDTable);
 

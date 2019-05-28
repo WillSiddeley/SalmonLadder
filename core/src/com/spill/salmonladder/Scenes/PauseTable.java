@@ -34,8 +34,6 @@ public class PauseTable extends Table {
 
         this.setPosition((Gdx.graphics.getWidth() / 2f) - (this.getWidth() / 2f), Gdx.graphics.getHeight() * 2f);
 
-        this.setDebug(true);
-
         this.row().expand();
 
         Drawable bg = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/white_color_texture.png"))));
