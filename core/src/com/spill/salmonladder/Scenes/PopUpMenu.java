@@ -65,9 +65,11 @@ public class PopUpMenu extends Table {
 
         }
 
-        this.row().expand();
+    }
 
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("Images/PauseMenuBackground.png")), 10, 10, 10, 10);
+    public void setNinePatchBG(String internalPath) {
+
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal(internalPath)), 10, 10, 10, 10);
 
         NinePatchDrawable background = new NinePatchDrawable(patch);
 
