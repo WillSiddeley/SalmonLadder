@@ -1,0 +1,14 @@
+{
+  BitmapFont: {
+    MovesFont: {
+      file: MovesFont.fnt
+    }
+  }
+  CheckBoxStyle: {
+    default: {
+      checkboxOn: PauseButtonSoundDown
+      checkboxOff: PauseButtonSoundUp
+      font: MovesFont
+    }
+  }
+}

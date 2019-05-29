@@ -2,12 +2,14 @@ package com.spill.salmonladder.Scenes;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -18,6 +20,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class PopUpMenu extends Table {
+
+    private Preferences preferences;
 
     private int height = Gdx.graphics.getHeight();
 
@@ -133,15 +137,15 @@ public class PopUpMenu extends Table {
 
     public void createPauseMenu() {
 
-        this.row().expand();
+        preferences = getPrefs();
 
-        this.add();
+        Drawable soundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonSoundUp.png"))));
 
-        this.row().expand();
+        Drawable soundDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonSoundDown.png"))));
 
-        this.add();
+        Drawable musicUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonMusicUp.png"))));
 
-        this.row().expand();
+        Drawable musicDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonMusicDown.png"))));
 
         Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonLevels.png"))));
 
@@ -149,11 +153,82 @@ public class PopUpMenu extends Table {
 
         Drawable resume = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonResume.png"))));
 
+        final ImageButton buttonSound = new ImageButton(soundUp, soundUp, soundDown);
+
+        final ImageButton buttonMusic = new ImageButton(musicUp, musicUp, musicDown);
+
         ImageButton buttonLevels = new ImageButton(levels);
 
         ImageButton buttonRestart = new ImageButton(restart);
 
         ImageButton buttonResume = new ImageButton(resume);
+
+        buttonSound.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                preferences.flush();
+
+                boolean isSoundOn = preferences.getBoolean("Sound");
+
+                if (isSoundOn) {
+
+                    // turn Sound off
+
+                    preferences.putBoolean("Sound", false);
+
+                    buttonSound.setChecked(false);
+
+                } else {
+
+                    // turn Sound on
+
+                    preferences.putBoolean("Sound", true);
+
+                    buttonSound.setChecked(true);
+
+                }
+
+                preferences.flush();
+
+            }
+
+        });
+
+        buttonMusic.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                preferences.flush();
+
+                boolean isMusicOn = preferences.getBoolean("Music");
+
+                if (isMusicOn) {
+
+                    // turn Music off
+
+                    preferences.putBoolean("Music", false);
+
+                    buttonMusic.setChecked(false);
+
+                } else {
+
+                    // turn Music on
+
+                    preferences.putBoolean("Music", true);
+
+                    buttonMusic.setChecked(true);
+
+                }
+
+                preferences.flush();
+
+            }
+
+
+        });
 
         buttonLevels.addListener(new ClickListener() {
 
@@ -200,12 +275,33 @@ public class PopUpMenu extends Table {
 
         });
 
-        this.add(buttonLevels);
+        this.row().expand().center();
 
-        this.add(buttonRestart);
+        this.add(buttonSound).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.4f, this));
 
-        this.add(buttonResume);
+        this.add(buttonMusic).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.4f, this));
 
+        this.row().expand();
+
+        this.add(buttonLevels).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+
+        this.add(buttonRestart).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+
+        this.add(buttonResume).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+
+    }
+
+    protected Preferences getPrefs() {
+
+        if (preferences == null) {
+
+            preferences = Gdx.app.getPreferences("Settings");
+
+            preferences.flush();
+
+        }
+
+        return preferences;
 
     }
 
