@@ -191,7 +191,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 } else if (frameIndex == 16) {
                     elapsedTime = 11 / 10f;
                 }
-                LevelParser.screenLock = false;
+                LevelParser.inAnimation = false;
             }
         }
 
@@ -295,9 +295,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if (!LevelParser.screenLock) {
+        if (!LevelParser.inAnimation) {
 
-            LevelParser.screenLock = true;
+            LevelParser.inAnimation = true;
 
             if (Math.abs(velocityY) > Math.abs(velocityX)) {
 
@@ -342,6 +342,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                         isWaitingStart = true;
                     } else {
                         Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                        LevelParser.inAnimation = false;
                     }
                 }
                 if(nextTile().substring(0, 5).equals("Event")){
@@ -350,13 +351,14 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                         isWaitingStart = true;
                     } else {
                         Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                        LevelParser.inAnimation = false;
                     }
                 }
                 if(!map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY()/ SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event") && !nextTile().substring(0, 5).equals("Event")){
                     Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+                    LevelParser.inAnimation = false;
                 }
             }
-            LevelParser.screenLock = false;
         }
 
         return false;
