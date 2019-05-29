@@ -251,7 +251,7 @@
  <tile id="20">
   <properties>
    <property name="CanGoDownIn" type="bool" value="false"/>
-   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="false"/>
    <property name="CanGoLeftIn" type="bool" value="false"/>
    <property name="CanGoLeftOut" type="bool" value="false"/>
    <property name="CanGoRightIn" type="bool" value="false"/>
@@ -266,7 +266,7 @@
    <property name="CanGoDownIn" type="bool" value="false"/>
    <property name="CanGoDownOut" type="bool" value="false"/>
    <property name="CanGoLeftIn" type="bool" value="false"/>
-   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="false"/>
    <property name="CanGoRightIn" type="bool" value="true"/>
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
@@ -283,7 +283,7 @@
    <property name="CanGoRightIn" type="bool" value="false"/>
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
-   <property name="CanGoUpOut" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="EventLadderDown"/>
   </properties>
  </tile>
@@ -294,7 +294,7 @@
    <property name="CanGoLeftIn" type="bool" value="true"/>
    <property name="CanGoLeftOut" type="bool" value="true"/>
    <property name="CanGoRightIn" type="bool" value="false"/>
-   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
    <property name="Name" value="EventLadderLeft"/>
