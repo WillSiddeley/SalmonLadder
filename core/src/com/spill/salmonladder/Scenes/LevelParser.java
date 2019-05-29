@@ -29,25 +29,29 @@ public class LevelParser implements Screen {
 
     // BOOLEANS FOR LOCKING SCREEN AND PANNING
     public static boolean screenLock = false;
+
+    // BOOLEANS FOR LOCKING SCREEN AND PANNING
+    public static boolean inAnimation = false;
+
     // CREATE A TILED MAP RENDERER THAT RENDERS THE MAP
     private OrthogonalTiledMapRenderer tiledMapRenderer;
+
     // STAGE FOR THE HUD
     private Stage stage;
+
     // TABLE FOR HUD
     private HUDTable HUDTable;
 
     // CREATE A FISH SPRITE
     private FishSprite fish;
-    // VARIABLE FOR SKIN OF THE FISH
-    private int fishSkin = 0;
 
     // LEVEL NUMBER THAT IS PARSED IN
-    private int levelNumber;
+    static int levelNumber;
 
     // DEFAULT CONSTRUCTOR
     LevelParser(int LevelNumber) {
 
-        this.levelNumber = LevelNumber;
+        levelNumber = LevelNumber;
 
     }
 
@@ -73,6 +77,9 @@ public class LevelParser implements Screen {
         // SET CAMERA TO ORTHOGRAPHIC (TOP-DOWN)
         camera = new OrthographicCamera();
 
+        // VARIABLE FOR SKIN OF THE FISH
+        int fishSkin = 0;
+
         // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
         fish = new FishSprite(fishSkin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
 
@@ -81,13 +88,13 @@ public class LevelParser implements Screen {
 
         stage = new Stage(new ScreenViewport());
 
-        HUDTable = new HUDTable();
+        HUDTable = new HUDTable(0);
 
         PauseTable = new PopUpMenu(2f, 1.5f, "up");
 
         PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
 
-        PauseTable.setPauseMenu();
+        PauseTable.createPauseMenu();
 
         stage.addActor(HUDTable);
 

@@ -1,27 +1,23 @@
 package com.spill.salmonladder.Scenes;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class PopUpMenu extends Table {
-
-    private ClickListener pauseClickListener = new ClickListener() {
-
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-
-
-        }
-    };
 
     private int height = Gdx.graphics.getHeight();
 
@@ -34,6 +30,8 @@ public class PopUpMenu extends Table {
     public PopUpMenu(float heightModifier, float widthModifier, String initialPlacement) {
 
         this.setVisible(false);
+
+        this.setDebug(true);
 
         this.setHeight(height / heightModifier);
 
@@ -133,13 +131,80 @@ public class PopUpMenu extends Table {
 
     }
 
-    public void setPauseMenu() {
+    public void createPauseMenu() {
 
         this.row().expand();
 
-        this.row().expand();
+        this.add();
 
         this.row().expand();
+
+        this.add();
+
+        this.row().expand();
+
+        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonLevels.png"))));
+
+        Drawable restart = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonRestart.png"))));
+
+        Drawable resume = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonResume.png"))));
+
+        ImageButton buttonLevels = new ImageButton(levels);
+
+        ImageButton buttonRestart = new ImageButton(restart);
+
+        ImageButton buttonResume = new ImageButton(resume);
+
+        buttonLevels.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
+
+                LevelParser.screenLock = false;
+
+            }
+
+        });
+
+        buttonRestart.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber));
+
+                LevelParser.screenLock = false;
+
+            }
+
+        });
+
+        buttonResume.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (LevelParser.PauseTable.isVisible()) {
+
+                    LevelParser.PauseTable.bringUp(0.3f);
+
+                } else {
+
+                    LevelParser.PauseTable.bringToCenter(0.3f);
+
+                }
+
+            }
+
+        });
+
+        this.add(buttonLevels);
+
+        this.add(buttonRestart);
+
+        this.add(buttonResume);
 
 
     }

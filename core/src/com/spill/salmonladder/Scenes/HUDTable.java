@@ -18,7 +18,7 @@ public class HUDTable extends Table {
 
     private static Label movesLabel;
 
-    private static int moves = 0;
+    private static int moves;
 
     // ADD THE CLICK LISTENER FOR PAUSING
     private ClickListener pauseClickListener = new ClickListener() {
@@ -40,11 +40,11 @@ public class HUDTable extends Table {
         }
     };
 
-    HUDTable() {
+    HUDTable(int moves) {
+
+        HUDTable.moves = moves;
 
         this.setFillParent(true);
-
-        this.setDebug(true);
 
         this.pad(50, 50, 50, 50);
 
