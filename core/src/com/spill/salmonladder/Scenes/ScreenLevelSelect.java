@@ -17,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.spill.salmonladder.SalmonLadderStars;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
@@ -26,6 +26,21 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class ScreenLevelSelect implements Screen {
+
+    // VARIABLES TO CONTROL ROWS
+    private static final int rows = 7;
+
+    // VARIABLES TO CONTROL COLUMNS
+    private static final int columns = 4;
+
+    // VARIABLES TO CONTROL PAGES
+    private static final int pages = 1;
+
+    // VARIABLES TO CONTROL TOTAL LEVEL NUMBER
+    public static final int levelCount = (rows * columns) * pages;
+
+    // VARIABLE TO ACCESS PREFERENCES
+    private SalmonLadderStars starPref;
 
     // ADD THE CAMERA
     private OrthographicCamera camera;
@@ -45,9 +60,12 @@ public class ScreenLevelSelect implements Screen {
         @Override
         public void clicked(InputEvent event, float x, float y) {
 
-            // WHEN A BUTTON IS CLICKED, GRAB THE NAME AND SET THE CORRECT LEVEL
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(Integer.parseInt(event.getListenerActor().getName())));
+            if (starPref.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
 
+                // WHEN A BUTTON IS CLICKED, GRAB THE NAME AND SET THE CORRECT LEVEL
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(Integer.parseInt(event.getListenerActor().getName())));
+
+            }
         }
     };
 
@@ -87,12 +105,11 @@ public class ScreenLevelSelect implements Screen {
     @Override
     public void show() {
 
-        // VARIABLES TO CONTROL LEVEL SELECT BUTTONS
-        int rows = 7;
-        int columns = 4;
-        int pages = 1;
-        int levelLabel = 1;
+        starPref = new SalmonLadderStars();
 
+        starPref.setStatus(1, "Unlocked");
+
+        int levelLabel = 1;
 
         // NEW SCROLL PANE THAT CONTROLS SCROLLING
         PagedPane scroll = new PagedPane();
@@ -100,6 +117,7 @@ public class ScreenLevelSelect implements Screen {
         scroll.setPageSpacing(25);
 
         // MAKE THE PAGES WITH THE BUTTONS TO SELECT LEVELS
+
         for (int i = 0; i < pages; i++) {
 
             Table Levels = new Table().pad(25);
@@ -202,14 +220,7 @@ public class ScreenLevelSelect implements Screen {
         // PUT THE LABEL INSIDE THE BUTTON
         button.stack(new Image(skin.getDrawable("top")), label).expand().fill();
 
-        // PARSE THE XML FILE
-        XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Stars.xml"));
-
-        // GRAB THE ROOT OF THE SPECIFIC LEVEL
-        XmlReader.Element LevelAttributes = root.getChildByName("Level" + level);
-
-        // GRAB THE STAR COUNT PER LEVEL
-        int stars = LevelAttributes.getInt("Stars");
+        int stars = starPref.getStars(level);
 
         // CREATE A TABLE BELOW THE BUTTON THAT RESPERESNTS STARS THE PLAYER GOT ON THE LEVEL
         Table starTable = new Table();

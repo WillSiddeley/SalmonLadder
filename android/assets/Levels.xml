@@ -1,11 +1,10 @@
 <GameLevels>
-    <Level1 path="Levels/Level1.tmx">
-        <Stars stars="3" />
-        <Status defaultstatus="unlocked" status="unlocked" />
+    <Level1 LevelFile="Levels/Level1.tmx">
+        <MinMoves Best="17" />
         <StartCoords x="9" y="2" />
     </Level1>
-    <Level2 path="Levels/Level2.tmx">
-        <Status defaultstatus="locked" status="locked" />
+    <Level2 LevelFile="Levels/Level2.tmx">
+        <MinMoves Best="10" />
         <StartCoords x="1" y="21" />
     </Level2>
 </GameLevels>

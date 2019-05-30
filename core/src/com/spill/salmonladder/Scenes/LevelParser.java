@@ -16,8 +16,12 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.spill.salmonladder.FishSprite;
 import com.spill.salmonladder.SalmonLadder;
+import com.spill.salmonladder.SalmonLadderStars;
 
 public class LevelParser implements Screen {
+
+    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
+    public static boolean inAnimation = false;
 
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
@@ -27,17 +31,18 @@ public class LevelParser implements Screen {
 
     // TABLE FOR WIN MENU
     public static PopUpMenu WinTable;
+
     // BOOLEANS FOR LOCKING SCREEN
     public static boolean screenLock = false;
-
-    // CREATE A NEW CAMERA
-    private OrthographicCamera camera;
-    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
-    public static boolean inAnimation = false;
     // BOOLEANS FOR LOCKING WHEN IN MENU
     public static boolean inMenu = false;
     // BOOLEANS FOR LOCKING WHEN IN WIN
     public static boolean inWin = false;
+    private static SalmonLadderStars prefStars;
+
+    // CREATE A NEW CAMERA
+    private OrthographicCamera camera;
+
     // RECTANGLE FOR DIMMING
     private ShapeRenderer dimmer;
 
@@ -46,9 +51,8 @@ public class LevelParser implements Screen {
 
     // STAGE FOR THE HUD
     private Stage stage;
-
     // TABLE FOR HUD
-    private HUDTable HUDTable;
+    private static HUDTable HudTable;
 
     // CREATE A FISH SPRITE
     private FishSprite fish;
@@ -63,68 +67,37 @@ public class LevelParser implements Screen {
 
     }
 
-    @Override
-    public void show() {
+    public static void awardStars() {
 
-        // PARSE THE XML FILE
-        XmlReader.Element root = new XmlReader().parse(Gdx.files.internal("Levels.xml"));
+        if (prefStars.getStars(levelNumber) < 3) {
 
-        // GRAB THE ROOT OF THE ENTIRE LEVEL, ALLOWS EASY ACCESS TO LEVEL ATTRIBUTES
-        XmlReader.Element LevelAttributes = root.getChildByName("Level" + levelNumber);
+            int MinMoves = getXMLRoot().getChildByName("MinMoves").getInt("Best");
 
-        // GRAB START COORDINATES FROM THE XML FILE
-        int startX = LevelAttributes.getChildByName("StartCoords").getInt("x");
-        int startY = LevelAttributes.getChildByName("StartCoords").getInt("y");
+            if (HUDTable.getMoves() == MinMoves) {
 
-        // LOAD MAP INTO VARIABLE
-        tiledMap = new TmxMapLoader().load(LevelAttributes.get("path"));
+                prefStars.setStars(levelNumber, 3);
 
-        // SET THE RENDERER TO RENDER THE TILEMAP
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+            } else if ((HUDTable.getMoves() < MinMoves + 3) && prefStars.getStars(levelNumber) < 3) {
 
-        // SET CAMERA TO ORTHOGRAPHIC (TOP-DOWN)
-        camera = new OrthographicCamera();
+                prefStars.setStars(levelNumber, 2);
 
-        // VARIABLE FOR SKIN OF THE FISH
-        int fishSkin = 0;
+            } else if ((HUDTable.getMoves() < MinMoves + 6) && prefStars.getStars(levelNumber) < 2) {
 
-        // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
-        fish = new FishSprite(fishSkin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
+                prefStars.setStars(levelNumber, 1);
 
-        // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
-        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
+            } else {
 
-        stage = new Stage(new FitViewport(1080, 1920));
+                prefStars.setStars(levelNumber, 0);
 
-        dimmer = new ShapeRenderer();
+            }
 
-        HUDTable = new HUDTable(0);
+        }
 
-        PauseTable = new PopUpMenu(2f, 1.5f, "up");
+        if (levelNumber != ScreenLevelSelect.levelCount) {
 
-        WinTable = new PopUpMenu(2f, 1.5f, "up");
+            prefStars.setStatus(levelNumber + 1, "Unlocked");
 
-        PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
-
-        WinTable.setNinePatchBG("Images/WinMenuBackground.png");
-
-        PauseTable.createPauseMenu();
-
-        WinTable.createWinMenu();
-
-        stage.addActor(HUDTable);
-
-        stage.addActor(PauseTable);
-
-        stage.addActor(WinTable);
-
-        InputMultiplexer multiplexer = new InputMultiplexer();
-
-        Gdx.input.setInputProcessor(multiplexer);
-
-        multiplexer.addProcessor(new GestureDetector(fish));
-
-        multiplexer.addProcessor(stage);
+        }
 
     }
 
@@ -199,6 +172,73 @@ public class LevelParser implements Screen {
         tiledMap.dispose();
 
         tiledMapRenderer.dispose();
+
+    }
+
+    private static XmlReader.Element getXMLRoot() {
+
+        return new XmlReader().parse(Gdx.files.internal("Levels.xml")).getChildByName("Level" + levelNumber);
+
+    }
+
+    @Override
+    public void show() {
+
+        prefStars = new SalmonLadderStars();
+
+        // GRAB START COORDINATES FROM THE XML FILE
+        int startX = getXMLRoot().getChildByName("StartCoords").getInt("x");
+        int startY = getXMLRoot().getChildByName("StartCoords").getInt("y");
+
+        // LOAD MAP INTO VARIABLE
+        tiledMap = new TmxMapLoader().load(getXMLRoot().get("LevelFile"));
+
+        // SET THE RENDERER TO RENDER THE TILEMAP
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+        // SET CAMERA TO ORTHOGRAPHIC (TOP-DOWN)
+        camera = new OrthographicCamera();
+
+        // VARIABLE FOR SKIN OF THE FISH
+        int fishSkin = 0;
+
+        // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
+        fish = new FishSprite(fishSkin, (TiledMapTileLayer) tiledMap.getLayers().get(1), tiledMapRenderer.getUnitScale());
+
+        // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
+        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
+
+        stage = new Stage(new FitViewport(1080, 1920));
+
+        dimmer = new ShapeRenderer();
+
+        HudTable = new HUDTable(0);
+
+        PauseTable = new PopUpMenu(2f, 1.5f, "up");
+
+        WinTable = new PopUpMenu(2f, 1.5f, "up");
+
+        PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
+
+        WinTable.setNinePatchBG("Images/WinMenuBackground.png");
+
+        PauseTable.createPauseMenu();
+
+        WinTable.createWinMenu();
+
+        stage.addActor(HudTable);
+
+        stage.addActor(PauseTable);
+
+        stage.addActor(WinTable);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+
+        Gdx.input.setInputProcessor(multiplexer);
+
+        multiplexer.addProcessor(new GestureDetector(fish));
+
+        multiplexer.addProcessor(stage);
 
     }
 

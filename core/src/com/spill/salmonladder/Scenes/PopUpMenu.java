@@ -2,7 +2,6 @@ package com.spill.salmonladder.Scenes;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.spill.salmonladder.SalmonLadderPreferences;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
@@ -25,7 +25,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class PopUpMenu extends Table {
 
-    private Preferences preferences;
+    private SalmonLadderPreferences preferences;
 
     private int height = Gdx.graphics.getHeight();
 
@@ -36,6 +36,8 @@ public class PopUpMenu extends Table {
     private float heightCenter;
 
     public PopUpMenu(float heightModifier, float widthModifier, String initialPlacement) {
+
+        preferences = new SalmonLadderPreferences();
 
         this.setVisible(false);
 
@@ -152,8 +154,6 @@ public class PopUpMenu extends Table {
 
     public void createPauseMenu() {
 
-        preferences = getPrefs();
-
         Label pauseLabel = new Label("Game Paused!", new Skin(Gdx.files.internal("Skins/uiskin.json")));
 
         pauseLabel.setStyle(new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt")), Color.BLACK));
@@ -178,40 +178,59 @@ public class PopUpMenu extends Table {
 
         final ImageButton buttonMusic = new ImageButton(musicUp, musicUp, musicDown);
 
+        if (preferences.isSoundEnabled()) {
+
+            buttonSound.setChecked(false);
+
+        } else {
+
+            buttonSound.setChecked(true);
+
+        }
+
+        if (preferences.isMusicEnabled()) {
+
+            buttonMusic.setChecked(false);
+
+        } else {
+
+            buttonMusic.setChecked(true);
+
+        }
+
         ImageButton buttonLevels = new ImageButton(levels);
 
         ImageButton buttonRestart = new ImageButton(restart);
 
         ImageButton buttonResume = new ImageButton(resume);
 
+
         buttonSound.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                preferences.flush();
-
-                boolean isSoundOn = preferences.getBoolean("Sound");
-
-                if (isSoundOn) {
+                if (preferences.isSoundEnabled()) {
 
                     // turn Sound off
 
-                    preferences.putBoolean("Sound", false);
+                    preferences.setSoundEnabled(false);
 
-                    buttonSound.setChecked(false);
+                    buttonSound.setChecked(true);
+
+                    System.out.println("Turned sound off");
 
                 } else {
 
                     // turn Sound on
 
-                    preferences.putBoolean("Sound", true);
+                    preferences.setSoundEnabled(true);
 
-                    buttonSound.setChecked(true);
+                    buttonSound.setChecked(false);
+
+                    System.out.println("Turned sound on");
 
                 }
-
-                preferences.flush();
 
             }
 
@@ -222,29 +241,27 @@ public class PopUpMenu extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                preferences.flush();
-
-                boolean isMusicOn = preferences.getBoolean("Music");
-
-                if (isMusicOn) {
+                if (preferences.isMusicEnabled()) {
 
                     // turn Music off
 
-                    preferences.putBoolean("Music", false);
+                    preferences.setMusicEnabled(false);
 
-                    buttonMusic.setChecked(false);
+                    buttonMusic.setChecked(true);
+
+                    System.out.println("Turned music off");
 
                 } else {
 
                     // turn Music on
 
-                    preferences.putBoolean("Music", true);
+                    preferences.setMusicEnabled(true);
 
-                    buttonMusic.setChecked(true);
+                    buttonMusic.setChecked(false);
+
+                    System.out.println("Turned music on");
 
                 }
-
-                preferences.flush();
 
             }
 
@@ -260,6 +277,8 @@ public class PopUpMenu extends Table {
 
                 LevelParser.screenLock = false;
 
+                LevelParser.inMenu = false;
+
             }
 
         });
@@ -272,6 +291,8 @@ public class PopUpMenu extends Table {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber));
 
                 LevelParser.screenLock = false;
+
+                LevelParser.inMenu = false;
 
             }
 
@@ -317,20 +338,6 @@ public class PopUpMenu extends Table {
         this.add(buttonRestart).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
 
         this.add(buttonResume).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
-
-    }
-
-    protected Preferences getPrefs() {
-
-        if (preferences == null) {
-
-            preferences = Gdx.app.getPreferences("Settings");
-
-            preferences.flush();
-
-        }
-
-        return preferences;
 
     }
 

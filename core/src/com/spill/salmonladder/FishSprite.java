@@ -210,6 +210,8 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
             LevelParser.inWin = true;
 
+            LevelParser.awardStars();
+
         }
     }
 
