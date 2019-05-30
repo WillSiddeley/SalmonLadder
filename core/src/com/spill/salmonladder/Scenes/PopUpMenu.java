@@ -3,11 +3,15 @@ package com.spill.salmonladder.Scenes;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -34,8 +38,6 @@ public class PopUpMenu extends Table {
     public PopUpMenu(float heightModifier, float widthModifier, String initialPlacement) {
 
         this.setVisible(false);
-
-        this.setDebug(true);
 
         this.setHeight(height / heightModifier);
 
@@ -138,6 +140,12 @@ public class PopUpMenu extends Table {
     public void createPauseMenu() {
 
         preferences = getPrefs();
+
+        Label pauseLabel = new Label("Game Paused!", new Skin(Gdx.files.internal("Skins/uiskin.json")));
+
+        pauseLabel.setStyle(new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt")), Color.BLACK));
+
+        pauseLabel.setFontScale(1.5f);
 
         Drawable soundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonSoundUp.png"))));
 
@@ -277,17 +285,25 @@ public class PopUpMenu extends Table {
 
         this.row().expand().center();
 
-        this.add(buttonSound).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.4f, this));
+        this.add(pauseLabel).colspan(3);
 
-        this.add(buttonMusic).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.4f, this));
+        this.row().expand().center();
+
+        Table middleRow = new Table();
+
+        middleRow.add(buttonSound).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.3f, this));
+
+        middleRow.add(buttonMusic).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.3f, this));
+
+        this.add(middleRow).colspan(3);
 
         this.row().expand();
 
-        this.add(buttonLevels).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+        this.add(buttonLevels).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
 
-        this.add(buttonRestart).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+        this.add(buttonRestart).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
 
-        this.add(buttonResume).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.3f, this));
+        this.add(buttonResume).width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
 
     }
 
