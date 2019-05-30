@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.XmlReader;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.spill.salmonladder.FishSprite;
 import com.spill.salmonladder.SalmonLadder;
 
@@ -24,14 +25,21 @@ public class LevelParser implements Screen {
     // TABLE FOR PAUSE MENU
     public static PopUpMenu PauseTable;
 
-    // CREATE A NEW CAMERA
-    private OrthographicCamera camera;
-
-    // BOOLEANS FOR LOCKING SCREEN AND PANNING
+    // TABLE FOR WIN MENU
+    public static PopUpMenu WinTable;
+    // BOOLEANS FOR LOCKING SCREEN
     public static boolean screenLock = false;
 
-    // BOOLEANS FOR LOCKING SCREEN AND PANNING
+    // CREATE A NEW CAMERA
+    private OrthographicCamera camera;
+    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
     public static boolean inAnimation = false;
+    // BOOLEANS FOR LOCKING WHEN IN MENU
+    public static boolean inMenu = false;
+    // BOOLEANS FOR LOCKING WHEN IN WIN
+    public static boolean inWin = false;
+    // RECTANGLE FOR DIMMING
+    private ShapeRenderer dimmer;
 
     // CREATE A TILED MAP RENDERER THAT RENDERS THE MAP
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -86,19 +94,29 @@ public class LevelParser implements Screen {
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
         fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(1080, 1920));
+
+        dimmer = new ShapeRenderer();
 
         HUDTable = new HUDTable(0);
 
         PauseTable = new PopUpMenu(2f, 1.5f, "up");
 
+        WinTable = new PopUpMenu(2f, 1.5f, "up");
+
         PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
 
+        WinTable.setNinePatchBG("Images/WinMenuBackground.png");
+
         PauseTable.createPauseMenu();
+
+        WinTable.createWinMenu();
 
         stage.addActor(HUDTable);
 
         stage.addActor(PauseTable);
+
+        stage.addActor(WinTable);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
 
@@ -129,6 +147,20 @@ public class LevelParser implements Screen {
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
         tiledMapRenderer.getBatch().end();
+
+        if (inMenu) {
+
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            dimmer.begin(ShapeRenderer.ShapeType.Filled);
+            dimmer.setColor(0, 0, 0, 0.75f);
+            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            dimmer.end();
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        }
 
         stage.act();
         stage.draw();

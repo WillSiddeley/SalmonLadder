@@ -26,17 +26,18 @@ public class HUDTable extends Table {
         @Override
         public void clicked(InputEvent event, float x, float y) {
 
-            if (LevelParser.PauseTable.isVisible()) {
+            if (!LevelParser.inAnimation && !LevelParser.inWin) {
 
-                LevelParser.PauseTable.bringUp(0.3f);
+                if (LevelParser.PauseTable.isVisible()) {
 
-            } else {
+                    LevelParser.PauseTable.bringUp(0.3f);
 
-                LevelParser.PauseTable.bringToCenter(0.3f);
+                } else {
 
+                    LevelParser.PauseTable.bringToCenter(0.3f);
+
+                }
             }
-
-
         }
     };
 

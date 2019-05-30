@@ -73,7 +73,7 @@ public class PopUpMenu extends Table {
 
     public void setNinePatchBG(String internalPath) {
 
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal(internalPath)), 10, 10, 10, 10);
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal(internalPath)), 8, 8, 8, 8);
 
         NinePatchDrawable background = new NinePatchDrawable(patch);
 
@@ -85,9 +85,16 @@ public class PopUpMenu extends Table {
 
         this.setVisible(true);
 
-        this.addAction(moveTo(widthCenter, heightCenter, duration));
-
         LevelParser.screenLock = true;
+
+        this.addAction(sequence(moveTo(widthCenter, heightCenter, duration), run(new Runnable() {
+            @Override
+            public void run() {
+
+                LevelParser.inMenu = true;
+
+            }
+        })));
 
     }
 
@@ -100,6 +107,8 @@ public class PopUpMenu extends Table {
                 setVisible(false);
 
                 LevelParser.screenLock = false;
+
+                LevelParser.inMenu = false;
 
             }
         })));
@@ -117,6 +126,8 @@ public class PopUpMenu extends Table {
 
                 LevelParser.screenLock = false;
 
+                LevelParser.inMenu = false;
+
             }
         })));
 
@@ -131,6 +142,8 @@ public class PopUpMenu extends Table {
                 setVisible(false);
 
                 LevelParser.screenLock = false;
+
+                LevelParser.inMenu = false;
 
             }
         })));
@@ -318,6 +331,11 @@ public class PopUpMenu extends Table {
         }
 
         return preferences;
+
+    }
+
+    public void createWinMenu() {
+
 
     }
 

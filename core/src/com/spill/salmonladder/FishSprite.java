@@ -205,7 +205,11 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
             isWaitingWinDone = false;
-            //WIN POP UP MENU CODE HERE
+
+            LevelParser.WinTable.bringToCenter(0.3f);
+
+            LevelParser.inWin = true;
+
         }
     }
 
