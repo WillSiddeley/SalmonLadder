@@ -23,8 +23,6 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private Timer.Task[] movement = new Timer.Task[4], jumpMovement = new Timer.Task[4];
 
-    private Timer timer = new Timer();
-
     private Array<Texture> fishTextures = new Array<Texture>();
 
     private Array<Texture> jumpLeftTextures = new Array<Texture>();
@@ -49,23 +47,23 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
             case 0:
                 for (int i = 0; i < 26; i++) {
                     fishTextures.add(new Texture("Sprites/Textures/ChinookStagnant_" + (i + 1) + ".png"));
-                    }
+                }
 
                 for (int i = 0; i < 27; i++) {
                     jumpLeftTextures.add(new Texture("Sprites/Textures/ChinookJumpLeft_" + (i + 1) + ".png"));
-                    }
+                }
 
                 for (int i = 0; i < 27; i++) {
                     jumpRightTextures.add(new Texture("Sprites/Textures/ChinookJumpRight_" + (i + 1) + ".png"));
-                    }
+                }
 
                 for (int i = 0; i < 8; i++) {
                     winLeftTextures.add(new Texture("Sprites/Textures/ChinookWinLeft_" + (i + 1) + ".png"));
-                    }
+                }
 
                 for (int i = 0; i < 8; i++) {
                     winRightTextures.add(new Texture("Sprites/Textures/ChinookWinRight_" + (i + 1) + ".png"));
-                    }
+                }
             break;
         }
 
@@ -358,7 +356,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 if (map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
                     event = map.getCell((int) (getX() / SalmonLadder.PIXEL_PER_METER), (int) (getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
-                    if (event.substring(0, 11).equals("EventLadder")) {
+                    if (event.equals("EventLadder")) {
                         isWaitingStart = true;
                     } else if (!nextTile().substring(0, 5).equals("Event")) {
                         Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
@@ -367,7 +365,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
                 if(nextTile().substring(0, 5).equals("Event")){
                     event = nextTile();
-                    if ((event.equals("EventWin") || event.substring(0, 11).equals("EventLadder") || (event.substring(0, 14).equals("EventWaterfall") && !waterfallJump())) && getX() % 32 == 0 && getY() % 32 == 0) {
+                    if (event.equals("EventWin") || event.equals("EventLadder") || (event.equals("EventWaterfall") && !waterfallJump())) {
                         isWaitingStart = true;
                     } else {
                         Timer.schedule(movement[orientation], 0, 1 / 64f, 7);

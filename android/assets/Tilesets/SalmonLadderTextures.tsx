@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.3" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="64" columns="8">
+<tileset version="1.2" tiledversion="1.2.4" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="64" columns="8">
  <image source="SalmonLadderTextures.png" width="256" height="256"/>
  <tile id="0">
   <properties>
@@ -167,7 +167,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="EventWaterfallDown"/>
+   <property name="Name" value="EventWaterfall"/>
   </properties>
  </tile>
  <tile id="13">
@@ -180,7 +180,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="EventWaterfallLeft"/>
+   <property name="Name" value="EventWaterfall"/>
   </properties>
  </tile>
  <tile id="14">
@@ -193,7 +193,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="EventWaterfallUp"/>
+   <property name="Name" value="EventWaterfall"/>
   </properties>
  </tile>
  <tile id="15">
@@ -206,7 +206,7 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="EventWaterfallRight"/>
+   <property name="Name" value="EventWaterfall"/>
   </properties>
  </tile>
  <tile id="16">
@@ -258,7 +258,7 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="true"/>
    <property name="CanGoUpOut" type="bool" value="true"/>
-   <property name="Name" value="EventLadderUp"/>
+   <property name="Name" value="EventLadder"/>
   </properties>
  </tile>
  <tile id="21">
@@ -271,7 +271,7 @@
    <property name="CanGoRightOut" type="bool" value="true"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="EventLadderRight"/>
+   <property name="Name" value="EventLadder"/>
   </properties>
  </tile>
  <tile id="22">
@@ -284,7 +284,7 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="EventLadderDown"/>
+   <property name="Name" value="EventLadder"/>
   </properties>
  </tile>
  <tile id="23">
@@ -297,7 +297,20 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="EventLadderLeft"/>
+   <property name="Name" value="EventLadder"/>
+  </properties>
+ </tile>
+ <tile id="25">
+  <properties>
+   <property name="CanGoDownIn" type="bool" value="true"/>
+   <property name="CanGoDownOut" type="bool" value="true"/>
+   <property name="CanGoLeftIn" type="bool" value="true"/>
+   <property name="CanGoLeftOut" type="bool" value="true"/>
+   <property name="CanGoRightIn" type="bool" value="true"/>
+   <property name="CanGoRightOut" type="bool" value="true"/>
+   <property name="CanGoUpIn" type="bool" value="true"/>
+   <property name="CanGoUpOut" type="bool" value="true"/>
+   <property name="Name" value="EventBear"/>
   </properties>
  </tile>
 </tileset>
