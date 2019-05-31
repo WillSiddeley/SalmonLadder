@@ -208,6 +208,18 @@ public class LevelParser implements Screen {
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
         fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
 
+        for (int i = 0; i < ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getHeight(); i++) {
+            for (int j = 0; j < ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getWidth(); i++) {
+                if (((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(i, j).getTile().getProperties().get("Name", String.class).equals("EventBear")) {
+                    if (((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(i + 1, j) != null) {
+                        if (((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(i + 1, j).getTile().getProperties().get("Name", String.class).equals("Rock")) {
+                            
+                        }
+                    }
+                }
+            }
+        }
+
         stage = new Stage(new FitViewport(1080, 1920));
 
         dimmer = new ShapeRenderer();
