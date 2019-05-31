@@ -20,9 +20,6 @@ import com.spill.salmonladder.SalmonLadderStars;
 
 public class LevelParser implements Screen {
 
-    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
-    public static boolean inAnimation = false;
-
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
 
@@ -32,12 +29,18 @@ public class LevelParser implements Screen {
     // TABLE FOR WIN MENU
     public static PopUpMenu WinTable;
 
-    // BOOLEANS FOR LOCKING SCREEN
-    public static boolean screenLock = false;
+    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
+    public static boolean inAnimation = false;
+
     // BOOLEANS FOR LOCKING WHEN IN MENU
     public static boolean inMenu = false;
+
+    // BOOLEANS FOR LOCKING SCREEN
+    public static boolean screenLock = false;
+
     // BOOLEANS FOR LOCKING WHEN IN WIN
     public static boolean inWin = false;
+
     private static SalmonLadderStars prefStars;
 
     // CREATE A NEW CAMERA
@@ -67,37 +70,77 @@ public class LevelParser implements Screen {
 
     }
 
-    public static void awardStars() {
+    public static int awardStars() {
 
-        if (prefStars.getStars(levelNumber) < 3) {
+        int MinMoves = getXMLRoot().getChildByName("MinMoves").getInt("Best");
 
-            int MinMoves = getXMLRoot().getChildByName("MinMoves").getInt("Best");
+        int starsToAward;
 
-            if (HUDTable.getMoves() == MinMoves) {
+        if (HUDTable.getMoves() == MinMoves) {
+
+            if (prefStars.getStars(levelNumber) < 3) {
 
                 prefStars.setStars(levelNumber, 3);
 
-            } else if ((HUDTable.getMoves() < MinMoves + 3) && prefStars.getStars(levelNumber) < 3) {
+            }
+
+            starsToAward = 3;
+
+        } else if (HUDTable.getMoves() < MinMoves + 3) {
+
+            if (prefStars.getStars(levelNumber) < 2) {
 
                 prefStars.setStars(levelNumber, 2);
 
-            } else if ((HUDTable.getMoves() < MinMoves + 6) && prefStars.getStars(levelNumber) < 2) {
+            }
+
+            starsToAward = 2;
+
+        } else if (HUDTable.getMoves() < MinMoves + 6) {
+
+            if (prefStars.getStars(levelNumber) < 1) {
 
                 prefStars.setStars(levelNumber, 1);
 
-            } else {
+            }
+
+            starsToAward = 1;
+
+        } else {
+
+            if (prefStars.getStars(levelNumber) == 0) {
 
                 prefStars.setStars(levelNumber, 0);
 
             }
 
+            starsToAward = 0;
+
         }
+
+        return starsToAward;
+
+    }
+
+    public static void unlockNext() {
 
         if (levelNumber != ScreenLevelSelect.levelCount) {
 
             prefStars.setStatus(levelNumber + 1, "Unlocked");
 
         }
+
+    }
+
+    public static void resetBooleans(boolean reset) {
+
+        inAnimation = reset;
+
+        inMenu = reset;
+
+        inWin = reset;
+
+        screenLock = reset;
 
     }
 
@@ -208,6 +251,7 @@ public class LevelParser implements Screen {
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
         fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
 
+        /*
         for (int i = 0; i < ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getHeight(); i++) {
             for (int j = 0; j < ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getWidth(); i++) {
                 if (((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(i, j).getTile().getProperties().get("Name", String.class).equals("EventBear")) {
@@ -219,6 +263,7 @@ public class LevelParser implements Screen {
                 }
             }
         }
+        */
 
         stage = new Stage(new FitViewport(1080, 1920));
 
@@ -235,8 +280,6 @@ public class LevelParser implements Screen {
         WinTable.setNinePatchBG("Images/WinMenuBackground.png");
 
         PauseTable.createPauseMenu();
-
-        WinTable.createWinMenu();
 
         stage.addActor(HudTable);
 

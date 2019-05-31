@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -273,11 +274,9 @@ public class PopUpMenu extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                LevelParser.resetBooleans(false);
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
-
-                LevelParser.screenLock = false;
-
-                LevelParser.inMenu = false;
 
             }
 
@@ -288,11 +287,9 @@ public class PopUpMenu extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                LevelParser.resetBooleans(false);
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber));
-
-                LevelParser.screenLock = false;
-
-                LevelParser.inMenu = false;
 
             }
 
@@ -341,8 +338,113 @@ public class PopUpMenu extends Table {
 
     }
 
-    public void createWinMenu() {
+    public void createWinMenu(int stars) {
 
+        Label winLabel = new Label("Level Complete!", new Skin(Gdx.files.internal("Skins/uiskin.json")));
+
+        winLabel.setStyle(new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt")), Color.BLACK));
+
+        winLabel.setFontScale(1.25f);
+
+        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/PauseButtonLevels.png"))));
+
+        Drawable nextLevel = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ButtonNextLevel.png"))));
+
+        ImageButton buttonLevels = new ImageButton(levels);
+
+        ImageButton buttonNextLevel = new ImageButton(nextLevel);
+
+        buttonLevels.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                LevelParser.resetBooleans(false);
+
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
+
+            }
+
+        });
+
+        buttonNextLevel.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (LevelParser.levelNumber == ScreenLevelSelect.levelCount) {
+
+                    LevelParser.resetBooleans(false);
+
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
+
+                } else {
+
+                    LevelParser.resetBooleans(false);
+
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber + 1));
+
+
+                }
+
+            }
+
+        });
+
+        this.row().expand().center();
+
+        this.add(winLabel).colspan(3);
+
+        this.row().expand().center();
+
+        switch (stars) {
+
+            case 0:
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                break;
+
+            case 1:
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                break;
+
+            case 2:
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStarEmpty.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                break;
+
+            case 3:
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Images/ImageStar.png"))))))
+                        .width(Value.percentWidth(0.3f, this)).height(Value.percentHeight(0.25f, this));
+                break;
+        }
+
+        this.row().expand();
+
+        Table bottomRow = new Table();
+
+        bottomRow.add(buttonLevels).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.3f, this));
+
+        bottomRow.add(buttonNextLevel).width(Value.percentWidth(0.4f, this)).height(Value.percentHeight(0.3f, this));
+
+        this.add(bottomRow).colspan(3);
 
     }
 
