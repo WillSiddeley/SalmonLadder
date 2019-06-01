@@ -65,9 +65,9 @@ class MenuDeath extends Menu {
 
         this.row().expand().center();
 
-        this.add(buttonLevels).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+        this.add(buttonLevels).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
-        this.add(buttonRestart).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+        this.add(buttonRestart).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
     }
 

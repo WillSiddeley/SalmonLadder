@@ -49,7 +49,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
 
 
-    private float elapsedTime = 0, jumpEndTime;
+    private float elapsedTime = 0, waitTime = 0, jumpEndTime;
 
 
     public FishSprite(int skin, TiledMapTileLayer tiledMap) {
@@ -61,9 +61,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         switch (skin) {
 
             case 0:
-                for (int i = 0;
-                     i < 26;
-                     i++) {
+                for (int i = 0; i < 26; i++) {
 
                     fishTextures.add(new Texture("Sprites/Textures/ChinookStagnant_" + (i + 1) + ".png"));
 
@@ -71,9 +69,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
 
 
-                for (int i = 0;
-                     i < 27;
-                     i++) {
+                for (int i = 0; i < 27; i++) {
 
                     jumpLeftTextures.add(new Texture("Sprites/Textures/ChinookJumpLeft_" + (i + 1) + ".png"));
 
@@ -81,9 +77,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
 
 
-                for (int i = 0;
-                     i < 27;
-                     i++) {
+                for (int i = 0; i < 27; i++) {
 
                     jumpRightTextures.add(new Texture("Sprites/Textures/ChinookJumpRight_" + (i + 1) + ".png"));
 
@@ -91,9 +85,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
 
 
-                for (int i = 0;
-                     i < 8;
-                     i++) {
+                for (int i = 0; i < 8; i++) {
 
                     winLeftTextures.add(new Texture("Sprites/Textures/ChinookWinLeft_" + (i + 1) + ".png"));
 
@@ -101,9 +93,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
 
 
-                for (int i = 0;
-                     i < 8;
-                     i++) {
+                for (int i = 0; i < 8; i++) {
 
                     winRightTextures.add(new Texture("Sprites/Textures/ChinookWinRight_" + (i + 1) + ".png"));
 
@@ -285,39 +275,27 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-
         setTexture(show.getKeyFrame(elapsedTime, true));
-
 
         super.draw(batch);
 
+        if (isWaitingStart) {
 
-        if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
+            waitTime += Gdx.graphics.getDeltaTime();
 
-            isWaitingStart = false;
+            if (waitTime > 0.05f) {
 
-            frameIndex = swim.getKeyFrameIndex(elapsedTime);
+                waitTime = 0;
 
-            elapsedTime = 0;
+                isWaitingStart = false;
 
-            if (frameIndex == 3) {
-
-                show = jumpLeft;
-
-
-            } else if (frameIndex == 16) {
-
-                show = jumpRight;
+                isWaitingJump = true;
 
 
             }
 
 
-            isWaitingJump = true;
-
-
         }
-
 
         if (isWaitingJump && jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
 

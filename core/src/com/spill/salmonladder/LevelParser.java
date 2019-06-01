@@ -133,12 +133,6 @@ public class LevelParser implements Screen {
     @Override
     public void render(float delta) {
 
-        System.out.println("Animation " + inAnimation);
-        System.out.println("Death " + inDeath);
-        System.out.println("Menu " + inMenu);
-        System.out.println("Win " + inWin);
-
-
         // BACKGROUND SET TO ALL WHITE
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(255f, 255f, 255f, 0);
@@ -177,7 +171,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            PauseTable.bringToCenter("pause");
+            PauseTable.bringToCenter(SalmonLadderConstants.MENU_TYPE_PAUSE);
 
         }
 
@@ -185,7 +179,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            DeathTable.bringToCenter("die");
+            DeathTable.bringToCenter(SalmonLadderConstants.MENU_TYPE_DEATH);
 
         }
 
@@ -193,7 +187,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            WinTable.bringToCenter("win");
+            WinTable.bringToCenter(SalmonLadderConstants.MENU_TYPE_WIN);
 
         }
 
