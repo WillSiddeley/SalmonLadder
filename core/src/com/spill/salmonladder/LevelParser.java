@@ -19,12 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class LevelParser implements Screen {
 
-    private static final String BACKGROUND_DIE = "Images/BackgroundDie.png";
-
-    private static final String BACKGROUND_PAUSE = "Images/BackgroundPause.png";
-
-    private static final String BACKGROUND_WIN = "Images/BackgroundWin.png";
-
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
     // TABLE FOR DEATH MENU
@@ -139,7 +133,7 @@ public class LevelParser implements Screen {
 
     public static void unlockNext() {
 
-        if (levelNumber != ScreenLevelSelect.LEVEL_COUNT) {
+        if (levelNumber != SalmonLadderConstants.LEVEL_COUNT) {
 
             prefStars.setStatus(levelNumber + 1, "Unlocked");
 
@@ -167,15 +161,15 @@ public class LevelParser implements Screen {
         Gdx.gl.glClearColor(255f, 255f, 255f, 0);
 
         // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
-        camera.position.set(fish.getX() + SalmonLadder.PIXEL_PER_METER / 2, fish.getY() + SalmonLadder.PIXEL_PER_METER / 2, 0);
+        camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
         camera.update();
 
-        if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadder.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
-            event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadder.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
+        if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
+            event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
             inAnimation = true;
             if (event.equals("EventBear")) {
                 for (BearSprite i : bearSprites) {
-                    if (i.getEventX() == fish.getX() / SalmonLadder.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadder.PIXEL_PER_METER) {
+                    if (i.getEventX() == fish.getX() / SalmonLadderConstants.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadderConstants.PIXEL_PER_METER) {
                         bear = i;
                         bear.animate();
 
@@ -312,10 +306,10 @@ public class LevelParser implements Screen {
         int fishSkin = 0;
 
         // CREATE NEW FISH SPRITE TO PLACE ON THE MAP
-        fish = new FishSprite(fishSkin, (TiledMapTileLayer) propertyLayer, tiledMapRenderer.getUnitScale());
+        fish = new FishSprite(fishSkin, (TiledMapTileLayer) propertyLayer);
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
-        fish.setPosition(startX * SalmonLadder.PIXEL_PER_METER, startY * SalmonLadder.PIXEL_PER_METER);
+        fish.setPosition(startX * SalmonLadderConstants.PIXEL_PER_METER, startY * SalmonLadderConstants.PIXEL_PER_METER);
 
         for (int i = 0; i < ((TiledMapTileLayer) propertyLayer).getWidth(); i++) {
             for (int j = 0; j < ((TiledMapTileLayer) propertyLayer).getHeight(); j++) {
@@ -324,7 +318,7 @@ public class LevelParser implements Screen {
                     if (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j) != null) {
                         if (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j).getTile().getProperties().get("Name", String.class).equals("Rock")) {
                             BearSprite bear = new BearSprite(i, j, false);
-                            bear.setPosition((i + 1) * SalmonLadder.PIXEL_PER_METER - 13, j * SalmonLadder.PIXEL_PER_METER + 16);
+                            bear.setPosition((i + 1) * SalmonLadderConstants.PIXEL_PER_METER - 13, j * SalmonLadderConstants.PIXEL_PER_METER + 16);
                             bearSprites.add(bear);
                             added = true;
                         }
@@ -332,7 +326,7 @@ public class LevelParser implements Screen {
                     if (!added && ((TiledMapTileLayer) propertyLayer).getCell(i - 1, j) != null) {
                         if (((TiledMapTileLayer) propertyLayer).getCell(i - 1, j).getTile().getProperties().get("Name", String.class).equals("Rock")) {
                             BearSprite bear = new BearSprite(i, j, true);
-                            bear.setPosition((i - 1) * SalmonLadder.PIXEL_PER_METER - 5, j * SalmonLadder.PIXEL_PER_METER + 16);
+                            bear.setPosition((i - 1) * SalmonLadderConstants.PIXEL_PER_METER - 5, j * SalmonLadderConstants.PIXEL_PER_METER + 16);
                             bearSprites.add(bear);
                         }
                     }
@@ -352,11 +346,11 @@ public class LevelParser implements Screen {
 
         WinTable = new PopUpMenu(2f, 1.5f);
 
-        DeathTable.setNinePatchBG(BACKGROUND_DIE);
+        DeathTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_DIE);
 
-        PauseTable.setNinePatchBG(BACKGROUND_PAUSE);
+        PauseTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_PAUSE);
 
-        WinTable.setNinePatchBG(BACKGROUND_WIN);
+        WinTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_WIN);
 
         DeathTable.createDeathMenu();
 

@@ -23,34 +23,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class PopUpMenu extends Table {
 
-    private final String IMAGE_PATH_BUTTON_LEVELS = "Images/ButtonLevels.png";
-
-    private final String IMAGE_PATH_BUTTON_MUSIC_DOWN = "Images/ButtonMusicDown.png";
-
-    private final String IMAGE_PATH_BUTTON_MUSIC_UP = "Images/ButtonMusicUp.png";
-
-    private final String IMAGE_PATH_BUTTON_NEXT_LEVEL = "Images/ButtonNextLevel.png";
-
-    private final String IMAGE_PATH_BUTTON_RESTART = "Images/ButtonRestart.png";
-
-    private final String IMAGE_PATH_BUTTON_RESUME = "Images/ButtonResume.png";
-
-    private final String IMAGE_PATH_BUTTON_SOUND_DOWN = "Images/ButtonSoundDown.png";
-
-    private final String IMAGE_PATH_BUTTON_SOUND_UP = "Images/ButtonSoundUp.png";
-
-    private final String IMAGE_PATH_STAR = "Images/ImageStar.png";
-
-    private final String IMAGE_PATH_STAR_EMPTY = "Images/ImageStarEmpty.png";
-
-    private final float PERCENTAGE_WIDTH = 0.3f;
-
-    private final float PERCENTAGE_HEIGHT = 0.25f;
-
-    private final float PERCENTAGE_WIDTH_LARGE = 0.4f;
-
-    private final float PERCENTAGE_HEIGHT_LARGE = 0.3f;
-
     private SalmonLadderSettings preferences;
 
     private float widthCenter;
@@ -137,25 +109,25 @@ public class PopUpMenu extends Table {
 
     public void createPauseMenu() {
 
-        Label pauseLabel = new Label("Game Paused!", SalmonLadder.SKIN);
+        Label pauseLabel = new Label("Game Paused!", SalmonLadderConstants.SKIN);
 
-        pauseLabel.setStyle(new Label.LabelStyle(SalmonLadder.FONT, Color.BLACK));
+        pauseLabel.setStyle(new Label.LabelStyle(SalmonLadderConstants.FONT, Color.BLACK));
 
         pauseLabel.setFontScale(1.5f);
 
-        Drawable soundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_SOUND_UP))));
+        Drawable soundUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_SOUND_UP))));
 
-        Drawable soundDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_SOUND_DOWN))));
+        Drawable soundDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_SOUND_DOWN))));
 
-        Drawable musicUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_MUSIC_UP))));
+        Drawable musicUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_MUSIC_UP))));
 
-        Drawable musicDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_MUSIC_DOWN))));
+        Drawable musicDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_MUSIC_DOWN))));
 
-        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_LEVELS))));
+        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_LEVELS))));
 
-        Drawable restart = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_RESTART))));
+        Drawable restart = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_RESTART))));
 
-        Drawable resume = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_RESUME))));
+        Drawable resume = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_RESUME))));
 
         final ImageButton buttonSound = new ImageButton(soundUp, soundUp, soundDown);
 
@@ -288,33 +260,33 @@ public class PopUpMenu extends Table {
 
         Table middleRow = new Table();
 
-        middleRow.add(buttonSound).width(Value.percentWidth(PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT_LARGE, this));
+        middleRow.add(buttonSound).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
-        middleRow.add(buttonMusic).width(Value.percentWidth(PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT_LARGE, this));
+        middleRow.add(buttonMusic).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
         this.add(middleRow).colspan(3);
 
         this.row().expand();
 
-        this.add(buttonLevels).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+        this.add(buttonLevels).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
-        this.add(buttonRestart).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+        this.add(buttonRestart).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
-        this.add(buttonResume).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+        this.add(buttonResume).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
     }
 
     public void createWinMenu(int stars) {
 
-        Label winLabel = new Label("Level Complete!", SalmonLadder.SKIN);
+        Label winLabel = new Label("Level Complete!", SalmonLadderConstants.SKIN);
 
-        winLabel.setStyle(new Label.LabelStyle(SalmonLadder.FONT, Color.BLACK));
+        winLabel.setStyle(new Label.LabelStyle(SalmonLadderConstants.FONT, Color.BLACK));
 
         winLabel.setFontScale(1.25f);
 
-        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_LEVELS))));
+        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_LEVELS))));
 
-        Drawable nextLevel = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_NEXT_LEVEL))));
+        Drawable nextLevel = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_NEXT_LEVEL))));
 
         ImageButton buttonLevels = new ImageButton(levels);
 
@@ -338,7 +310,7 @@ public class PopUpMenu extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (LevelParser.levelNumber == ScreenLevelSelect.LEVEL_COUNT) {
+                if (LevelParser.levelNumber == SalmonLadderConstants.LEVEL_COUNT) {
 
                     LevelParser.resetBooleans(false);
 
@@ -366,27 +338,27 @@ public class PopUpMenu extends Table {
         switch (stars) {
 
             case 0:
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
                 break;
 
             case 1:
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
                 break;
 
             case 2:
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
                 break;
 
             case 3:
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
-                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_STAR)))))).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+                this.add(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))))).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
                 break;
         }
 
@@ -394,9 +366,9 @@ public class PopUpMenu extends Table {
 
         Table bottomRow = new Table();
 
-        bottomRow.add(buttonLevels).width(Value.percentWidth(PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT_LARGE, this));
+        bottomRow.add(buttonLevels).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
-        bottomRow.add(buttonNextLevel).width(Value.percentWidth(PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT_LARGE, this));
+        bottomRow.add(buttonNextLevel).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH_LARGE, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT_LARGE, this));
 
         this.add(bottomRow).colspan(3);
 
@@ -404,15 +376,15 @@ public class PopUpMenu extends Table {
 
     public void createDeathMenu() {
 
-        Label deathLabel = new Label("Game Over!", SalmonLadder.SKIN);
+        Label deathLabel = new Label("Game Over!", SalmonLadderConstants.SKIN);
 
-        deathLabel.setStyle(new Label.LabelStyle(SalmonLadder.FONT, Color.BLACK));
+        deathLabel.setStyle(new Label.LabelStyle(SalmonLadderConstants.FONT, Color.BLACK));
 
         deathLabel.setFontScale(1.25f);
 
-        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_LEVELS))));
+        Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_LEVELS))));
 
-        Drawable restart = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_RESTART))));
+        Drawable restart = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_RESTART))));
 
         ImageButton buttonLevels = new ImageButton(levels);
 
@@ -450,9 +422,9 @@ public class PopUpMenu extends Table {
 
         this.row().expand().center();
 
-        this.add(buttonLevels).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+        this.add(buttonLevels).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
-        this.add(buttonRestart).width(Value.percentWidth(PERCENTAGE_WIDTH, this)).height(Value.percentHeight(PERCENTAGE_HEIGHT, this));
+        this.add(buttonRestart).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
     }
 

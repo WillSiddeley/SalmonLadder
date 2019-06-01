@@ -4,23 +4,21 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SalmonLadder extends Game implements ApplicationListener {
 
-    public static final float PIXEL_PER_METER = 32f;
-
-    public static Skin SKIN;
-
-    public static BitmapFont FONT;
+    /* Todo:
+        1) Optimize code
+        2) Add fisherman
+        3) Update textures
+        4) Add sounds
+        5) Add music
+        6) Create an app icon
+        7) Create levels
+    */
 
     @Override
     public void create() {
-
-        SKIN = new Skin(Gdx.files.internal("Skins/uiskin.json"));
-
-        FONT = new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt"));
 
         this.setScreen(new ScreenStart());
 

@@ -26,18 +26,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class ScreenLevelSelect implements Screen {
 
-    // VARIABLES TO CONTROL ROWS
-    private static final int ROWS = 7;
-
-    // VARIABLES TO CONTROL COLUMNS
-    private static final int COLUMNS = 4;
-
-    // VARIABLES TO CONTROL PAGES
-    private static final int PAGES = 1;
-
-    // VARIABLES TO CONTROL TOTAL LEVEL NUMBER
-    public static final int LEVEL_COUNT = (ROWS * COLUMNS) * PAGES;
-
     // VARIABLE TO ACCESS PREFERENCES
     private SalmonLadderStars starPref;
 
@@ -91,7 +79,7 @@ public class ScreenLevelSelect implements Screen {
         Gdx.input.setCatchBackKey(true);
 
         // GET THE SKIN TEXTURES FOR THE BUTTON
-        skin = SalmonLadder.SKIN;
+        skin = SalmonLadderConstants.SKIN;
         skin.add("top", skin.newDrawable("default-round", Color.RED), Drawable.class);
         skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
         skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
@@ -117,19 +105,19 @@ public class ScreenLevelSelect implements Screen {
 
         // MAKE THE PAGES WITH THE BUTTONS TO SELECT LEVELS
 
-        for (int i = 0; i < PAGES; i++) {
+        for (int i = 0; i < SalmonLadderConstants.PAGES; i++) {
 
             Table Levels = new Table().pad(25);
 
             Levels.defaults().pad(20, 40, 20, 40);
 
-            for (int y = 0; y < ROWS; y++) {
+            for (int y = 0; y < SalmonLadderConstants.ROWS; y++) {
 
                 Levels.row();
 
-                for (int x = 0; x < COLUMNS; x++) {
+                for (int x = 0; x < SalmonLadderConstants.COLUMNS; x++) {
 
-                    Levels.add(getLevelButton(levelLabel++)).width(Gdx.graphics.getWidth() / (COLUMNS * 2f)).height(Gdx.graphics.getHeight() / (ROWS * 1.5f)).fill();
+                    Levels.add(getLevelButton(levelLabel++)).width(Gdx.graphics.getWidth() / (SalmonLadderConstants.COLUMNS * 2f)).height(Gdx.graphics.getHeight() / (SalmonLadderConstants.ROWS * 1.5f)).fill();
 
                 }
 

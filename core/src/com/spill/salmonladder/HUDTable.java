@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class HUDTable extends Table {
 
-    private final String IMAGE_PATH_BUTTON_PAUSE = "Images/ButtonPause.png";
-
     private static Label movesLabel;
 
     private static int moves;
@@ -51,7 +49,7 @@ public class HUDTable extends Table {
 
         this.pad(50, 50, 50, 50);
 
-        movesLabel = createMovesLabel(SalmonLadder.SKIN);
+        movesLabel = createMovesLabel(SalmonLadderConstants.SKIN);
 
         ImageButton pauseButton = createPauseButton();
 
@@ -81,7 +79,7 @@ public class HUDTable extends Table {
 
         Label label = new Label("Moves: " + moves, skin);
 
-        label.setStyle(new Label.LabelStyle(SalmonLadder.FONT, Color.BLACK));
+        label.setStyle(new Label.LabelStyle(SalmonLadderConstants.FONT, Color.BLACK));
 
         label.setFontScale(1.5f);
 
@@ -91,7 +89,7 @@ public class HUDTable extends Table {
 
     private ImageButton createPauseButton() {
 
-        Drawable gearUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(IMAGE_PATH_BUTTON_PAUSE))));
+        Drawable gearUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_PAUSE))));
 
         ImageButton button = new ImageButton(gearUp);
 
