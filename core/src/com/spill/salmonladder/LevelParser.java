@@ -1,4 +1,4 @@
-package com.spill.salmonladder.Scenes;
+package com.spill.salmonladder;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,41 +16,44 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.spill.salmonladder.BearSprite;
-import com.spill.salmonladder.FishSprite;
-import com.spill.salmonladder.SalmonLadder;
-import com.spill.salmonladder.SalmonLadderStars;
 
 public class LevelParser implements Screen {
 
+    private static final String BACKGROUND_DIE = "Images/BackgroundDie.png";
+
+    private static final String BACKGROUND_PAUSE = "Images/BackgroundPause.png";
+
+    private static final String BACKGROUND_WIN = "Images/BackgroundWin.png";
+
     // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
     private TiledMap tiledMap;
-    private MapLayer propertyLayer;
-
-    private Array<BearSprite> bearSprites = new Array<BearSprite>();
-    private BearSprite bear;
+    // TABLE FOR DEATH MENU
+    public static PopUpMenu DeathTable;
+    // BOOLEAN FOR LOCKING WHEN IN DEATH
+    public static boolean inDeath = false;
+    // PREFERENCES FOR STAR SAVING
+    private static SalmonLadderStars prefStars;
 
     // TABLE FOR PAUSE MENU
     public static PopUpMenu PauseTable;
 
     // TABLE FOR WIN MENU
     public static PopUpMenu WinTable;
+    // MAP LAYER TO CALCULATE PROPERTIES
+    private MapLayer propertyLayer;
 
     // BOOLEANS FOR LOCKING WHEN IN ANIMATION
     public static boolean inAnimation = false;
 
     // BOOLEANS FOR LOCKING WHEN IN MENU
     public static boolean inMenu = false;
-
-    // BOOLEANS FOR LOCKING SCREEN
-    public static boolean screenLock = false;
+    // BEAR SPRITE
+    private BearSprite bear;
 
     // BOOLEANS FOR LOCKING WHEN IN WIN
     public static boolean inWin = false;
-
-    private boolean isBearAnimation = false;
-
-    private static SalmonLadderStars prefStars;
+    // BEAR TEXTURE ANIMATION
+    private Array<BearSprite> bearSprites = new Array<BearSprite>();
 
     // CREATE A NEW CAMERA
     private OrthographicCamera camera;
@@ -72,7 +75,7 @@ public class LevelParser implements Screen {
 
     // LEVEL NUMBER THAT IS PARSED IN
     static int levelNumber;
-
+    // STRING FOR CONTROLLING EVENTS
     private String event;
 
     // DEFAULT CONSTRUCTOR
@@ -136,7 +139,7 @@ public class LevelParser implements Screen {
 
     public static void unlockNext() {
 
-        if (levelNumber != ScreenLevelSelect.levelCount) {
+        if (levelNumber != ScreenLevelSelect.LEVEL_COUNT) {
 
             prefStars.setStatus(levelNumber + 1, "Unlocked");
 
@@ -150,9 +153,9 @@ public class LevelParser implements Screen {
 
         inMenu = reset;
 
-        inWin = reset;
+        inDeath = reset;
 
-        screenLock = reset;
+        inWin = reset;
 
     }
 
@@ -170,24 +173,14 @@ public class LevelParser implements Screen {
         if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadder.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
             event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadder.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadder.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
             inAnimation = true;
-            if (event.equals("EventBear") && !isBearAnimation) {
+            if (event.equals("EventBear")) {
                 for (BearSprite i : bearSprites) {
                     if (i.getEventX() == fish.getX() / SalmonLadder.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadder.PIXEL_PER_METER) {
                         bear = i;
                         bear.animate();
-                        isBearAnimation = true;
+
                     }
                 }
-            }
-        }
-
-        if (isBearAnimation) {
-            if (bear.isDoneAnimation()) {
-                while (1 > 0) {
-
-                }
-
-                //DEATH MENU METHOD HERE
             }
         }
 
@@ -215,11 +208,44 @@ public class LevelParser implements Screen {
 
             Gdx.gl.glDisable(GL20.GL_BLEND);
 
+            PauseTable.bringToCenter(0.3f, "pause");
+
+        }
+
+        if (inDeath) {
+
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            dimmer.begin(ShapeRenderer.ShapeType.Filled);
+            dimmer.setColor(0, 0, 0, 0.75f);
+            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            dimmer.end();
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+
+            DeathTable.bringToCenter(0.3f, "die");
+
+        }
+
+        if (inWin) {
+
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            dimmer.begin(ShapeRenderer.ShapeType.Filled);
+            dimmer.setColor(0, 0, 0, 0.75f);
+            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            dimmer.end();
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+
+            WinTable.bringToCenter(0.3f, "win");
+
         }
 
         stage.act();
         stage.draw();
-
 
     }
 
@@ -320,17 +346,25 @@ public class LevelParser implements Screen {
 
         HudTable = new HUDTable(0);
 
-        PauseTable = new PopUpMenu(2f, 1.5f, "up");
+        DeathTable = new PopUpMenu(2f, 1.5f);
 
-        WinTable = new PopUpMenu(2f, 1.5f, "up");
+        PauseTable = new PopUpMenu(2f, 1.5f);
 
-        PauseTable.setNinePatchBG("Images/PauseMenuBackground.png");
+        WinTable = new PopUpMenu(2f, 1.5f);
 
-        WinTable.setNinePatchBG("Images/WinMenuBackground.png");
+        DeathTable.setNinePatchBG(BACKGROUND_DIE);
+
+        PauseTable.setNinePatchBG(BACKGROUND_PAUSE);
+
+        WinTable.setNinePatchBG(BACKGROUND_WIN);
+
+        DeathTable.createDeathMenu();
 
         PauseTable.createPauseMenu();
 
         stage.addActor(HudTable);
+
+        stage.addActor(DeathTable);
 
         stage.addActor(PauseTable);
 

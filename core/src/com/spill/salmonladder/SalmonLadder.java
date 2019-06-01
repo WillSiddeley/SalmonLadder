@@ -4,15 +4,23 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.spill.salmonladder.Scenes.ScreenStart;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SalmonLadder extends Game implements ApplicationListener {
 
-    // THIS IS THE NUMBER OF PIXELS PER TILE / SPRITES
     public static final float PIXEL_PER_METER = 32f;
+
+    public static Skin SKIN;
+
+    public static BitmapFont FONT;
 
     @Override
     public void create() {
+
+        SKIN = new Skin(Gdx.files.internal("Skins/uiskin.json"));
+
+        FONT = new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt"));
 
         this.setScreen(new ScreenStart());
 

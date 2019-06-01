@@ -10,8 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.spill.salmonladder.Scenes.HUDTable;
-import com.spill.salmonladder.Scenes.LevelParser;
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
@@ -202,19 +200,14 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         }
 
         if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
+
             isWaitingWinDone = false;
-
-            LevelParser.inWin = true;
-
-            int stars = LevelParser.awardStars();
 
             LevelParser.unlockNext();
 
-            System.out.println("Awarding " + stars + " Stars");
+            LevelParser.WinTable.createWinMenu(LevelParser.awardStars());
 
-            LevelParser.WinTable.createWinMenu(stars);
-
-            LevelParser.WinTable.bringToCenter(0.3f);
+            LevelParser.inWin = true;
 
         }
     }
@@ -313,7 +306,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if (!LevelParser.inAnimation && !LevelParser.screenLock && getX() % 32 == 0 && getY() % 32 == 0) {
+        if (canMove() && getX() % 32 == 0 && getY() % 32 == 0) {
 
             LevelParser.inAnimation = true;
 
@@ -414,6 +407,12 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     @Override
     public void pinchStop() {
+
+    }
+
+    public boolean canMove() {
+
+        return !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin;
 
     }
 

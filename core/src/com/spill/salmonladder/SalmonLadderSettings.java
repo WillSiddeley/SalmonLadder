@@ -3,7 +3,7 @@ package com.spill.salmonladder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-public class SalmonLadderPreferences {
+public class SalmonLadderSettings {
 
     private static final String SETTINGS_FILE = "Settings";
     private static final String SOUND = "Sound";
@@ -11,7 +11,7 @@ public class SalmonLadderPreferences {
 
     private Preferences preferences;
 
-    public SalmonLadderPreferences() {
+    public SalmonLadderSettings() {
 
     }
 

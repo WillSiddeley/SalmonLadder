@@ -1,4 +1,4 @@
-package com.spill.salmonladder.Scenes;
+package com.spill.salmonladder;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -26,6 +26,12 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class ScreenStart implements Screen, GestureDetector.GestureListener {
+
+    // VARIABLE TO CONTROL IMAGE PATH
+    private final String IMAGE_PATH_TITLE = "Images/StartScreenTitle.png";
+
+    // VARIABLE TO CONTROL IMAGE PATH
+    private final String IMAGE_PATHH_SPLASH = "Images/StartScreenSplash.png";
 
     // ADD THE CAMERA
     private OrthographicCamera camera;
@@ -59,8 +65,8 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         camera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
 
         // SET THE IMAGE TO A TEXTURE
-        textureTitle = new Texture("Images/StartScreenTitle.png");
-        textureSplash = new Texture("Images/StartScreenSplash.png");
+        textureTitle = new Texture(Gdx.files.internal(IMAGE_PATH_TITLE));
+        textureSplash = new Texture(Gdx.files.internal(IMAGE_PATHH_SPLASH));
 
         // INSTANTIATE IMAGE
         Image imageTitle = new Image();

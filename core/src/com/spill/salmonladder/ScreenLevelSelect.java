@@ -1,4 +1,4 @@
-package com.spill.salmonladder.Scenes;
+package com.spill.salmonladder;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.spill.salmonladder.SalmonLadderStars;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
@@ -28,16 +27,16 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class ScreenLevelSelect implements Screen {
 
     // VARIABLES TO CONTROL ROWS
-    private static final int rows = 7;
+    private static final int ROWS = 7;
 
     // VARIABLES TO CONTROL COLUMNS
-    private static final int columns = 4;
+    private static final int COLUMNS = 4;
 
     // VARIABLES TO CONTROL PAGES
-    private static final int pages = 1;
+    private static final int PAGES = 1;
 
     // VARIABLES TO CONTROL TOTAL LEVEL NUMBER
-    public static final int levelCount = (rows * columns) * pages;
+    public static final int LEVEL_COUNT = (ROWS * COLUMNS) * PAGES;
 
     // VARIABLE TO ACCESS PREFERENCES
     private SalmonLadderStars starPref;
@@ -92,7 +91,7 @@ public class ScreenLevelSelect implements Screen {
         Gdx.input.setCatchBackKey(true);
 
         // GET THE SKIN TEXTURES FOR THE BUTTON
-        skin = new Skin(Gdx.files.internal("Skins/uiskin.json"));
+        skin = SalmonLadder.SKIN;
         skin.add("top", skin.newDrawable("default-round", Color.RED), Drawable.class);
         skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
         skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
@@ -118,19 +117,19 @@ public class ScreenLevelSelect implements Screen {
 
         // MAKE THE PAGES WITH THE BUTTONS TO SELECT LEVELS
 
-        for (int i = 0; i < pages; i++) {
+        for (int i = 0; i < PAGES; i++) {
 
             Table Levels = new Table().pad(25);
 
             Levels.defaults().pad(20, 40, 20, 40);
 
-            for (int y = 0; y < rows; y++) {
+            for (int y = 0; y < ROWS; y++) {
 
                 Levels.row();
 
-                for (int x = 0; x < columns; x++) {
+                for (int x = 0; x < COLUMNS; x++) {
 
-                    Levels.add(getLevelButton(levelLabel++)).width(Gdx.graphics.getWidth() / (columns * 2f)).height(Gdx.graphics.getHeight() / (rows * 1.5f)).fill();
+                    Levels.add(getLevelButton(levelLabel++)).width(Gdx.graphics.getWidth() / (COLUMNS * 2f)).height(Gdx.graphics.getHeight() / (ROWS * 1.5f)).fill();
 
                 }
 

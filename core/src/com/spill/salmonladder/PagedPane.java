@@ -1,4 +1,4 @@
-package com.spill.salmonladder.Scenes;
+package com.spill.salmonladder;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
