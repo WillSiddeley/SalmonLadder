@@ -17,7 +17,6 @@ public class BearSprite extends Sprite {
 
     private boolean inAnimation, isDoneAnimation;
 
-
     private Animation<Texture> kill;
 
     private Array<Texture> killTextures = new Array<Texture>(3);

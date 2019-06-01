@@ -43,6 +43,8 @@ public class LevelParser implements Screen {
 
     private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
 
+    private Array<bobberSprite> bobberSprites = new Array<bobberSprite>();
+
     private ShapeRenderer DimRectangle;
 
     private Stage stage;
@@ -143,8 +145,8 @@ public class LevelParser implements Screen {
 
         if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
             event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
-            inAnimation = true;
             if (event.equals("EventBear")) {
+                inAnimation = true;
                 for (BearSprite i : bearSprites) {
                     if (i.getEventX() == fish.getX() / SalmonLadderConstants.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadderConstants.PIXEL_PER_METER) {
                         bear = i;
@@ -284,9 +286,17 @@ public class LevelParser implements Screen {
                         }
                     }
                 } else if (((TiledMapTileLayer) propertyLayer).getCell(i, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-
+                    Array<EventFisher> arr = new Array<EventFisher>();
+                    arr = bobberPath(arr, i, j);
+                    eventFishers.add(arr);
                 }
             }
+        }
+
+        for (int i = 0; i < eventFishers.size; i++) {
+            bobberSprite bobber = new bobberSprite(eventFishers.get(i));
+            bobber.setPosition(bobber.getEventX(0) * SalmonLadderConstants.PIXEL_PER_METER + 13, bobber.getEventY(0) * SalmonLadderConstants.PIXEL_PER_METER + 11);
+            bobberSprites.add(bobber);
         }
 
         stage = new Stage(new FitViewport(1080, 1920));
@@ -339,4 +349,37 @@ public class LevelParser implements Screen {
 
     }
 
+    private Array<EventFisher> bobberPath(Array<EventFisher> arr, int i, int j) {
+        boolean added = false;
+        ((TiledMapTileLayer) propertyLayer).getCell(i, j).getTile().getProperties().put("Name", "");
+        if (((TiledMapTileLayer) propertyLayer).getCell(i - 1, j) != null) {
+            if (((TiledMapTileLayer) propertyLayer).getCell(i - 1, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
+                arr = bobberPath(arr, i - 1, j);
+                added = true;
+            }
+        }
+
+        if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j) != null)) {
+            if (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
+                arr = bobberPath(arr, i + 1, j);
+                added = true;
+            }
+        }
+
+        if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i, j - 1) != null)) {
+            if (((TiledMapTileLayer) propertyLayer).getCell(i, j - 1).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
+                arr = bobberPath(arr, i, j - 1);
+                added = true;
+            }
+        }
+
+        if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1) != null)) {
+            if (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
+                arr = bobberPath(arr, i, j + 1);
+            }
+        }
+
+        arr.add(new EventFisher(i, j));
+        return arr;
+    }
 }
