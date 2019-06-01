@@ -21,7 +21,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class PopUpMenu extends Table {
+public class Menu extends Table {
 
     private SalmonLadderSettings preferences;
 
@@ -29,7 +29,7 @@ public class PopUpMenu extends Table {
 
     private float heightCenter;
 
-    public PopUpMenu(float heightModifier, float widthModifier) {
+    public Menu(float heightModifier, float widthModifier) {
 
         preferences = new SalmonLadderSettings();
 

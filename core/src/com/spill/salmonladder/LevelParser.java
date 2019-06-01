@@ -19,57 +19,32 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class LevelParser implements Screen {
 
-    // CREATE A TILED MAP VARIABLE THAT IS USED TO GENERATE THE LEVEL'S GRAPHICS
-    private TiledMap tiledMap;
-    // TABLE FOR DEATH MENU
-    public static PopUpMenu DeathTable;
-    // BOOLEAN FOR LOCKING WHEN IN DEATH
-    public static boolean inDeath = false;
-    // PREFERENCES FOR STAR SAVING
     private static SalmonLadderStars prefStars;
 
-    // TABLE FOR PAUSE MENU
-    public static PopUpMenu PauseTable;
+    static HUDTable HudTable;
+    static MenuDeath DeathTable;
+    static MenuPause PauseTable;
 
-    // TABLE FOR WIN MENU
-    public static PopUpMenu WinTable;
-    // MAP LAYER TO CALCULATE PROPERTIES
     private MapLayer propertyLayer;
-
-    // BOOLEANS FOR LOCKING WHEN IN ANIMATION
-    public static boolean inAnimation = false;
-
-    // BOOLEANS FOR LOCKING WHEN IN MENU
-    public static boolean inMenu = false;
-    // BEAR SPRITE
-    private BearSprite bear;
-
-    // BOOLEANS FOR LOCKING WHEN IN WIN
-    public static boolean inWin = false;
-    // BEAR TEXTURE ANIMATION
-    private Array<BearSprite> bearSprites = new Array<BearSprite>();
-
-    // CREATE A NEW CAMERA
-    private OrthographicCamera camera;
-
-    // RECTANGLE FOR DIMMING
-    private ShapeRenderer dimmer;
-
-    // CREATE A TILED MAP RENDERER THAT RENDERS THE MAP
+    static MenuWin WinTable;
+    static boolean inAnimation = false;
+    static boolean inDeath = false;
+    static boolean inMenu = false;
+    static boolean inWin = false;
+    static int levelNumber;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-
-    // STAGE FOR THE HUD
-    private Stage stage;
-
-    // TABLE FOR HUD
-    private static HUDTable HudTable;
-
-    // CREATE A FISH SPRITE
+    private OrthographicCamera camera;
+    private TiledMap tiledMap;
     private FishSprite fish;
 
-    // LEVEL NUMBER THAT IS PARSED IN
-    static int levelNumber;
-    // STRING FOR CONTROLLING EVENTS
+    private BearSprite bear;
+
+    private Array<BearSprite> bearSprites = new Array<BearSprite>();
+
+    private ShapeRenderer DimRectangle;
+
+    private Stage stage;
+
     private String event;
 
     // DEFAULT CONSTRUCTOR
@@ -192,15 +167,7 @@ public class LevelParser implements Screen {
 
         if (inMenu) {
 
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-            dimmer.begin(ShapeRenderer.ShapeType.Filled);
-            dimmer.setColor(0, 0, 0, 0.75f);
-            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            dimmer.end();
-
-            Gdx.gl.glDisable(GL20.GL_BLEND);
+            dimRectangle();
 
             PauseTable.bringToCenter(0.3f, "pause");
 
@@ -208,15 +175,7 @@ public class LevelParser implements Screen {
 
         if (inDeath) {
 
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-            dimmer.begin(ShapeRenderer.ShapeType.Filled);
-            dimmer.setColor(0, 0, 0, 0.75f);
-            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            dimmer.end();
-
-            Gdx.gl.glDisable(GL20.GL_BLEND);
+            dimRectangle();
 
             DeathTable.bringToCenter(0.3f, "die");
 
@@ -224,15 +183,7 @@ public class LevelParser implements Screen {
 
         if (inWin) {
 
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-            dimmer.begin(ShapeRenderer.ShapeType.Filled);
-            dimmer.setColor(0, 0, 0, 0.75f);
-            dimmer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            dimmer.end();
-
-            Gdx.gl.glDisable(GL20.GL_BLEND);
+            dimRectangle();
 
             WinTable.bringToCenter(0.3f, "win");
 
@@ -336,25 +287,21 @@ public class LevelParser implements Screen {
 
         stage = new Stage(new FitViewport(1080, 1920));
 
-        dimmer = new ShapeRenderer();
+        DimRectangle = new ShapeRenderer();
 
         HudTable = new HUDTable(0);
 
-        DeathTable = new PopUpMenu(2f, 1.5f);
+        DeathTable = new MenuDeath(2f, 1.5f);
 
-        PauseTable = new PopUpMenu(2f, 1.5f);
+        PauseTable = new MenuPause(2f, 1.5f);
 
-        WinTable = new PopUpMenu(2f, 1.5f);
+        WinTable = new MenuWin(2f, 1.5f);
 
         DeathTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_DIE);
 
         PauseTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_PAUSE);
 
         WinTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_WIN);
-
-        DeathTable.createDeathMenu();
-
-        PauseTable.createPauseMenu();
 
         stage.addActor(HudTable);
 
@@ -371,6 +318,20 @@ public class LevelParser implements Screen {
         multiplexer.addProcessor(new GestureDetector(fish));
 
         multiplexer.addProcessor(stage);
+
+    }
+
+    private void dimRectangle() {
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        DimRectangle.begin(ShapeRenderer.ShapeType.Filled);
+        DimRectangle.setColor(0, 0, 0, 0.75f);
+        DimRectangle.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        DimRectangle.end();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
     }
 
