@@ -18,6 +18,12 @@ public class SalmonLadderConstants {
 
     static final float ANIMATION_DURATION = 0.3f;
 
+    static final String MENU_TYPE_DEATH = "Death";
+
+    static final String MENU_TYPE_PAUSE = "Pause";
+
+    static final String MENU_TYPE_WIN = "Win";
+
     static final String BACKGROUND_DIE = "Images/BackgroundDie.png";
 
     static final String BACKGROUND_PAUSE = "Images/BackgroundPause.png";

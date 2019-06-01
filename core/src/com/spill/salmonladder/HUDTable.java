@@ -13,33 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class HUDTable extends Table {
-
-    private static Label movesLabel;
+class HUDTable extends Table {
 
     private static int moves;
 
-    // ADD THE CLICK LISTENER FOR PAUSING
-    private ClickListener pauseClickListener = new ClickListener() {
-
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-
-            if (!LevelParser.inAnimation && !LevelParser.inWin && !LevelParser.inDeath) {
-
-                if (LevelParser.PauseTable.isVisible()) {
-
-                    LevelParser.PauseTable.bringUp(0.3f, "pause");
-
-
-                } else {
-
-                    LevelParser.inMenu = true;
-
-                }
-            }
-        }
-    };
+    private static Label movesLabel;
 
     HUDTable(int moves) {
 
@@ -61,13 +39,13 @@ public class HUDTable extends Table {
 
     }
 
-    public static int getMoves() {
+    static int getMoves() {
 
         return moves;
 
     }
 
-    public static void setMoves(int newMoves) {
+    static void setMoves(int newMoves) {
 
         movesLabel.setText("Moves: " + newMoves);
 
@@ -93,7 +71,19 @@ public class HUDTable extends Table {
 
         ImageButton button = new ImageButton(gearUp);
 
-        button.addListener(pauseClickListener);
+        button.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (!LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin) {
+
+                    LevelParser.inMenu = true;
+
+                }
+            }
+
+        });
 
         return button;
 
