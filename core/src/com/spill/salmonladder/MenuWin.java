@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 class MenuWin extends Menu {
 
     private Image Star1 = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))));
+
     private Image Star2 = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))));
+
     private Image Star3 = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR_EMPTY)))));
 
     MenuWin(float heightModifier, float widthModifier, String ninePatchBG) {
@@ -83,7 +85,9 @@ class MenuWin extends Menu {
         this.row().expand().center();
 
         this.add(Star1).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+
         this.add(Star2).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
+
         this.add(Star3).width(Value.percentWidth(SalmonLadderConstants.PERCENTAGE_WIDTH, this)).height(Value.percentHeight(SalmonLadderConstants.PERCENTAGE_HEIGHT, this));
 
         this.row().expand().center();
@@ -103,21 +107,30 @@ class MenuWin extends Menu {
         switch (stars) {
 
             case 1:
+
                 Star1.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
                 break;
 
             case 2:
+
                 Star1.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
+
                 Star2.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
+
                 break;
 
             case 3:
+
                 Star1.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
+
                 Star2.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
+
                 Star3.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_STAR)))));
+
                 break;
 
             default:
+
                 break;
 
         }

@@ -161,7 +161,7 @@ class MenuPause extends Menu {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                LevelParser.PauseTable.bringUp(0.3f, "pause");
+                LevelParser.PauseTable.bringUp(SalmonLadderConstants.MENU_TYPE_PAUSE);
 
             }
 

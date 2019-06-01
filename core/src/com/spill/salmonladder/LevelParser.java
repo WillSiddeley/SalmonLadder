@@ -133,6 +133,12 @@ public class LevelParser implements Screen {
     @Override
     public void render(float delta) {
 
+        System.out.println("Animation " + inAnimation);
+        System.out.println("Death " + inDeath);
+        System.out.println("Menu " + inMenu);
+        System.out.println("Win " + inWin);
+
+
         // BACKGROUND SET TO ALL WHITE
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(255f, 255f, 255f, 0);
@@ -143,8 +149,8 @@ public class LevelParser implements Screen {
 
         if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
             event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
-            inAnimation = true;
             if (event.equals("EventBear")) {
+                inAnimation = true;
                 for (BearSprite i : bearSprites) {
                     if (i.getEventX() == fish.getX() / SalmonLadderConstants.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadderConstants.PIXEL_PER_METER) {
                         bear = i;
@@ -171,7 +177,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            PauseTable.bringToCenter(0.3f, "pause");
+            PauseTable.bringToCenter("pause");
 
         }
 
@@ -179,7 +185,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            DeathTable.bringToCenter(0.3f, "die");
+            DeathTable.bringToCenter("die");
 
         }
 
@@ -187,7 +193,7 @@ public class LevelParser implements Screen {
 
             dimRectangle();
 
-            WinTable.bringToCenter(0.3f, "win");
+            WinTable.bringToCenter("win");
 
         }
 

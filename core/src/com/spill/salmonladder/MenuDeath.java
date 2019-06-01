@@ -23,7 +23,7 @@ class MenuDeath extends Menu {
 
         deathLabel.setStyle(new Label.LabelStyle(SalmonLadderConstants.FONT, Color.BLACK));
 
-        deathLabel.setFontScale(1.25f);
+        deathLabel.setFontScale(1.5f);
 
         Drawable levels = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_BUTTON_LEVELS))));
 

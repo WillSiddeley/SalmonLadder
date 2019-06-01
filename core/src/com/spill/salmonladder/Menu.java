@@ -7,10 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class Menu extends Table {
+class Menu extends Table {
 
     private SalmonLadderSettings preferences;
 
@@ -18,9 +16,7 @@ public class Menu extends Table {
 
     private float heightCenter;
 
-    public Menu(float heightModifier, float widthModifier, String ninePatchBG) {
-
-        this.setVisible(false);
+    Menu(float heightModifier, float widthModifier, String ninePatchBG) {
 
         this.setWidth(Gdx.graphics.getWidth() / widthModifier);
 
@@ -46,19 +42,17 @@ public class Menu extends Table {
 
     }
 
-    void bringToCenter(float duration, String menu) {
+    void bringToCenter(String menu) {
 
-        this.setVisible(true);
-
-        if (menu.equals("Death")) {
+        if (menu.equals(SalmonLadderConstants.MENU_TYPE_DEATH)) {
 
             LevelParser.inDeath = true;
 
-        } else if (menu.equals("Pause")) {
+        } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_PAUSE)) {
 
             LevelParser.inMenu = true;
 
-        } else if (menu.equals("Win")) {
+        } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_WIN)) {
 
             LevelParser.inWin = true;
 
@@ -68,21 +62,21 @@ public class Menu extends Table {
 
         }
 
-        this.addAction(moveTo(widthCenter, heightCenter, duration));
+        this.addAction(moveTo(widthCenter, heightCenter, SalmonLadderConstants.ANIMATION_DURATION));
 
     }
 
-    void bringUp(float duration, String menu) {
+    void bringUp(String menu) {
 
-        if (menu.equals("Death")) {
+        if (menu.equals(SalmonLadderConstants.MENU_TYPE_DEATH)) {
 
             LevelParser.inDeath = false;
 
-        } else if (menu.equals("Pause")) {
+        } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_PAUSE)) {
 
             LevelParser.inMenu = false;
 
-        } else if (menu.equals("Win")) {
+        } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_WIN)) {
 
             LevelParser.inWin = false;
 
@@ -92,14 +86,7 @@ public class Menu extends Table {
 
         }
 
-        this.addAction(sequence(moveTo(widthCenter, Gdx.graphics.getHeight() * 2f, duration), run(new Runnable() {
-            @Override
-            public void run() {
-
-                setVisible(false);
-
-            }
-        })));
+        this.addAction(moveTo(widthCenter, Gdx.graphics.getHeight() * 2f, SalmonLadderConstants.ANIMATION_DURATION));
 
     }
 
