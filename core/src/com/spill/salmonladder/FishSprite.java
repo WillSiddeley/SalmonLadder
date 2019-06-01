@@ -306,7 +306,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if (canMove() && getX() % 32 == 0 && getY() % 32 == 0) {
+        if (canMove()) {
 
             LevelParser.inAnimation = true;
 
@@ -412,7 +412,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     public boolean canMove() {
 
-        return !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin;
+        return !LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin && getX() % 32 == 0 && getY() % 32 == 0;
 
     }
 
