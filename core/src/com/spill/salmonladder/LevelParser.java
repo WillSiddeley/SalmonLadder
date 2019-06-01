@@ -41,6 +41,8 @@ public class LevelParser implements Screen {
 
     private Array<BearSprite> bearSprites = new Array<BearSprite>();
 
+    private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
+
     private ShapeRenderer DimRectangle;
 
     private Stage stage;
@@ -281,6 +283,8 @@ public class LevelParser implements Screen {
                             bearSprites.add(bear);
                         }
                     }
+                } else if (((TiledMapTileLayer) propertyLayer).getCell(i, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
+
                 }
             }
         }
