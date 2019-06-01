@@ -18,9 +18,9 @@ class MenuPause extends Menu {
 
     private SalmonLadderSettings preferences;
 
-    MenuPause(float heightModifier, float widthModifier) {
+    MenuPause(float heightModifier, float widthModifier, String ninePatchBG) {
 
-        super(heightModifier, widthModifier);
+        super(heightModifier, widthModifier, ninePatchBG);
 
         preferences = new SalmonLadderSettings();
 

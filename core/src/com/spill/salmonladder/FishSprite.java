@@ -58,7 +58,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
 
 
-        switch(skin){
+        switch (skin) {
 
             case 0:
                 for (int i = 0;
@@ -147,7 +147,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
-    private void init(){
+    private void init() {
 
         movement[0] = new Timer.Task() {
 
@@ -405,7 +405,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
             LevelParser.unlockNext();
 
 
-            LevelParser.WinTable.createWinMenu(LevelParser.awardStars());
+            LevelParser.WinTable.updateStarDrawable(LevelParser.awardStars());
 
 
             LevelParser.inWin = true;
@@ -450,7 +450,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
-    private boolean CheckCollisionOut(){
+    private boolean CheckCollisionOut() {
 
 
         if (orientation == 0) {
@@ -511,7 +511,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
-    private String nextTile(){
+    private String nextTile() {
 
 
         if (orientation == 0) {
@@ -660,7 +660,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 }
 
 
-                if(nextTile().substring(0, 5).equals("Event")){
+                if (nextTile().substring(0, 5).equals("Event")) {
 
                     event = nextTile();
 

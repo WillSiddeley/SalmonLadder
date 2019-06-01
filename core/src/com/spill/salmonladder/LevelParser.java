@@ -291,17 +291,11 @@ public class LevelParser implements Screen {
 
         HudTable = new HUDTable(0);
 
-        DeathTable = new MenuDeath(2f, 1.5f);
+        DeathTable = new MenuDeath(2f, 1.5f, SalmonLadderConstants.BACKGROUND_DIE);
 
-        PauseTable = new MenuPause(2f, 1.5f);
+        PauseTable = new MenuPause(2f, 1.5f, SalmonLadderConstants.BACKGROUND_PAUSE);
 
-        WinTable = new MenuWin(2f, 1.5f);
-
-        DeathTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_DIE);
-
-        PauseTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_PAUSE);
-
-        WinTable.setNinePatchBG(SalmonLadderConstants.BACKGROUND_WIN);
+        WinTable = new MenuWin(2f, 1.5f, SalmonLadderConstants.BACKGROUND_WIN);
 
         stage.addActor(HudTable);
 
