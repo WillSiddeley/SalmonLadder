@@ -28,7 +28,7 @@ class MenuTutorial extends Menu {
 
             this.createTutorial("A Wild Enemy Appears!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_BEAR);
 
-        }
+        } else if (type.equals(""))
 
         this.addListener(new ClickListener() {
 
