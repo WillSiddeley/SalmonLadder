@@ -55,6 +55,12 @@ class MenuTutorial extends Menu {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
+
                 LevelParser.TutorialTable.bringUp(SalmonLadderConstants.MENU_TYPE_TUTORIAL);
 
             }

@@ -96,6 +96,8 @@ class MenuPause extends Menu {
 
                     buttonSound.setChecked(false);
 
+                    SalmonLadderConstants.SOUND_CLICK.play();
+
                 }
 
             }
@@ -123,6 +125,9 @@ class MenuPause extends Menu {
 
                     buttonMusic.setChecked(false);
 
+                    SalmonLadderConstants.SOUND_CLICK.play();
+
+
                 }
 
             }
@@ -137,6 +142,12 @@ class MenuPause extends Menu {
 
                 LevelParser.resetBooleans(false);
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
 
             }
@@ -150,6 +161,12 @@ class MenuPause extends Menu {
 
                 LevelParser.resetBooleans(false);
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber));
 
             }
@@ -160,6 +177,12 @@ class MenuPause extends Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
 
                 LevelParser.PauseTable.bringUp(SalmonLadderConstants.MENU_TYPE_PAUSE);
 

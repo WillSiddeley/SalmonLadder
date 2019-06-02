@@ -48,6 +48,12 @@ class MenuWin extends Menu {
 
                 LevelParser.resetBooleans(false);
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
 
             }
@@ -58,6 +64,12 @@ class MenuWin extends Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
 
                 if (LevelParser.levelNumber == SalmonLadderConstants.LEVEL_COUNT) {
 

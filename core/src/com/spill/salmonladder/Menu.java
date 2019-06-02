@@ -70,12 +70,6 @@ class Menu extends Table {
 
     void bringUp(String menu) {
 
-        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
-
-            SalmonLadderConstants.SOUND_MENU_CLOSE.play();
-
-        }
-
         if (menu.equals(SalmonLadderConstants.MENU_TYPE_DEATH)) {
 
             LevelParser.inDeath = false;

@@ -12,9 +12,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.Random;
+
 
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
 
+    private Random random;
 
     private int orientation = 0, frameIndex;
 
@@ -55,11 +58,12 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     private float elapsedTime = 0, bobberTime = 0, jumpEndTime;
 
 
-    public FishSprite(int skin, TiledMapTileLayer tiledMap) {
+    FishSprite(int skin, TiledMapTileLayer tiledMap) {
 
 
         super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
 
+        random = new Random();
 
         switch (skin) {
 
@@ -379,6 +383,12 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                         }
 
+                        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                            SalmonLadderConstants.SOUND_WATER_SPLASH.play();
+
+                        }
+
 
                         LevelParser.inAnimation = false;
 
@@ -655,6 +665,23 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
             if (CheckCollisionIn() && CheckCollisionOut()) {
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    if (random.nextInt(100) < 20) {
+
+                        if (random.nextInt(2) == 0) {
+
+                            SalmonLadderConstants.SOUND_WATER_1.play();
+
+                        } else {
+
+                            SalmonLadderConstants.SOUND_WATER_2.play();
+
+                        }
+
+                    }
+
+                }
 
                 HUDTable.setMoves(HUDTable.getMoves() + 1);
 
@@ -777,7 +804,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
-    public boolean canMove() {
+    private boolean canMove() {
 
 
         return !LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inTutorial && !LevelParser.inWin && getX() % 32 == 0 && getY() % 32 == 0;
@@ -786,7 +813,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
-    public void animate(BobberSprite bobber) {
+    void animate(BobberSprite bobber) {
 
         inBobber = true;
 

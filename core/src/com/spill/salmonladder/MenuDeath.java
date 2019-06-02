@@ -40,6 +40,12 @@ class MenuDeath extends Menu {
 
                 LevelParser.resetBooleans(false);
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
+
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
 
             }
@@ -52,6 +58,12 @@ class MenuDeath extends Menu {
             public void clicked(InputEvent event, float x, float y) {
 
                 LevelParser.resetBooleans(false);
+
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+                }
 
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(LevelParser.levelNumber));
 

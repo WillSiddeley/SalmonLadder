@@ -22,7 +22,7 @@ public class BearSprite extends Sprite {
     private Array<Texture> killTextures = new Array<Texture>(3);
 
 
-    public BearSprite(int eventX, int eventY, boolean orientation) {
+    BearSprite(int eventX, int eventY, boolean orientation) {
 
         super(new Texture("Sprites/BearTextures/BearStagnant.png"));
 
@@ -63,6 +63,14 @@ public class BearSprite extends Sprite {
 
                 inAnimation = false;
 
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_DEATH_BEAR.play();
+
+                    SalmonLadderConstants.SOUND_MENU_OPEN.play();
+
+                }
+
                 LevelParser.inDeath = true;
 
 
@@ -83,7 +91,7 @@ public class BearSprite extends Sprite {
     }
 
 
-    public int getEventX() {
+    int getEventX() {
 
         return eventX;
 
@@ -91,7 +99,7 @@ public class BearSprite extends Sprite {
     }
 
 
-    public int getEventY() {
+    int getEventY() {
 
         return eventY;
 
@@ -99,7 +107,7 @@ public class BearSprite extends Sprite {
     }
 
 
-    public void animate() {
+    void animate() {
 
         inAnimation = true;
 

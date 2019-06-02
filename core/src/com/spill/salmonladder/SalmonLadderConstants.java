@@ -81,6 +81,10 @@ public class SalmonLadderConstants {
 
     static final Sound SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("Sounds/ClickTitle.mp3"));
 
+    static final Sound SOUND_DEATH_BEAR = Gdx.audio.newSound(Gdx.files.internal("Sounds/Bear.mp3"));
+
+    static final Sound SOUND_DEATH_FISHERMAN = Gdx.audio.newSound(Gdx.files.internal("Sounds/Fisherman.mp3"));
+
     static final Sound SOUND_MENU_CLOSE = Gdx.audio.newSound(Gdx.files.internal("Sounds/MenuClose.mp3"));
 
     static final Sound SOUND_MENU_OPEN = Gdx.audio.newSound(Gdx.files.internal("Sounds/MenuOpen.mp3"));
@@ -92,6 +96,12 @@ public class SalmonLadderConstants {
     static final Sound SOUND_STAR_2 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars2.mp3"));
 
     static final Sound SOUND_STAR_3 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars3.mp3"));
+
+    static final Sound SOUND_WATER_1 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Water1.mp3"));
+
+    static final Sound SOUND_WATER_2 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Water2.mp3"));
+
+    static final Sound SOUND_WATER_SPLASH = Gdx.audio.newSound(Gdx.files.internal("Sounds/WaterSplash.mp3"));
 
     static final int ROWS = 7;
 
