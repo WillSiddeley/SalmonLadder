@@ -32,6 +32,7 @@ public class LevelParser implements Screen {
     static boolean inAnimation = false;
     static boolean inDeath = false;
     static boolean inMenu = false;
+    private boolean bobberInit = false;
     private static SalmonLadderTutorials prefTutorial;
     static boolean inWin = false;
     static int levelNumber;
@@ -148,7 +149,7 @@ public class LevelParser implements Screen {
         camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
         camera.update();
 
-        if (((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
+        if (!bobberInit && ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
             event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
             if (event.equals("EventBear")) {
                 inAnimation = true;
@@ -162,10 +163,11 @@ public class LevelParser implements Screen {
         }
 
         for (BobberSprite i : bobberSprites) {
-            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle())) {
+            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle()) && !bobberInit) {
                 inAnimation = true;
                 i.animate();
                 fish.animate(i);
+                bobberInit = true;
             }
         }
 
@@ -312,14 +314,27 @@ public class LevelParser implements Screen {
                         }
                     }
                 } else if (((TiledMapTileLayer) propertyLayer).getCell(i, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                    Array<EventFisher> arr = new Array<EventFisher>();
-                    arr = bobberPath(arr, i, j);
-                    eventFishers.add(arr);
+                    boolean exists = false;
+                    for (int x = 0; x < eventFishers.size; x++) {
+                        for (int y = 0; y < eventFishers.get(x).size; y++) {
+                            if (eventFishers.get(x).get(y).getX() == i && eventFishers.get(x).get(y).getY() == j) {
+                                exists = true;
+                            }
+                        }
+                    }
+                    if (!exists) {
+                        System.out.println("b");
+                        Array<EventFisher> arr = new Array<EventFisher>();
+                        arr = bobberPath(arr, i, j);
+                        eventFishers.add(arr);
+                    }
                 }
             }
         }
 
         for (int i = 0; i < eventFishers.size; i++) {
+            System.out.println(eventFishers.size);
+            System.out.println("c");
             BobberSprite bobber = new BobberSprite(eventFishers.get(i), findFisher(eventFishers.get(i)));
             bobber.setPosition(bobber.getEventX(0) * SalmonLadderConstants.PIXEL_PER_METER + 13, bobber.getEventY(0) * SalmonLadderConstants.PIXEL_PER_METER + 11);
             bobberSprites.add(bobber);
@@ -380,45 +395,74 @@ public class LevelParser implements Screen {
     }
 
     private Array<EventFisher> bobberPath(Array<EventFisher> arr, int i, int j) {
-        System.out.println(i);
-        System.out.println(j);
-        boolean added = false;
-        ((TiledMapTileLayer) propertyLayer).getCell(i, j).getTile().getProperties().put("Name", "");
+        boolean added = false, exists = false;
+        arr.add(new EventFisher(i, j));
         if (((TiledMapTileLayer) propertyLayer).getCell(i - 1, j) != null) {
             if (((TiledMapTileLayer) propertyLayer).getCell(i - 1, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                arr = bobberPath(arr, i - 1, j);
-                added = true;
+                for (EventFisher x : arr) {
+                    if (x.getX() == i - 1 && x.getY() == j) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    arr = bobberPath(arr, i - 1, j);
+                    added = true;
+                }
+                exists = false;
             }
         }
 
         if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j) != null)) {
             if (((TiledMapTileLayer) propertyLayer).getCell(i + 1, j).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                arr = bobberPath(arr, i + 1, j);
-                added = true;
+                for (EventFisher x : arr) {
+                    if (x.getX() == i + 1 && x.getY() == j) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    arr = bobberPath(arr, i + 1, j);
+                    added = true;
+                }
+                exists = false;
             }
         }
 
         if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i, j - 1) != null)) {
             if (((TiledMapTileLayer) propertyLayer).getCell(i, j - 1).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                arr = bobberPath(arr, i, j - 1);
-                added = true;
+                for (EventFisher x : arr) {
+                    if (x.getX() == i && x.getY() == j - 1) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    arr = bobberPath(arr, i, j - 1);
+                    added = true;
+                }
+                exists = false;
             }
         }
 
         if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1) != null)) {
-            System.out.println(i);
-            System.out.println(j + 1);
             if (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                System.out.println("b");
-                arr = bobberPath(arr, i, j + 1);
+                System.out.println("d");
+                for (EventFisher x : arr) {
+                    if (x.getX() == i && x.getY() == j + 1) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    System.out.println("e");
+                    arr = bobberPath(arr, i, j + 1);
+                }
             }
         }
-
-        arr.add(new EventFisher(i, j));
         return arr;
     }
 
     private Fisherman findFisher(Array<EventFisher> arr) {
+        System.out.println(arr.size);
+        System.out.println(arr.get(arr.size / 2).getX() + 2);
+        System.out.println(arr.get(arr.size / 2).getY());
         if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY()).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
             System.out.println("a");
             return new Fisherman(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY());

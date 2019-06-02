@@ -52,7 +52,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
 
 
-    private float elapsedTime = 0, waitTime = 0, jumpEndTime;
+    private float elapsedTime = 0, bobberTime = 0, jumpEndTime;
 
 
     public FishSprite(int skin, TiledMapTileLayer tiledMap) {
@@ -276,19 +276,17 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public void draw(Batch batch) {
 
-        elapsedTime += Gdx.graphics.getDeltaTime();
-
-        setTexture(show.getKeyFrame(elapsedTime, true));
-
         super.draw(batch);
-
 
         if (inBobber) {
 
-            setPosition(bobber.getX(), bobber.getY());
+            setPosition(bobber.getX() - 13, bobber.getY() - 30);
 
         } else {
 
+            elapsedTime += Gdx.graphics.getDeltaTime();
+
+            setTexture(show.getKeyFrame(elapsedTime, true));
 
             if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
 
@@ -790,12 +788,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     public void animate(BobberSprite bobber) {
 
-
         inBobber = true;
 
-
         this.bobber = bobber;
-
 
     }
 }

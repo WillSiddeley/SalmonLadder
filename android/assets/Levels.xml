@@ -2,7 +2,7 @@
     <Level1 LevelFile="Levels/Level1.tmx">
         <MinMoves Best="17" />
         <Tutorial Type="Waterfall" />
-        <StartCoords x="4" y="3" />
+        <StartCoords x="4" y="2" />
     </Level1>
     <Level2 LevelFile="Levels/Level2.tmx">
         <MinMoves Best="10" />

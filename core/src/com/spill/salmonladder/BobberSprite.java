@@ -71,18 +71,6 @@ public class BobberSprite extends Sprite {
             if ((getX() - 13) / SalmonLadderConstants.PIXEL_PER_METER % 32 == 0 && (getY() - 11) / SalmonLadderConstants.PIXEL_PER_METER % 32 == 0) {
                 movement();
             }
-        } else {
-            if (getX() / SalmonLadderConstants.PIXEL_PER_METER != fishermanX) {
-                Timer.schedule(deathX, 0, 1 / 100f, 0);
-            }
-            if (getY() / SalmonLadderConstants.PIXEL_PER_METER != fishermanY) {
-                Timer.schedule(deathY, 0, 1 / 100f, 0);
-            }
-            if (getX() / SalmonLadderConstants.PIXEL_PER_METER == fishermanX && getY() / SalmonLadderConstants.PIXEL_PER_METER == fishermanY) {
-                inAnimation = false;
-                LevelParser.inAnimation = false;
-                LevelParser.inDeath = true;
-            }
         }
         super.draw(batch);
     }
@@ -130,5 +118,12 @@ public class BobberSprite extends Sprite {
 
     public void animate() {
         inAnimation = true;
+
+        if (getX() / SalmonLadderConstants.PIXEL_PER_METER != fishermanX) {
+            Timer.schedule(deathX, 0, 1 / 100f, Math.abs((int) (getX() / (fishermanX * SalmonLadderConstants.PIXEL_PER_METER))) - 1);
+        }
+        if (getY() / SalmonLadderConstants.PIXEL_PER_METER != fishermanY) {
+            Timer.schedule(deathY, 0, 1 / 100f, Math.abs((int) (getY() / (fishermanY * SalmonLadderConstants.PIXEL_PER_METER))) - 1);
+        }
     }
 }
