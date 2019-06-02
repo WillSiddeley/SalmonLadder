@@ -22,7 +22,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     private String event;
 
 
-    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone;
+    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone, inBobber = false;
 
 
     private Timer.Task[] movement = new Timer.Task[4], jumpMovement = new Timer.Task[4];
@@ -44,6 +44,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
 
     private TiledMapTileLayer map;
+
+
+    private BobberSprite bobber;
 
 
     private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
@@ -292,99 +295,109 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         super.draw(batch);
 
 
-        if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
+        if (inBobber) {
 
-            isWaitingStart = false;
+            setPosition(bobber.getX(), bobber.getY());
 
-            frameIndex = swim.getKeyFrameIndex(elapsedTime);
-
-            elapsedTime = 0;
-
-            if (frameIndex == 3) {
-
-                show = jumpLeft;
+        } else {
 
 
-            } else if (frameIndex == 16) {
+            if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
 
-                show = jumpRight;
+                isWaitingStart = false;
+
+                frameIndex = swim.getKeyFrameIndex(elapsedTime);
+
+                elapsedTime = 0;
+
+                if (frameIndex == 3) {
+
+                    show = jumpLeft;
+
+
+                } else if (frameIndex == 16) {
+
+                    show = jumpRight;
+
+
+                }
+
+
+                isWaitingJump = true;
 
 
             }
 
 
-            isWaitingJump = true;
+            if (isWaitingJump && jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
+
+                isWaitingJump = false;
+
+                Timer.schedule(jumpMovement[orientation], 0, 1 / 15f, 15);
+
+                isWaitingJumpDone = true;
 
 
-        }
+            }
 
 
-        if (isWaitingJump && jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
+            if (isWaitingJumpDone && jumpRight.isAnimationFinished(elapsedTime)) {
 
-            isWaitingJump = false;
-
-            Timer.schedule(jumpMovement[orientation], 0, 1 / 15f, 15);
-
-            isWaitingJumpDone = true;
+                jumpEndTime = elapsedTime;
 
 
-        }
+            }
 
 
-        if (isWaitingJumpDone && jumpRight.isAnimationFinished(elapsedTime)) {
+            if (isWaitingJumpDone && jumpRight.isAnimationFinished(jumpEndTime)) {
 
-            jumpEndTime = elapsedTime;
+                if (getX() % 32 == 0 && getY() % 32 == 0) {
 
+                    isWaitingJumpDone = false;
 
-        }
+                    elapsedTime = 0;
 
+                    if (event.equals("EventWin")) {
 
-        if (isWaitingJumpDone && jumpRight.isAnimationFinished(jumpEndTime)) {
+                        if (frameIndex == 3) {
 
-            if (getX() % 32 == 0 && getY() % 32 == 0) {
-
-                isWaitingJumpDone = false;
-
-                elapsedTime = 0;
-
-                if (event.equals("EventWin")) {
-
-                    if (frameIndex == 3) {
-
-                        show = winLeft;
+                            show = winLeft;
 
 
-                    } else if (frameIndex == 16) {
+                        } else if (frameIndex == 16) {
 
-                        show = winRight;
+                            show = winRight;
+
+
+                        }
+
+
+                        Timer.schedule(movement[orientation], 0, 1 / 20f, 7);
+
+                        isWaitingWinDone = true;
+
+
+                    } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
+
+                        show = swim;
+
+                        if (frameIndex == 3) {
+
+                            elapsedTime = 9 / 20f;
+
+
+                        } else if (frameIndex == 16) {
+
+                            elapsedTime = 11 / 10f;
+
+
+                        }
+
+
+                        LevelParser.inAnimation = false;
 
 
                     }
-
-
-                    Timer.schedule(movement[orientation], 0, 1 / 20f, 7);
-
-                    isWaitingWinDone = true;
-
-
-                } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
-
-                    show = swim;
-
-                    if (frameIndex == 3) {
-
-                        elapsedTime = 9 / 20f;
-
-
-                    } else if (frameIndex == 16) {
-
-                        elapsedTime = 11 / 10f;
-
-
-                    }
-
-
-                    LevelParser.inAnimation = false;
 
 
                 }
@@ -393,23 +406,22 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
             }
 
 
-        }
+            if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
 
 
-        if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
+                isWaitingWinDone = false;
 
 
-            isWaitingWinDone = false;
+                LevelParser.unlockNext();
 
 
-            LevelParser.unlockNext();
+                LevelParser.WinTable.updateStarDrawable(LevelParser.awardStars());
 
 
-            LevelParser.WinTable.updateStarDrawable(LevelParser.awardStars());
+                LevelParser.inWin = true;
 
 
-            LevelParser.inWin = true;
-
+            }
 
         }
 
@@ -765,4 +777,14 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     }
 
 
+    public void animate(BobberSprite bobber) {
+
+
+        inBobber = true;
+
+
+        this.bobber = bobber;
+
+
+    }
 }
