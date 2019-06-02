@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
@@ -41,21 +41,6 @@ public class ScreenLevelSelect implements Screen {
     // ADD THE CONTAINER TO HOLD LEVELS
     private Table container = new Table();
 
-    // ADD THE CLICK LISTENER FOR BUTTONS
-    private ClickListener levelClickListener = new ClickListener() {
-
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-
-            if (starPref.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
-
-                // WHEN A BUTTON IS CLICKED, GRAB THE NAME AND SET THE CORRECT LEVEL
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(Integer.parseInt(event.getListenerActor().getName())));
-
-            }
-        }
-    };
-
     ScreenLevelSelect() {
 
         // INSTANTIATE THE CAMERA TO THE SIZE OF THE PHONE SCREEN AND UPDATE IT
@@ -64,7 +49,7 @@ public class ScreenLevelSelect implements Screen {
         camera.update();
 
         // SET THE STAGE TO THE SIZE OF THE PHONE SCREEN
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(SalmonLadderConstants.VIRTUAL_WIDTH, SalmonLadderConstants.VIRTUAL_HEIGHT));
 
         // ADD A TABLE TO CONTAIN ALL THE PAGES
         stage.addActor(container);
@@ -117,7 +102,7 @@ public class ScreenLevelSelect implements Screen {
 
                 for (int x = 0; x < SalmonLadderConstants.COLUMNS; x++) {
 
-                    Levels.add(getLevelButton(levelLabel++)).width(Gdx.graphics.getWidth() / (SalmonLadderConstants.COLUMNS * 2f)).height(Gdx.graphics.getHeight() / (SalmonLadderConstants.ROWS * 1.5f)).fill();
+                    Levels.add(getLevelButton(levelLabel++)).width(SalmonLadderConstants.VIRTUAL_WIDTH / (SalmonLadderConstants.COLUMNS * 2f)).height(SalmonLadderConstants.VIRTUAL_HEIGHT / (SalmonLadderConstants.ROWS * 1.5f)).fill();
 
                 }
 
@@ -234,7 +219,20 @@ public class ScreenLevelSelect implements Screen {
 
         // SET THE NAME OF THE BUTTON TO BE THE LEVEL IT REPRESENTS
         button.setName(Integer.toString(level));
-        button.addListener(levelClickListener);
+        button.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (starPref.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
+
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(Integer.parseInt(event.getListenerActor().getName())));
+
+                }
+            }
+
+        });
+
         return button;
 
     }
