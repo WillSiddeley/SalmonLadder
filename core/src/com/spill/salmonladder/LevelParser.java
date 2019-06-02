@@ -224,8 +224,8 @@ public class LevelParser implements Screen {
     @Override
     public void resize(int width, int height) {
 
-        camera.viewportWidth = width / 2.5f;
-        camera.viewportHeight = height / 2.5f;
+        camera.viewportWidth = width / 3.33f;
+        camera.viewportHeight = height / 3.33f;
 
     }
 

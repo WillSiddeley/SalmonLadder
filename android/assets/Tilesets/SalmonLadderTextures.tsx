@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.2" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+<tileset version="1.2" tiledversion="1.2.4" name="SalmonLadderTextures" tilewidth="32" tileheight="32" tilecount="256" columns="16">
  <image source="SalmonLadderTextures.png" width="512" height="512"/>
  <tile id="0">
   <properties>
@@ -310,7 +310,7 @@
    <property name="CanGoRightOut" type="bool" value="false"/>
    <property name="CanGoUpIn" type="bool" value="false"/>
    <property name="CanGoUpOut" type="bool" value="false"/>
-   <property name="Name" value="Background"/>
+   <property name="Name" value="Fisherman"/>
   </properties>
  </tile>
  <tile id="64">
