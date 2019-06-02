@@ -99,6 +99,12 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         stage.act();
         stage.draw();
 
+        if (SalmonLadderConstants.MUSIC_AMBIANT.isPlaying()) {
+
+            SalmonLadderConstants.MUSIC_AMBIANT.stop();
+
+        }
+
     }
 
     @Override

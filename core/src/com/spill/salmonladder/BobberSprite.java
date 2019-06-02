@@ -12,6 +12,7 @@ public class BobberSprite extends Sprite {
     private EventFisher current;
     private int index = 0, fishermanX, fishermanY;
     private boolean direction = false, inAnimation = false;
+    private boolean soundPlayed = false;
     private Array<Timer.Task> movement = new Array<Timer.Task>(4);
 
     public BobberSprite(Array<EventFisher> arr, Fisherman fisherman) {
@@ -61,6 +62,15 @@ public class BobberSprite extends Sprite {
         } else {
             if (noTaskScheduled()) {
                 LevelParser.inAnimation = false;
+
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled() && !soundPlayed) {
+
+                    SalmonLadderConstants.SOUND_DEATH_FISHERMAN.play();
+
+                    soundPlayed = true;
+
+                }
+
                 LevelParser.inDeath = true;
             }
         }

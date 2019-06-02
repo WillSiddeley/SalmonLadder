@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 public class SalmonLadder extends Game implements ApplicationListener {
 
     /* Todo:
-        1) Add fisherman
-        2) Add music
         3) Create levels
     */
 

@@ -55,6 +55,8 @@ public class LevelParser implements Screen {
 
     private String event;
 
+    private float soundTime;
+
     // DEFAULT CONSTRUCTOR
     LevelParser(int LevelNumber) {
 
@@ -222,6 +224,30 @@ public class LevelParser implements Screen {
 
         stage.act();
         stage.draw();
+
+        if (SalmonLadderConstants.SETTINGS.isMusicEnabled()) {
+
+            SalmonLadderConstants.MUSIC_AMBIANT.play();
+
+        } else {
+
+            SalmonLadderConstants.MUSIC_AMBIANT.stop();
+
+        }
+
+        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+            soundTime += Gdx.graphics.getDeltaTime();
+
+            if (soundTime > 3f) {
+
+                soundTime = 0f;
+
+                SalmonLadderConstants.SOUND_WATER_1.play();
+
+            }
+
+        }
 
     }
 

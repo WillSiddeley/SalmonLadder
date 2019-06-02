@@ -1,6 +1,7 @@
 package com.spill.salmonladder;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -102,6 +103,8 @@ public class SalmonLadderConstants {
     static final Sound SOUND_WATER_2 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Water2.mp3"));
 
     static final Sound SOUND_WATER_SPLASH = Gdx.audio.newSound(Gdx.files.internal("Sounds/WaterSplash.mp3"));
+
+    static final Music MUSIC_AMBIANT = Gdx.audio.newMusic(Gdx.files.internal("Music/MusicAmbiant.mp3"));
 
     static final int ROWS = 7;
 

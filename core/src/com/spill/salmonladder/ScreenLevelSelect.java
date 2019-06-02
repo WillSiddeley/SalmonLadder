@@ -166,6 +166,12 @@ public class ScreenLevelSelect implements Screen {
 
         }
 
+        if (SalmonLadderConstants.MUSIC_AMBIANT.isPlaying()) {
+
+            SalmonLadderConstants.MUSIC_AMBIANT.stop();
+
+        }
+
     }
 
     @Override
