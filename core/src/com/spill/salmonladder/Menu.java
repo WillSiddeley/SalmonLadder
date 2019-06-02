@@ -10,15 +10,11 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 class Menu extends Table {
 
-    private SalmonLadderTutorials preferences;
-
     private float widthCenter;
 
     private float heightCenter;
 
     Menu(float heightModifier, float widthModifier, String ninePatchBG) {
-
-        preferences = new SalmonLadderTutorials();
 
         this.setWidth(SalmonLadderConstants.VIRTUAL_WIDTH / widthModifier);
 
@@ -74,6 +70,12 @@ class Menu extends Table {
 
     void bringUp(String menu) {
 
+        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+            SalmonLadderConstants.SOUND_MENU_CLOSE.play();
+
+        }
+
         if (menu.equals(SalmonLadderConstants.MENU_TYPE_DEATH)) {
 
             LevelParser.inDeath = false;
@@ -86,7 +88,7 @@ class Menu extends Table {
 
             LevelParser.inTutorial = false;
 
-            preferences.setTutorialCompleted(LevelParser.levelNumber, true);
+            SalmonLadderConstants.TUTORIAL.setTutorialCompleted(LevelParser.levelNumber, true);
 
         } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_WIN)) {
 

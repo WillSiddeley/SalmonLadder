@@ -146,6 +146,12 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     @Override
     public boolean tap(float x, float y, int count, int button) {
 
+        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+            SalmonLadderConstants.SOUND_CLICK.play();
+
+        }
+
         stage.addAction(sequence(alpha(1), moveTo((-Gdx.graphics.getWidth() - stage.getWidth()), 0, 0.5f), run(new Runnable() {
             @Override
             public void run() {
