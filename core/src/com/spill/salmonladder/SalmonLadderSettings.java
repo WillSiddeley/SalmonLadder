@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 public class SalmonLadderSettings {
 
     private static final String SETTINGS_FILE = "Settings";
+    private static final String TUTORIAL_FILE = "Tutorials";
     private static final String SOUND = "Sound";
     private static final String MUSIC = "Music";
 

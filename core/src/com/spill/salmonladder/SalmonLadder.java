@@ -13,7 +13,6 @@ public class SalmonLadder extends Game implements ApplicationListener {
         3) Update textures
         4) Add sounds
         5) Add music
-        6) Create an app icon
         7) Create levels
     */
 
