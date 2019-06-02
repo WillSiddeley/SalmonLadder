@@ -129,6 +129,8 @@ public class LevelParser implements Screen {
 
         inMenu = reset;
 
+        inTutorial = reset;
+
         inDeath = reset;
 
         inWin = reset;
@@ -224,8 +226,8 @@ public class LevelParser implements Screen {
     @Override
     public void resize(int width, int height) {
 
-        camera.viewportWidth = width / 2.5f;
-        camera.viewportHeight = height / 2.5f;
+        camera.viewportWidth = width / SalmonLadderConstants.SCREEN_CONSTANT;
+        camera.viewportHeight = height / SalmonLadderConstants.SCREEN_CONSTANT;
 
     }
 
@@ -323,7 +325,7 @@ public class LevelParser implements Screen {
             bobberSprites.add(bobber);
         }
 
-        stage = new Stage(new FitViewport(1080, 1920));
+        stage = new Stage(new FitViewport(SalmonLadderConstants.VIRTUAL_WIDTH, SalmonLadderConstants.VIRTUAL_HEIGHT));
 
         DimRectangle = new ShapeRenderer();
 

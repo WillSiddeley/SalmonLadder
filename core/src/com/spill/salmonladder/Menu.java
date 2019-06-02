@@ -20,13 +20,13 @@ class Menu extends Table {
 
         preferences = new SalmonLadderTutorials();
 
-        this.setWidth(Gdx.graphics.getWidth() / widthModifier);
+        this.setWidth(SalmonLadderConstants.VIRTUAL_WIDTH / widthModifier);
 
-        this.setHeight(Gdx.graphics.getHeight() / heightModifier);
+        this.setHeight(SalmonLadderConstants.VIRTUAL_HEIGHT / heightModifier);
 
-        this.widthCenter = (Gdx.graphics.getWidth() / 2f) - (this.getWidth() / 2f);
+        this.widthCenter = (SalmonLadderConstants.VIRTUAL_WIDTH / 2f) - (this.getWidth() / 2f);
 
-        this.heightCenter = (Gdx.graphics.getHeight() / 2f) - (this.getHeight() / 2f);
+        this.heightCenter = (SalmonLadderConstants.VIRTUAL_HEIGHT / 2f) - (this.getHeight() / 2f);
 
         this.setPosition(widthCenter, Gdx.graphics.getHeight() * 2f);
 
