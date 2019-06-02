@@ -759,7 +759,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     public boolean canMove() {
 
 
-        return !LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin && getX() % 32 == 0 && getY() % 32 == 0;
+        return !LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inTutorial && !LevelParser.inWin && getX() % 32 == 0 && getY() % 32 == 0;
 
 
     }

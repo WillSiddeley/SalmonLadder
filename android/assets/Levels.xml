@@ -1,7 +1,8 @@
 <GameLevels>
     <Level1 LevelFile="Levels/Level1.tmx">
         <MinMoves Best="17" />
-        <StartCoords x="9" y="2" />
+        <Tutorial Type="Bear" />
+        <StartCoords x="4" y="3" />
     </Level1>
     <Level2 LevelFile="Levels/Level2.tmx">
         <MinMoves Best="10" />

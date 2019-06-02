@@ -22,6 +22,8 @@ public class SalmonLadderConstants {
 
     static final String MENU_TYPE_PAUSE = "Pause";
 
+    static final String MENU_TYPE_TUTORIAL = "Tutorial";
+
     static final String MENU_TYPE_WIN = "Win";
 
     static final String BACKGROUND_DIE = "Images/BackgroundDie.png";
@@ -55,6 +57,12 @@ public class SalmonLadderConstants {
     static final String IMAGE_PATH_TITLE = "Images/StartScreenTitle.png";
 
     static final String IMAGE_PATH_SPLASH = "Images/StartScreenSplash.png";
+
+    static final String IMAGE_PATH_TUTORIAL_START = "Images/TutorialStart.png";
+
+    static final String IMAGE_PATH_TUTORIAL_ROCK = "Images/TutorialRock.png";
+
+    static final String IMAGE_PATH_TUTORIAL_BEAR = "Images/TutorialBear.png";
 
     static final int ROWS = 7;
 
