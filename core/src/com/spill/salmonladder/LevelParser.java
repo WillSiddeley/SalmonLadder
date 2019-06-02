@@ -171,14 +171,21 @@ public class LevelParser implements Screen {
             }
         }
 
+        int[] arr = {0, 1};
+        int[] arr2 = {2};
+
         // SET THE CAMERA TO RENDER THE TILEMAP
         tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        tiledMapRenderer.render(arr);
 
         // DRAW THE FISH WITH RESPECT TO THE TILEMAP
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
+        tiledMapRenderer.getBatch().end();
 
+        tiledMapRenderer.render(arr2);
+
+        tiledMapRenderer.getBatch().begin();
         for (BearSprite i : bearSprites) {
             i.draw(tiledMapRenderer.getBatch());
         }
