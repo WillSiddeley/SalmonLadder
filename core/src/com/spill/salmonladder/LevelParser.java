@@ -20,16 +20,19 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class LevelParser implements Screen {
 
     private static SalmonLadderStars prefStars;
+    static MenuTutorial TutorialTable;
 
     static HUDTable HudTable;
     static MenuDeath DeathTable;
     static MenuPause PauseTable;
+    static MenuWin WinTable;
+    static boolean inTutorial = false;
 
     private MapLayer propertyLayer;
-    static MenuWin WinTable;
     static boolean inAnimation = false;
     static boolean inDeath = false;
     static boolean inMenu = false;
+    private static SalmonLadderTutorials prefTutorial;
     static boolean inWin = false;
     static int levelNumber;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -43,7 +46,7 @@ public class LevelParser implements Screen {
 
     private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
 
-    private Array<bobberSprite> bobberSprites = new Array<bobberSprite>();
+    //private Array<bobberSprite> bobberSprites = new Array<bobberSprite>();
 
     private ShapeRenderer DimRectangle;
 
@@ -135,9 +138,9 @@ public class LevelParser implements Screen {
     @Override
     public void render(float delta) {
 
-        // BACKGROUND SET TO ALL WHITE
+        // BACKGROUND SET COLOUR
+        Gdx.gl.glClearColor(112 / 255f, 166 / 255f, 130 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(255f, 255f, 255f, 0);
 
         // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
         camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
@@ -182,6 +185,14 @@ public class LevelParser implements Screen {
             dimRectangle();
 
             DeathTable.bringToCenter(SalmonLadderConstants.MENU_TYPE_DEATH);
+
+        }
+
+        if (inTutorial) {
+
+            dimRectangle();
+
+            TutorialTable.bringToCenter(SalmonLadderConstants.MENU_TYPE_TUTORIAL);
 
         }
 
@@ -242,6 +253,7 @@ public class LevelParser implements Screen {
     public void show() {
 
         prefStars = new SalmonLadderStars();
+        prefTutorial = new SalmonLadderTutorials();
 
         // GRAB START COORDINATES FROM THE XML FILE
         int startX = getXMLRoot().getChildByName("StartCoords").getInt("x");
@@ -293,15 +305,27 @@ public class LevelParser implements Screen {
             }
         }
 
+        /*
         for (int i = 0; i < eventFishers.size; i++) {
             bobberSprite bobber = new bobberSprite(eventFishers.get(i));
             bobber.setPosition(bobber.getEventX(0) * SalmonLadderConstants.PIXEL_PER_METER + 13, bobber.getEventY(0) * SalmonLadderConstants.PIXEL_PER_METER + 11);
             bobberSprites.add(bobber);
         }
+        */
 
         stage = new Stage(new FitViewport(1080, 1920));
 
         DimRectangle = new ShapeRenderer();
+
+        if (!getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !prefTutorial.getTutorialCompeted(levelNumber)) {
+
+            TutorialTable = new MenuTutorial(1.75f, 1.25f, SalmonLadderConstants.BACKGROUND_PAUSE, getXMLRoot().getChildByName("Tutorial").get("Type"));
+
+            stage.addActor(TutorialTable);
+
+            inTutorial = true;
+
+        }
 
         HudTable = new HUDTable(0);
 

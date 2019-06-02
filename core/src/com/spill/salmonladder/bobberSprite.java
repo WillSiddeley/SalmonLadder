@@ -1,4 +1,4 @@
-package com.spill.salmonladder;
+/*package com.spill.salmonladder;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -55,6 +55,7 @@ public class bobberSprite extends Sprite {
         super.draw(batch);
     }
 
+
     private int movement() {
         EventFisher next = arr.get(++index);
         if (next.getY() > current.getY()) {
@@ -64,6 +65,7 @@ public class bobberSprite extends Sprite {
         }
     }
 
+
     public int getEventX(int x) {
         return arr.get(x).getX();
     }
@@ -72,3 +74,4 @@ public class bobberSprite extends Sprite {
         return arr.get(y).getY();
     }
 }
+*/
