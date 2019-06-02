@@ -1,27 +1,34 @@
 
-SoundSkin.png
+LevelSkin.png
 size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-MovesFont
+ButtonLevel
   rotate: false
-  xy: 1003, 1491
-  size: 512, 512
-  orig: 512, 512
+  xy: 1, 1003
+  size: 1000, 1000
+  orig: 1000, 1000
   offset: 0, 0
   index: -1
-PauseButtonSoundDown
+ImageStar
+  rotate: false
+  xy: 1003, 1003
+  size: 1000, 1000
+  orig: 1000, 1000
+  offset: 0, 0
+  index: -1
+ImageStarEmpty
   rotate: false
   xy: 1, 1
   size: 1000, 1000
   orig: 1000, 1000
   offset: 0, 0
   index: -1
-PauseButtonSoundUp
+MovesFont
   rotate: false
-  xy: 1, 1003
-  size: 1000, 1000
-  orig: 1000, 1000
+  xy: 1003, 489
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

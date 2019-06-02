@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -25,7 +25,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.repeat;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class ScreenStart implements Screen, GestureDetector.GestureListener {
+public class ScreenStart implements Screen {
 
     // ADD THE CAMERA
     private OrthographicCamera camera;
@@ -39,13 +39,39 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
     // ADD THE STAGE FOR USER INPUT
     private Stage stage;
 
-    public ScreenStart() {
+    ScreenStart() {
 
         // SET THE STAGE TO THE SIZE OF THE PHONE SCREEN
         stage = new Stage(new FitViewport(SalmonLadderConstants.VIRTUAL_WIDTH, SalmonLadderConstants.VIRTUAL_HEIGHT));
 
+        stage.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                    SalmonLadderConstants.SOUND_CLICK.play();
+
+                }
+
+                stage.addAction(sequence(alpha(1), moveTo((-Gdx.graphics.getWidth() - stage.getWidth()), 0, 0.5f), run(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
+
+                    }
+
+                })));
+
+            }
+
+        });
+
         // ENABLE OUR STAGE TO BE ABLE TO ACCEPT TOUCH PRESSES AS A FORM OF INPUT
-        Gdx.input.setInputProcessor(new GestureDetector(this));
+        Gdx.input.setInputProcessor(stage);
 
     }
 
@@ -93,7 +119,7 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
 
         // SET THE BACKGROUND COLOUR OF THE TITLE SCREEN
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(255f, 255f, 255f, 0f);
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 
         // ACT STAGE
         stage.act();
@@ -144,63 +170,4 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
 
     }
 
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-
-        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
-
-            SalmonLadderConstants.SOUND_CLICK.play();
-
-        }
-
-        stage.addAction(sequence(alpha(1), moveTo((-Gdx.graphics.getWidth() - stage.getWidth()), 0, 0.5f), run(new Runnable() {
-            @Override
-            public void run() {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
-            }
-        })));
-
-        return false;
-
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
-    }
-
-    @Override
-    public void pinchStop() {
-
-    }
 }

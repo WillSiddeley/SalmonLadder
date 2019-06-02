@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class LevelParser implements Screen {
 
-    private static SalmonLadderStars prefStars;
     static MenuTutorial TutorialTable;
 
     static HUDTable HudTable;
@@ -33,7 +32,6 @@ public class LevelParser implements Screen {
     static boolean inDeath = false;
     static boolean inMenu = false;
     private boolean bobberInit = false;
-    private static SalmonLadderTutorials prefTutorial;
     static boolean inWin = false;
     static int levelNumber;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -72,9 +70,9 @@ public class LevelParser implements Screen {
 
         if (HUDTable.getMoves() == MinMoves) {
 
-            if (prefStars.getStars(levelNumber) < 3) {
+            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 3) {
 
-                prefStars.setStars(levelNumber, 3);
+                SalmonLadderConstants.STARS.setStars(levelNumber, 3);
 
             }
 
@@ -82,9 +80,9 @@ public class LevelParser implements Screen {
 
         } else if (HUDTable.getMoves() < MinMoves + 3) {
 
-            if (prefStars.getStars(levelNumber) < 2) {
+            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 2) {
 
-                prefStars.setStars(levelNumber, 2);
+                SalmonLadderConstants.STARS.setStars(levelNumber, 2);
 
             }
 
@@ -92,9 +90,9 @@ public class LevelParser implements Screen {
 
         } else if (HUDTable.getMoves() < MinMoves + 6) {
 
-            if (prefStars.getStars(levelNumber) < 1) {
+            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 1) {
 
-                prefStars.setStars(levelNumber, 1);
+                SalmonLadderConstants.STARS.setStars(levelNumber, 1);
 
             }
 
@@ -102,9 +100,9 @@ public class LevelParser implements Screen {
 
         } else {
 
-            if (prefStars.getStars(levelNumber) == 0) {
+            if (SalmonLadderConstants.STARS.getStars(levelNumber) == 0) {
 
-                prefStars.setStars(levelNumber, 0);
+                SalmonLadderConstants.STARS.setStars(levelNumber, 0);
 
             }
 
@@ -120,7 +118,7 @@ public class LevelParser implements Screen {
 
         if (levelNumber != SalmonLadderConstants.LEVEL_COUNT) {
 
-            prefStars.setStatus(levelNumber + 1, "Unlocked");
+            SalmonLadderConstants.STARS.setStatus(levelNumber + 1, "Unlocked");
 
         }
 
@@ -294,9 +292,6 @@ public class LevelParser implements Screen {
     @Override
     public void show() {
 
-        prefStars = new SalmonLadderStars();
-        prefTutorial = new SalmonLadderTutorials();
-
         // GRAB START COORDINATES FROM THE XML FILE
         int startX = getXMLRoot().getChildByName("StartCoords").getInt("x");
         int startY = getXMLRoot().getChildByName("StartCoords").getInt("y");
@@ -367,7 +362,7 @@ public class LevelParser implements Screen {
 
         DimRectangle = new ShapeRenderer();
 
-        if (!getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !prefTutorial.getTutorialCompeted(levelNumber)) {
+        if (!getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !SalmonLadderConstants.TUTORIAL.getTutorialCompeted(levelNumber)) {
 
             TutorialTable = new MenuTutorial(1.75f, 1.25f, SalmonLadderConstants.BACKGROUND_PAUSE, getXMLRoot().getChildByName("Tutorial").get("Type"));
 

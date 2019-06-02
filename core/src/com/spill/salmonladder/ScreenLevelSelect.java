@@ -26,9 +26,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class ScreenLevelSelect implements Screen {
 
-    // VARIABLE TO ACCESS PREFERENCES
-    private SalmonLadderStars starPref;
-
     // ADD THE CAMERA
     private OrthographicCamera camera;
 
@@ -65,9 +62,12 @@ public class ScreenLevelSelect implements Screen {
 
         // GET THE SKIN TEXTURES FOR THE BUTTON
         skin = SalmonLadderConstants.SKIN;
-        skin.add("top", skin.newDrawable("default-round", Color.RED), Drawable.class);
-        skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
-        skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
+
+        skin.add("Level", skin.newDrawable("ButtonLevel", new Color(205, 205, 205, 1)), Drawable.class);
+
+        skin.add("Star-Filled", skin.newDrawable("ImageStar", Color.YELLOW), Drawable.class);
+        
+        skin.add("Star-Unfilled", skin.newDrawable("ImageStarEmpty", Color.GRAY), Drawable.class);
 
         // MOVE IN THE LEVELS
         stage.addAction(sequence(alpha(0f), moveTo(Gdx.graphics.getWidth() + stage.getWidth(), 0, 0f), alpha(1f), moveTo(0, 0, 0.5f)));
@@ -77,9 +77,7 @@ public class ScreenLevelSelect implements Screen {
     @Override
     public void show() {
 
-        starPref = new SalmonLadderStars();
-
-        starPref.setStatus(1, "Unlocked");
+        SalmonLadderConstants.STARS.setStatus(1, "Unlocked");
 
         int levelLabel = 1;
 
@@ -192,13 +190,13 @@ public class ScreenLevelSelect implements Screen {
 
         // CREATE A LABEL THAT IS THE NUMBER INSIDE THE ICON
         Label label = new Label(Integer.toString(level), skin);
-        label.setFontScale(2f);
+        label.setFontScale(1.5f);
         label.setAlignment(Align.center);
 
         // PUT THE LABEL INSIDE THE BUTTON
-        button.stack(new Image(skin.getDrawable("top")), label).expand().fill();
+        button.stack(new Image(skin.getDrawable("Level")), label).expand().fill();
 
-        int stars = starPref.getStars(level);
+        int stars = SalmonLadderConstants.STARS.getStars(level);
 
         // CREATE A TABLE BELOW THE BUTTON THAT RESPERESNTS STARS THE PLAYER GOT ON THE LEVEL
         Table starTable = new Table();
@@ -209,11 +207,11 @@ public class ScreenLevelSelect implements Screen {
 
                 if (stars > star) {
 
-                    starTable.add(new Image(skin.getDrawable("star-filled"))).width(20).height(20);
+                    starTable.add(new Image(skin.getDrawable("Star-Filled"))).width(50).height(50);
 
                 } else {
 
-                    starTable.add(new Image(skin.getDrawable("star-unfilled"))).width(20).height(20);
+                    starTable.add(new Image(skin.getDrawable("Star-Unfilled"))).width(50).height(50);
 
                 }
             }
@@ -230,7 +228,7 @@ public class ScreenLevelSelect implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (starPref.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
+                if (SalmonLadderConstants.STARS.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
 
                     if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
 

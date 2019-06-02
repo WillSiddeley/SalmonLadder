@@ -106,7 +106,7 @@ public class SalmonLadderConstants {
 
     static final Music MUSIC_AMBIANT = Gdx.audio.newMusic(Gdx.files.internal("Music/MusicAmbiant.mp3"));
 
-    static final int ROWS = 7;
+    static final int ROWS = 6;
 
     static final int COLUMNS = 4;
 
@@ -114,7 +114,7 @@ public class SalmonLadderConstants {
 
     static final int LEVEL_COUNT = (ROWS * COLUMNS) * PAGES;
 
-    static Skin SKIN = new Skin(Gdx.files.internal("Skins/uiskin.json"));
+    static Skin SKIN = new Skin(Gdx.files.internal("Skins/LevelSkin.json"));
 
     static BitmapFont FONT = new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt"));
 
