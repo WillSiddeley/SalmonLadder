@@ -56,7 +56,7 @@ public class ScreenStart implements Screen, GestureDetector.GestureListener {
         camera = new OrthographicCamera();
 
         // POSITION THE CAMERA TO THE MIDDLE OF THE SCREEN
-        camera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
+        camera.position.set(SalmonLadderConstants.VIRTUAL_WIDTH / 2f, SalmonLadderConstants.VIRTUAL_HEIGHT / 2f, 0);
 
         // SET THE IMAGE TO A TEXTURE
         textureTitle = new Texture(Gdx.files.internal(SalmonLadderConstants.IMAGE_PATH_TITLE));
