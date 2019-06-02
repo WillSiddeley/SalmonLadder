@@ -19,47 +19,43 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
     private Random random;
 
-    private int orientation = 0, frameIndex;
+    private float elapsedTime = 0, alpha = 0.8f, underwaterTime = 0;
 
+    private int orientation = 0;
 
     private String event;
 
-
-    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone, inBobber = false;
-
+    private boolean isWaitingStart = false, isWaitingJump = false, isWaitingJumpDone = false, isWaitingWinDone, inBobber = false, flipped = false;
 
     private Timer.Task[] movement = new Timer.Task[4], jumpMovement = new Timer.Task[4];
 
+    private Timer.Task dive = new Timer.Task() {
+        @Override
+        public void run() {
+            alpha -= 0.1f;
+        }
+    };
+
+    private Timer.Task resurface = new Timer.Task() {
+        @Override
+        public void run() {
+            alpha += 0.1f;
+        }
+    };
 
     private Array<Texture> fishTextures = new Array<Texture>();
 
+    private Array<Texture> jumpTextures = new Array<Texture>();
 
-    private Array<Texture> jumpLeftTextures = new Array<Texture>();
-
-
-    private Array<Texture> jumpRightTextures = new Array<Texture>();
-
-
-    private Array<Texture> winLeftTextures = new Array<Texture>();
-
-
-    private Array<Texture> winRightTextures = new Array<Texture>();
-
+    private Array<Texture> winTextures = new Array<Texture>();
 
     private TiledMapTileLayer map;
 
-
     private BobberSprite bobber;
 
-
-    private Animation<Texture> show, swim, jumpLeft, jumpRight, winLeft, winRight;
-
-
-    private float elapsedTime = 0, bobberTime = 0, jumpEndTime;
-
+    private Animation<Texture> show, swim, jump, win;
 
     FishSprite(int skin, TiledMapTileLayer tiledMap) {
-
 
         super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
 
@@ -68,45 +64,24 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
         switch (skin) {
 
             case 0:
-                for (int i = 0; i < 26; i++) {
+                for (int i = 0; i < 13; i++) {
 
                     fishTextures.add(new Texture("Sprites/Textures/ChinookStagnant_" + (i + 1) + ".png"));
 
-
                 }
 
 
-                for (int i = 0; i < 27; i++) {
+                for (int i = 0; i < 21; i++) {
 
-                    jumpLeftTextures.add(new Texture("Sprites/Textures/ChinookJumpLeft_" + (i + 1) + ".png"));
-
-
-                }
-
-
-                for (int i = 0; i < 27; i++) {
-
-                    jumpRightTextures.add(new Texture("Sprites/Textures/ChinookJumpRight_" + (i + 1) + ".png"));
-
+                    jumpTextures.add(new Texture("Sprites/Textures/ChinookJump_" + (i + 1) + ".png"));
 
                 }
-
 
                 for (int i = 0; i < 8; i++) {
 
-                    winLeftTextures.add(new Texture("Sprites/Textures/ChinookWinLeft_" + (i + 1) + ".png"));
-
-
-                }
-
-
-                for (int i = 0; i < 8; i++) {
-
-                    winRightTextures.add(new Texture("Sprites/Textures/ChinookWinRight_" + (i + 1) + ".png"));
-
+                    winTextures.add(new Texture("Sprites/Textures/ChinookWin_" + (i + 1) + ".png"));
 
                 }
-
 
                 break;
 
@@ -116,21 +91,11 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         setTexture(fishTextures.first());
 
-
         swim = new Animation<Texture>(1 / 20f, fishTextures, Animation.PlayMode.LOOP);
 
+        jump = new Animation<Texture>(1 / 20f, jumpTextures, Animation.PlayMode.LOOP);
 
-        jumpLeft = new Animation<Texture>(1 / 20f, jumpLeftTextures, Animation.PlayMode.LOOP);
-
-
-        jumpRight = new Animation<Texture>(1 / 20f, jumpRightTextures, Animation.PlayMode.LOOP);
-
-
-        winLeft = new Animation<Texture>(1 / 20f, winLeftTextures, Animation.PlayMode.LOOP);
-
-
-        winRight = new Animation<Texture>(1 / 20f, winRightTextures, Animation.PlayMode.LOOP);
-
+        win = new Animation<Texture>(1 / 20f, winTextures, Animation.PlayMode.LOOP);
 
         show = swim;
 
@@ -243,35 +208,19 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
 
         jumpMovement[2] = new Timer.Task() {
-
             @Override
             public void run() {
-
                 translate(0f, -2f);
-
-
             }
-
-
-        }
-
-        ;
+        };
 
 
         jumpMovement[3] = new Timer.Task() {
-
             @Override
             public void run() {
-
                 translate(-2f, 0f);
-
-
             }
-
-
-        }
-
-        ;
+        };
 
 
     }
@@ -280,7 +229,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     @Override
     public void draw(Batch batch) {
 
-        super.draw(batch);
+        setAlpha(alpha);
 
         if (inBobber) {
 
@@ -292,117 +241,80 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
             setTexture(show.getKeyFrame(elapsedTime, true));
 
-            if (isWaitingStart && (swim.getKeyFrameIndex(elapsedTime) == 3 || swim.getKeyFrameIndex(elapsedTime) == 16)) {
+            if (show.isAnimationFinished(elapsedTime) && show.equals(swim)) {
+                flip(true, false);
+                elapsedTime = 0;
+                flipped = !flipped;
+            }
+
+            if (isWaitingStart && !dive.isScheduled()) {
+
+                underwaterTime += Gdx.graphics.getDeltaTime();
+
+            }
+
+            if (underwaterTime >= 0.75f) {
+
+                underwaterTime = 0;
 
                 isWaitingStart = false;
 
-                frameIndex = swim.getKeyFrameIndex(elapsedTime);
-
-                elapsedTime = 0;
-
-                if (frameIndex == 3) {
-
-                    show = jumpLeft;
-
-
-                } else if (frameIndex == 16) {
-
-                    show = jumpRight;
-
-
-                }
-
+                Timer.schedule(resurface, 0, 1 / 16, 3);
 
                 isWaitingJump = true;
 
-
             }
 
-
-            if (isWaitingJump && jumpRight.getKeyFrameIndex(elapsedTime) == 11) {
+            if (isWaitingJump && !resurface.isScheduled()) {
 
                 isWaitingJump = false;
 
+                elapsedTime = 0;
+
+                show = jump;
+
                 Timer.schedule(jumpMovement[orientation], 0, 1 / 15f, 15);
 
+                alpha = 1f;
+
                 isWaitingJumpDone = true;
-
-
             }
 
+            if (isWaitingJumpDone && jump.isAnimationFinished(elapsedTime)) {
 
-            if (isWaitingJumpDone && jumpRight.isAnimationFinished(elapsedTime)) {
+                alpha = 0.8f;
 
-                jumpEndTime = elapsedTime;
+                isWaitingJumpDone = false;
 
+                elapsedTime = 0;
 
-            }
+                if (event.equals("EventWin")) {
 
+                    show = win;
 
-            if (isWaitingJumpDone && jumpRight.isAnimationFinished(jumpEndTime)) {
+                    Timer.schedule(movement[orientation], 0, 1 / 20f, 7);
 
-                if (getX() % 32 == 0 && getY() % 32 == 0) {
+                    isWaitingWinDone = true;
 
-                    isWaitingJumpDone = false;
+                } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
 
-                    elapsedTime = 0;
+                    show = swim;
 
-                    if (event.equals("EventWin")) {
+                    elapsedTime = 9 / 20f;
 
-                        if (frameIndex == 3) {
+                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
 
-                            show = winLeft;
-
-
-                        } else if (frameIndex == 16) {
-
-                            show = winRight;
-
-
-                        }
-
-
-                        Timer.schedule(movement[orientation], 0, 1 / 20f, 7);
-
-                        isWaitingWinDone = true;
-
-
-                    } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
-
-                        show = swim;
-
-                        if (frameIndex == 3) {
-
-                            elapsedTime = 9 / 20f;
-
-
-                        } else if (frameIndex == 16) {
-
-                            elapsedTime = 11 / 10f;
-
-
-                        }
-
-                        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
-
-                            SalmonLadderConstants.SOUND_WATER_SPLASH.play();
-
-                        }
-
-
-                        LevelParser.inAnimation = false;
-
+                        SalmonLadderConstants.SOUND_WATER_SPLASH.play();
 
                     }
 
+                    LevelParser.inAnimation = false;
 
                 }
 
-
             }
 
-
-            if (isWaitingWinDone && winRight.isAnimationFinished(elapsedTime)) {
+            if (isWaitingWinDone && win.isAnimationFinished(elapsedTime)) {
 
 
                 isWaitingWinDone = false;
@@ -436,14 +348,13 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                 LevelParser.WinTable.updateStarDrawable(stars);
 
-
                 LevelParser.inWin = true;
-
 
             }
 
         }
 
+        super.draw(batch);
 
     }
 
@@ -692,8 +603,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (event.equals("EventLadder")) {
 
-                        isWaitingStart = true;
+                        Timer.schedule(dive, 0, 1 / 16f, 7);
 
+                        isWaitingStart = true;
 
                     } else if (!nextTile().substring(0, 5).equals("Event")) {
 
@@ -714,8 +626,9 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     if (event.equals("EventWin") || event.equals("EventLadder") || (event.equals("EventWaterfall") && !waterfallJump())) {
 
-                        isWaitingStart = true;
+                        Timer.schedule(dive, 0, 1 / 16f, 7);
 
+                        isWaitingStart = true;
 
                     } else {
 
