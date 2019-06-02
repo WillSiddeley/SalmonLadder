@@ -25,10 +25,10 @@ public class LevelParser implements Screen {
     static HUDTable HudTable;
     static MenuDeath DeathTable;
     static MenuPause PauseTable;
-
-    private MapLayer propertyLayer;
     static MenuWin WinTable;
     static boolean inTutorial = false;
+
+    private MapLayer propertyLayer;
     static boolean inAnimation = false;
     static boolean inDeath = false;
     static boolean inMenu = false;
