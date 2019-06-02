@@ -226,6 +226,12 @@ public class ScreenLevelSelect implements Screen {
 
                 if (starPref.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
 
+                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+
+                        SalmonLadderConstants.SOUND_CLICK.play();
+
+                    }
+
                     ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelParser(Integer.parseInt(event.getListenerActor().getName())));
 
                 }

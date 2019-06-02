@@ -403,7 +403,30 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                 LevelParser.unlockNext();
 
 
-                LevelParser.WinTable.updateStarDrawable(LevelParser.awardStars());
+                int stars = LevelParser.awardStars();
+
+
+                switch (stars) {
+
+                    case 0:
+                        SalmonLadderConstants.SOUND_STAR_0.play();
+                        break;
+
+                    case 1:
+                        SalmonLadderConstants.SOUND_STAR_1.play();
+                        break;
+
+                    case 2:
+                        SalmonLadderConstants.SOUND_STAR_2.play();
+                        break;
+
+                    case 3:
+                        SalmonLadderConstants.SOUND_STAR_3.play();
+                        break;
+
+                }
+
+                LevelParser.WinTable.updateStarDrawable(stars);
 
 
                 LevelParser.inWin = true;

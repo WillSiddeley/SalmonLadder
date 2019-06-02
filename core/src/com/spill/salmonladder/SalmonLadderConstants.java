@@ -1,6 +1,7 @@
 package com.spill.salmonladder;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -78,6 +79,20 @@ public class SalmonLadderConstants {
 
     static final String IMAGE_PATH_TUTORIAL_WATERFALL = "Images/TutorialWaterfall.png";
 
+    static final Sound SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("Sounds/ClickTitle.mp3"));
+
+    static final Sound SOUND_MENU_CLOSE = Gdx.audio.newSound(Gdx.files.internal("Sounds/MenuClose.mp3"));
+
+    static final Sound SOUND_MENU_OPEN = Gdx.audio.newSound(Gdx.files.internal("Sounds/MenuOpen.mp3"));
+
+    static final Sound SOUND_STAR_0 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars0.mp3"));
+
+    static final Sound SOUND_STAR_1 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars1.mp3"));
+
+    static final Sound SOUND_STAR_2 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars2.mp3"));
+
+    static final Sound SOUND_STAR_3 = Gdx.audio.newSound(Gdx.files.internal("Sounds/Stars3.mp3"));
+
     static final int ROWS = 7;
 
     static final int COLUMNS = 4;
@@ -89,5 +104,12 @@ public class SalmonLadderConstants {
     static Skin SKIN = new Skin(Gdx.files.internal("Skins/uiskin.json"));
 
     static BitmapFont FONT = new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt"));
+
+    static SalmonLadderSettings SETTINGS = new SalmonLadderSettings();
+
+    static SalmonLadderStars STARS = new SalmonLadderStars();
+
+    static SalmonLadderTutorials TUTORIAL = new SalmonLadderTutorials();
+
 
 }
