@@ -25,10 +25,10 @@ public class LevelParser implements Screen {
     static HUDTable HudTable;
     static MenuDeath DeathTable;
     static MenuPause PauseTable;
-    static MenuWin WinTable;
-    static boolean inTutorial = false;
 
     private MapLayer propertyLayer;
+    static MenuWin WinTable;
+    static boolean inTutorial = false;
     static boolean inAnimation = false;
     static boolean inDeath = false;
     static boolean inMenu = false;
@@ -46,7 +46,7 @@ public class LevelParser implements Screen {
 
     private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
 
-    //private Array<bobberSprite> bobberSprites = new Array<bobberSprite>();
+    private Array<BobberSprite> bobberSprites = new Array<BobberSprite>();
 
     private ShapeRenderer DimRectangle;
 
@@ -154,9 +154,16 @@ public class LevelParser implements Screen {
                     if (i.getEventX() == fish.getX() / SalmonLadderConstants.PIXEL_PER_METER && i.getEventY() == fish.getY() / SalmonLadderConstants.PIXEL_PER_METER) {
                         bear = i;
                         bear.animate();
-
                     }
                 }
+            }
+        }
+
+        for (BobberSprite i : bobberSprites) {
+            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle())) {
+                inAnimation = true;
+                i.animate();
+                fish.animate(i);
             }
         }
 
@@ -167,7 +174,12 @@ public class LevelParser implements Screen {
         // DRAW THE FISH WITH RESPECT TO THE TILEMAP
         tiledMapRenderer.getBatch().begin();
         fish.draw(tiledMapRenderer.getBatch());
+
         for (BearSprite i : bearSprites) {
+            i.draw(tiledMapRenderer.getBatch());
+        }
+
+        for (BobberSprite i : bobberSprites) {
             i.draw(tiledMapRenderer.getBatch());
         }
         tiledMapRenderer.getBatch().end();
@@ -305,13 +317,11 @@ public class LevelParser implements Screen {
             }
         }
 
-        /*
         for (int i = 0; i < eventFishers.size; i++) {
-            bobberSprite bobber = new bobberSprite(eventFishers.get(i));
+            BobberSprite bobber = new BobberSprite(eventFishers.get(i), findFisher(eventFishers.get(i)));
             bobber.setPosition(bobber.getEventX(0) * SalmonLadderConstants.PIXEL_PER_METER + 13, bobber.getEventY(0) * SalmonLadderConstants.PIXEL_PER_METER + 11);
             bobberSprites.add(bobber);
         }
-        */
 
         stage = new Stage(new FitViewport(1080, 1920));
 
@@ -399,5 +409,17 @@ public class LevelParser implements Screen {
 
         arr.add(new EventFisher(i, j));
         return arr;
+    }
+
+    private Fisherman findFisher(Array<EventFisher> arr) {
+        if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY()).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
+            return new Fisherman(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY());
+        } else if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX() - 2, arr.get(arr.size / 2).getY()).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
+            return new Fisherman(arr.get(arr.size / 2).getX() - 2, arr.get(arr.size / 2).getY());
+        } else if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() + 2).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
+            return new Fisherman(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() + 2);
+        } else if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() - 2).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
+            return new Fisherman(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() - 2);
+        } else return null;
     }
 }

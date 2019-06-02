@@ -15,7 +15,7 @@ public class BearSprite extends Sprite {
 
     private int eventX, eventY;
 
-    private boolean inAnimation, isDoneAnimation;
+    private boolean inAnimation;
 
     private Animation<Texture> kill;
 
@@ -63,8 +63,6 @@ public class BearSprite extends Sprite {
 
                 inAnimation = false;
 
-                isDoneAnimation = true;
-
                 LevelParser.inDeath = true;
 
 
@@ -96,14 +94,6 @@ public class BearSprite extends Sprite {
     public int getEventY() {
 
         return eventY;
-
-
-    }
-
-
-    public boolean isDoneAnimation() {
-
-        return isDoneAnimation;
 
 
     }
