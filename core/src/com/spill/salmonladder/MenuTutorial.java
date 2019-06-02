@@ -28,7 +28,27 @@ class MenuTutorial extends Menu {
 
             this.createTutorial("A Wild Enemy Appears!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_BEAR);
 
-        } else if (type.equals(""))
+        } else if (type.equals("Ladder")) {
+
+            this.createTutorial("A New Way to Get Around!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_LADDER);
+
+        } else if (type.equals("Wall")) {
+
+            this.createTutorial("More Obstacles!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_WALL);
+
+        } else if (type.equals("Waterfall")) {
+
+            this.createTutorial("Racing Rapids!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_WATERFALL);
+
+        } else if (type.equals("Fisherman")) {
+
+            this.createTutorial("A New Foe Emerges!", SalmonLadderConstants.IMAGE_PATH_TUTORIAL_FISHERMAN);
+
+        } else {
+
+            System.out.println("Error: Tutorial type unspecified");
+
+        }
 
         this.addListener(new ClickListener() {
 

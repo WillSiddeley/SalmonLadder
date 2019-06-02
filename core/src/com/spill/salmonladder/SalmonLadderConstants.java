@@ -6,13 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SalmonLadderConstants {
 
+    static final float ANIMATION_DURATION = 0.3f;
+
     static final float PIXEL_PER_METER = 32f;
-
-    static final float VIRTUAL_HEIGHT = 1920f;
-
-    static final float VIRTUAL_WIDTH = 1080f;
-
-    static final float SCREEN_CONSTANT = Gdx.graphics.getHeight() / 768f;
 
     static final float PERCENTAGE_WIDTH = 0.3f;
 
@@ -22,7 +18,11 @@ public class SalmonLadderConstants {
 
     static final float PERCENTAGE_HEIGHT_LARGE = 0.3f;
 
-    static final float ANIMATION_DURATION = 0.3f;
+    static final float SCREEN_CONSTANT = Gdx.graphics.getHeight() / 768f;
+
+    static final float VIRTUAL_HEIGHT = 1920f;
+
+    static final float VIRTUAL_WIDTH = 1080f;
 
     static final String MENU_TYPE_DEATH = "Death";
 
@@ -64,17 +64,19 @@ public class SalmonLadderConstants {
 
     static final String IMAGE_PATH_SPLASH = "Images/StartScreenSplash.png";
 
-    static final String IMAGE_PATH_TUTORIAL_START = "Images/TutorialStart.png";
-
-    static final String IMAGE_PATH_TUTORIAL_ROCK = "Images/TutorialRock.png";
-
     static final String IMAGE_PATH_TUTORIAL_BEAR = "Images/TutorialBear.png";
+
+    static final String IMAGE_PATH_TUTORIAL_FISHERMAN = "Images/TutorialFisherman.png";
 
     static final String IMAGE_PATH_TUTORIAL_LADDER = "Images/TutorialLadder.png";
 
-    static final String IMAGE_PATH_TUTORIAL_WATERFALL = "Images/TutorialWaterfall.png";
+    static final String IMAGE_PATH_TUTORIAL_ROCK = "Images/TutorialRock.png";
 
-    static final String IMAGE_PATH_TUTORIAL_FISHERMAN = "Images/TutorialFisherman.png";
+    static final String IMAGE_PATH_TUTORIAL_START = "Images/TutorialStart.png";
+
+    static final String IMAGE_PATH_TUTORIAL_WALL = "Images/TutorialWall.png";
+
+    static final String IMAGE_PATH_TUTORIAL_WATERFALL = "Images/TutorialWaterfall.png";
 
     static final int ROWS = 7;
 

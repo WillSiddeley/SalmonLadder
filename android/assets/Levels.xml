@@ -1,7 +1,7 @@
 <GameLevels>
     <Level1 LevelFile="Levels/Level1.tmx">
         <MinMoves Best="17" />
-        <Tutorial Type="Bear" />
+        <Tutorial Type="Waterfall" />
         <StartCoords x="4" y="3" />
     </Level1>
     <Level2 LevelFile="Levels/Level2.tmx">
