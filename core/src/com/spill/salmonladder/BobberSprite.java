@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
 public class BobberSprite extends Sprite {
-
+    //
     private Array<EventFisher> arr;
     private EventFisher current;
     private int index = 0, fishermanX, fishermanY;
