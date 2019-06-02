@@ -2,22 +2,242 @@
 
     <Level1 LevelFile="Levels/Level1.tmx">
 
-        <MinMoves Best="17" />
+        <MinMoves Best="3" />
 
         <Tutorial Type="Start" />
 
-        <StartCoords x="4" y="2" />
+        <StartCoords x="9" y="13" />
 
     </Level1>
 
     <Level2 LevelFile="Levels/Level2.tmx">
 
-        <MinMoves Best="10" />
+        <MinMoves Best="6" />
 
         <Tutorial Type="Rock" />
 
-        <StartCoords x="1" y="21" />
+        <StartCoords x="14" y="12" />
 
     </Level2>
+
+    <Level3 LevelFile="Levels/Level3.tmx">
+
+        <MinMoves Best="27" />
+
+        <Tutorial Type="None" />
+
+        <StartCoords x="7" y="12" />
+
+    </Level3>
+
+    <Level4 LevelFile="Levels/Level4.tmx">
+
+        <MinMoves Best="72" />
+
+        <Tutorial Type="None" />
+
+        <StartCoords x="20" y="12" />
+
+    </Level4>
+
+    <Level5 LevelFile="Levels/Level5.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Bear" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level5>
+
+    <Level6 LevelFile="Levels/Level6.tmx">
+
+        <MinMoves Best="34" />
+
+        <Tutorial Type="None" />
+
+        <StartCoords x="23" y="12" />
+
+    </Level6>
+
+    <Level7 LevelFile="Levels/Level7.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level7>
+
+    <Level8 LevelFile="Levels/Level8.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level8>
+
+    <Level9 LevelFile="Levels/Level9.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level9>
+
+    <Level10 LevelFile="Levels/Level10.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level10>
+
+    <Level11 LevelFile="Levels/Level11.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level11>
+
+    <Level12 LevelFile="Levels/Level12.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level12>
+
+    <Level13 LevelFile="Levels/Level13.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level13>
+
+    <Level14 LevelFile="Levels/Level14.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level14>
+
+    <Level15 LevelFile="Levels/Level15.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level15>
+
+    <Level16 LevelFile="Levels/Level16.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level16>
+
+    <Level17 LevelFile="Levels/Level17.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level17>
+
+    <Level18 LevelFile="Levels/Level18.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level18>
+
+    <Level19 LevelFile="Levels/Level19.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level19>
+
+    <Level20 LevelFile="Levels/Level20.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level20>
+
+    <Level21 LevelFile="Levels/Level21.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level21>
+
+    <Level22 LevelFile="Levels/Level22.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level22>
+
+    <Level23 LevelFile="Levels/Level23.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level23>
+
+    <Level24 LevelFile="Levels/Level24.tmx">
+
+        <MinMoves Best="6" />
+
+        <Tutorial Type="Rock" />
+
+        <StartCoords x="14" y="12" />
+
+    </Level24>
 
 </GameLevels>

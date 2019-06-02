@@ -26,6 +26,7 @@ public class LevelParser implements Screen {
     static MenuPause PauseTable;
     static MenuWin WinTable;
     static boolean inTutorial = false;
+    static boolean winCameraLock = false;
 
     private MapLayer propertyLayer;
     static boolean inAnimation = false;
@@ -78,7 +79,7 @@ public class LevelParser implements Screen {
 
             starsToAward = 3;
 
-        } else if (HUDTable.getMoves() < MinMoves + 3) {
+        } else if (HUDTable.getMoves() < (int) (MinMoves * 1.5)) {
 
             if (SalmonLadderConstants.STARS.getStars(levelNumber) < 2) {
 
@@ -88,7 +89,7 @@ public class LevelParser implements Screen {
 
             starsToAward = 2;
 
-        } else if (HUDTable.getMoves() < MinMoves + 6) {
+        } else if (HUDTable.getMoves() < MinMoves * 2) {
 
             if (SalmonLadderConstants.STARS.getStars(levelNumber) < 1) {
 
@@ -145,8 +146,22 @@ public class LevelParser implements Screen {
         Gdx.gl.glClearColor(112 / 255f, 166 / 255f, 130 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (!FishSprite.entranceAnimation && !getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !SalmonLadderConstants.TUTORIAL.getTutorialCompeted(levelNumber)) {
+
+            SalmonLadderConstants.TUTORIAL.setTutorialCompleted(levelNumber, true);
+
+            TutorialTable = new MenuTutorial(1.75f, 1.25f, SalmonLadderConstants.BACKGROUND_PAUSE, getXMLRoot().getChildByName("Tutorial").get("Type"));
+
+            stage.addActor(TutorialTable);
+
+            inTutorial = true;
+
+        }
+
         // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
-        camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
+        if (!winCameraLock) {
+            camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
+        }
         camera.update();
 
         if (!bobberInit && ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
@@ -171,8 +186,8 @@ public class LevelParser implements Screen {
             }
         }
 
-        int[] arr = {0, 1};
-        int[] arr2 = {2};
+        int[] arr = {0, 1, 2};
+        int[] arr2 = {3, 4};
 
         // SET THE CAMERA TO RENDER THE TILEMAP
         tiledMapRenderer.setView(camera);
@@ -313,6 +328,14 @@ public class LevelParser implements Screen {
         // SET CAMERA TO ORTHOGRAPHIC (TOP-DOWN)
         camera = new OrthographicCamera();
 
+        if (levelNumber != 1) {
+            winCameraLock = true;
+            System.out.println(startX);
+            System.out.println(startY);
+            camera.position.set(startX * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, startY * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
+            camera.update();
+        }
+
         // VARIABLE FOR SKIN OF THE FISH
         int fishSkin = 0;
 
@@ -320,7 +343,11 @@ public class LevelParser implements Screen {
         fish = new FishSprite(fishSkin, (TiledMapTileLayer) propertyLayer);
 
         // SET STARTING POSITION OF FISH USING VARIABLES FROM XML FILE
-        fish.setPosition(startX * SalmonLadderConstants.PIXEL_PER_METER, startY * SalmonLadderConstants.PIXEL_PER_METER);
+        if (levelNumber != 1) {
+            fish.setPosition(startX * SalmonLadderConstants.PIXEL_PER_METER, 0);
+        } else {
+            fish.setPosition(startX * SalmonLadderConstants.PIXEL_PER_METER, startY * SalmonLadderConstants.PIXEL_PER_METER);
+        }
 
         for (int i = 0; i < ((TiledMapTileLayer) propertyLayer).getWidth(); i++) {
             for (int j = 0; j < ((TiledMapTileLayer) propertyLayer).getHeight(); j++) {
@@ -368,16 +395,6 @@ public class LevelParser implements Screen {
         stage = new Stage(new FitViewport(SalmonLadderConstants.VIRTUAL_WIDTH, SalmonLadderConstants.VIRTUAL_HEIGHT));
 
         DimRectangle = new ShapeRenderer();
-
-        if (!getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !SalmonLadderConstants.TUTORIAL.getTutorialCompeted(levelNumber)) {
-
-            TutorialTable = new MenuTutorial(1.75f, 1.25f, SalmonLadderConstants.BACKGROUND_PAUSE, getXMLRoot().getChildByName("Tutorial").get("Type"));
-
-            stage.addActor(TutorialTable);
-
-            inTutorial = true;
-
-        }
 
         HudTable = new HUDTable(0);
 
