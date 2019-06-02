@@ -12,7 +12,6 @@ public class BobberSprite extends Sprite {
     private EventFisher current;
     private int index = 0, fishermanX, fishermanY;
     private boolean direction = false, inAnimation = false;
-    private Timer.Task deathX, deathY;
     private Array<Timer.Task> movement = new Array<Timer.Task>(4);
 
     public BobberSprite(Array<EventFisher> arr, Fisherman fisherman) {
@@ -25,51 +24,44 @@ public class BobberSprite extends Sprite {
         movement.add(new Timer.Task() {
             @Override
             public void run() {
-                translate(0, 2f);
+                translate(0, 1f);
             }
         });
 
         movement.add(new Timer.Task() {
             @Override
             public void run() {
-                translate(2f, 0);
+                translate(1f, 0);
             }
         });
 
         movement.add(new Timer.Task() {
             @Override
             public void run() {
-                translate(0, -2f);
+                translate(0, -1f);
             }
         });
 
         movement.add(new Timer.Task() {
             @Override
             public void run() {
-                translate(-2f, 0);
+                translate(-1f, 0);
             }
         });
 
-        deathX = new Timer.Task() {
-            @Override
-            public void run() {
-                translateX(1f);
-            }
-        };
-
-        deathY = new Timer.Task() {
-            @Override
-            public void run() {
-                translateY(1f);
-            }
-        };
     }
 
     @Override
     public void draw(Batch batch) {
+
         if (!inAnimation) {
-            if ((getX() - 13) / SalmonLadderConstants.PIXEL_PER_METER % 32 == 0 && (getY() - 11) / SalmonLadderConstants.PIXEL_PER_METER % 32 == 0) {
+            if ((getX() - 13) % 32 == 0 && (getY() - 11) % 32 == 0 && noTaskScheduled()) {
                 movement();
+            }
+        } else {
+            if (noTaskScheduled()) {
+                LevelParser.inAnimation = false;
+                LevelParser.inDeath = true;
             }
         }
         super.draw(batch);
@@ -77,6 +69,7 @@ public class BobberSprite extends Sprite {
 
     private void movement() {
         EventFisher next;
+        current = arr.get(index);
         if (direction) {
             next = arr.get(--index);
             if (index == 0) {
@@ -90,13 +83,13 @@ public class BobberSprite extends Sprite {
         }
 
         if (next.getY() > current.getY()) {
-            Timer.schedule(movement.get(0), 0, 1 / 16f, 16);
+            Timer.schedule(movement.get(0), 0, 1 / 32f, 31);
         } else if (next.getX() > current.getX()) {
-            Timer.schedule(movement.get(1), 0, 1 / 16f, 16);
+            Timer.schedule(movement.get(1), 0, 1 / 32f, 31);
         } else if (next.getY() < current.getY()) {
-            Timer.schedule(movement.get(2), 0, 1 / 16f, 16);
+            Timer.schedule(movement.get(2), 0, 1 / 32f, 31);
         } else if (next.getX() < current.getX()) {
-            Timer.schedule(movement.get(3), 0, 1 / 16f, 16);
+            Timer.schedule(movement.get(3), 0, 1 / 32f, 31);
         }
     }
 
@@ -119,11 +112,27 @@ public class BobberSprite extends Sprite {
     public void animate() {
         inAnimation = true;
 
+        for (Timer.Task i : movement) {
+            i.cancel();
+        }
+
         if (getX() / SalmonLadderConstants.PIXEL_PER_METER != fishermanX) {
-            Timer.schedule(deathX, 0, 1 / 100f, Math.abs((int) (getX() / (fishermanX * SalmonLadderConstants.PIXEL_PER_METER))) - 1);
+            if (getX() / SalmonLadderConstants.PIXEL_PER_METER < fishermanX) {
+                Timer.schedule(movement.get(1), 0, 1 / 400f, Math.abs((int) (getX() - (fishermanX * SalmonLadderConstants.PIXEL_PER_METER))));
+            } else {
+                Timer.schedule(movement.get(3), 0, 1 / 400f, Math.abs((int) (getX() - (fishermanX * SalmonLadderConstants.PIXEL_PER_METER))));
+            }
         }
-        if (getY() / SalmonLadderConstants.PIXEL_PER_METER != fishermanY) {
-            Timer.schedule(deathY, 0, 1 / 100f, Math.abs((int) (getY() / (fishermanY * SalmonLadderConstants.PIXEL_PER_METER))) - 1);
+        if (getY() / SalmonLadderConstants.PIXEL_PER_METER != fishermanY + 1) {
+            if (getY() / SalmonLadderConstants.PIXEL_PER_METER < fishermanY + 1) {
+                Timer.schedule(movement.get(0), 0, 1 / 400f, Math.abs((int) (getY() - (fishermanY * SalmonLadderConstants.PIXEL_PER_METER + 32))));
+            } else {
+                Timer.schedule(movement.get(2), 0, 1 / 400f, Math.abs((int) (getY() - (fishermanY * SalmonLadderConstants.PIXEL_PER_METER + 32))));
+            }
         }
+    }
+
+    private boolean noTaskScheduled() {
+        return !movement.get(0).isScheduled() && !movement.get(1).isScheduled() && !movement.get(2).isScheduled() && !movement.get(3).isScheduled();
     }
 }

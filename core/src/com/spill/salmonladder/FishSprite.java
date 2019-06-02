@@ -284,7 +284,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         if (inBobber) {
 
-            setPosition(bobber.getX() - 13, bobber.getY() - 30);
+            setPosition(bobber.getX() - 13, bobber.getY() - 11);
 
         } else {
 

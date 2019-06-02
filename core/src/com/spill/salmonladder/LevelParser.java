@@ -323,7 +323,6 @@ public class LevelParser implements Screen {
                         }
                     }
                     if (!exists) {
-                        System.out.println("b");
                         Array<EventFisher> arr = new Array<EventFisher>();
                         arr = bobberPath(arr, i, j);
                         eventFishers.add(arr);
@@ -333,8 +332,6 @@ public class LevelParser implements Screen {
         }
 
         for (int i = 0; i < eventFishers.size; i++) {
-            System.out.println(eventFishers.size);
-            System.out.println("c");
             BobberSprite bobber = new BobberSprite(eventFishers.get(i), findFisher(eventFishers.get(i)));
             bobber.setPosition(bobber.getEventX(0) * SalmonLadderConstants.PIXEL_PER_METER + 13, bobber.getEventY(0) * SalmonLadderConstants.PIXEL_PER_METER + 11);
             bobberSprites.add(bobber);
@@ -444,14 +441,12 @@ public class LevelParser implements Screen {
 
         if (!added && (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1) != null)) {
             if (((TiledMapTileLayer) propertyLayer).getCell(i, j + 1).getTile().getProperties().get("Name", String.class).equals("EventFisher")) {
-                System.out.println("d");
                 for (EventFisher x : arr) {
                     if (x.getX() == i && x.getY() == j + 1) {
                         exists = true;
                     }
                 }
                 if (!exists) {
-                    System.out.println("e");
                     arr = bobberPath(arr, i, j + 1);
                 }
             }
@@ -460,11 +455,7 @@ public class LevelParser implements Screen {
     }
 
     private Fisherman findFisher(Array<EventFisher> arr) {
-        System.out.println(arr.size);
-        System.out.println(arr.get(arr.size / 2).getX() + 2);
-        System.out.println(arr.get(arr.size / 2).getY());
         if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY()).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
-            System.out.println("a");
             return new Fisherman(arr.get(arr.size / 2).getX() + 2, arr.get(arr.size / 2).getY());
         } else if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX() - 2, arr.get(arr.size / 2).getY()).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
             return new Fisherman(arr.get(arr.size / 2).getX() - 2, arr.get(arr.size / 2).getY());
