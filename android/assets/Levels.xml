@@ -62,19 +62,19 @@
 
     <Level7 LevelFile="Levels/Level7.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="55" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="22" y="12" />
 
     </Level7>
 
     <Level8 LevelFile="Levels/Level8.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="10" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="Wall" />
 
         <StartCoords x="14" y="12" />
 
@@ -82,11 +82,11 @@
 
     <Level9 LevelFile="Levels/Level9.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="46" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="15" y="12" />
 
     </Level9>
 
