@@ -122,19 +122,19 @@
 
     <Level13 LevelFile="Levels/Level13.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="38" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="19" y="12" />
 
     </Level13>
 
     <Level14 LevelFile="Levels/Level14.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="4" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="Waterfall" />
 
         <StartCoords x="14" y="12" />
 
@@ -142,39 +142,39 @@
 
     <Level15 LevelFile="Levels/Level15.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="24" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="7" y="12" />
 
     </Level15>
 
     <Level16 LevelFile="Levels/Level16.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="30" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="20" y="12" />
 
     </Level16>
 
     <Level17 LevelFile="Levels/Level17.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="66" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="7" y="12" />
 
     </Level17>
 
     <Level18 LevelFile="Levels/Level18.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="7" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="Fisherman" />
 
         <StartCoords x="14" y="12" />
 

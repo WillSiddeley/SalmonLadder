@@ -94,7 +94,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
         if (LevelParser.levelNumber != 1) {
 
-            Timer.schedule(movement[0], 0, 1 / 20f, 95);
+            Timer.schedule(movement[0], 0, 1 / 40f, 95);
 
             entranceAnimation = true;
 
@@ -302,7 +302,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                         LevelParser.winCameraLock = true;
 
-                        Timer.schedule(movement[0], 0, 1 / 20f, 103);
+                        Timer.schedule(movement[0], 0, 1 / 40f, 103);
 
                     } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
 

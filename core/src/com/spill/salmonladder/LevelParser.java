@@ -32,7 +32,6 @@ public class LevelParser implements Screen {
     static boolean inAnimation = false;
     static boolean inDeath = false;
     static boolean inMenu = false;
-    private boolean bobberInit = false;
     static boolean inWin = false;
     static int levelNumber;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -164,7 +163,7 @@ public class LevelParser implements Screen {
         }
         camera.update();
 
-        if (!bobberInit && ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
+        if (!inAnimation && ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
             event = ((TiledMapTileLayer) propertyLayer).getCell((int) (fish.getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (fish.getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class);
             if (event.equals("EventBear")) {
                 inAnimation = true;
@@ -178,11 +177,10 @@ public class LevelParser implements Screen {
         }
 
         for (BobberSprite i : bobberSprites) {
-            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle()) && !bobberInit) {
+            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle()) && !inAnimation) {
                 inAnimation = true;
                 i.animate();
                 fish.animate(i);
-                bobberInit = true;
             }
         }
 
@@ -516,5 +514,5 @@ public class LevelParser implements Screen {
  * Final Win Screen
  * Grey Out Locked Levels
  * Levels
- * Make Grass less grid-like
+ * Remove sound from fish sprite
  * */
