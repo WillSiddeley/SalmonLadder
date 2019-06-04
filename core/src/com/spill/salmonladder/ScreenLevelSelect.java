@@ -65,9 +65,9 @@ public class ScreenLevelSelect implements Screen {
 
         skin.add("Level-Locked", skin.newDrawable("ButtonLevel", new Color(150 / 255f, 150 / 255f, 150 / 255f, 1)), Drawable.class);
 
-        skin.add("Level-Unlocked", skin.newDrawable("ButtonLevel", new Color(245 / 255f, 245 / 255f, 245 / 255f, 1)), Drawable.class);
+        skin.add("Level-Unlocked", skin.newDrawable("ButtonLevel", Color.SALMON), Drawable.class);
 
-        skin.add("Level-Padlock", skin.newDrawable("ImagePadlock", Color.BLACK), Drawable.class);
+        skin.add("Level-Padlock", skin.newDrawable("ImagePadlock", Color.WHITE), Drawable.class);
 
         skin.add("Star-Filled", skin.newDrawable("ImageStar", Color.YELLOW), Drawable.class);
         

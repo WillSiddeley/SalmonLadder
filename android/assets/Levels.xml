@@ -202,9 +202,9 @@
 
     <Level21 LevelFile="Levels/Level21.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="58" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
         <StartCoords x="14" y="12" />
 
