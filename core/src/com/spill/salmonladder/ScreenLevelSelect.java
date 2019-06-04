@@ -63,7 +63,11 @@ public class ScreenLevelSelect implements Screen {
         // GET THE SKIN TEXTURES FOR THE BUTTON
         skin = SalmonLadderConstants.SKIN;
 
-        skin.add("Level", skin.newDrawable("ButtonLevel", new Color(205, 205, 205, 1)), Drawable.class);
+        skin.add("Level-Locked", skin.newDrawable("ButtonLevel", new Color(150 / 255f, 150 / 255f, 150 / 255f, 1)), Drawable.class);
+
+        skin.add("Level-Unlocked", skin.newDrawable("ButtonLevel", new Color(245 / 255f, 245 / 255f, 245 / 255f, 1)), Drawable.class);
+
+        skin.add("Level-Padlock", skin.newDrawable("ImagePadlock", Color.BLACK), Drawable.class);
 
         skin.add("Star-Filled", skin.newDrawable("ImageStar", Color.YELLOW), Drawable.class);
         
@@ -194,7 +198,15 @@ public class ScreenLevelSelect implements Screen {
         label.setAlignment(Align.center);
 
         // PUT THE LABEL INSIDE THE BUTTON
-        button.stack(new Image(skin.getDrawable("Level")), label).expand().fill();
+        if (SalmonLadderConstants.STARS.getStatus(level).equals("Unlocked")) {
+
+            button.stack(new Image(skin.getDrawable("Level-Unlocked")), label).expand().fill();
+
+        } else {
+
+            button.stack(new Image(skin.getDrawable("Level-Locked")), new Image(skin.getDrawable("Level-Padlock"))).expand().fill();
+
+        }
 
         int stars = SalmonLadderConstants.STARS.getStars(level);
 
