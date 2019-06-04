@@ -7,11 +7,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
 public class BobberSprite extends Sprite {
-    //
     private Array<EventFisher> arr;
-    private EventFisher current;
+    private EventFisher current, next;
     private int index = 0, fishermanX, fishermanY;
-    private boolean direction = false, inAnimation = false;
+    private boolean direction = false, inAnimation = false, reposition = false, inReposition = false;
     private boolean soundPlayed = false;
     private Array<Timer.Task> movement = new Array<Timer.Task>(4);
 
@@ -55,30 +54,58 @@ public class BobberSprite extends Sprite {
     @Override
     public void draw(Batch batch) {
 
-        if (!inAnimation) {
-            if ((getX() - 13) % 32 == 0 && (getY() - 11) % 32 == 0 && noTaskScheduled()) {
-                movement();
+        if (inReposition && noTaskScheduled()) {
+            inReposition = false;
+        }
+
+        if (!LevelParser.inMenu && !reposition && !inReposition) {
+            if (!inAnimation) {
+                if ((getX() - 13) % 32 == 0 && (getY() - 11) % 32 == 0 && noTaskScheduled()) {
+                    movement();
+                }
+            } else {
+                if (noTaskScheduled()) {
+                    LevelParser.inAnimation = false;
+
+                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled() && !soundPlayed) {
+
+                        SalmonLadderConstants.SOUND_DEATH_FISHERMAN.play();
+
+                        soundPlayed = true;
+
+                    }
+
+                    LevelParser.inDeath = true;
+                }
+            }
+        } else if (!LevelParser.inMenu && reposition) {
+            reposition = false;
+            if (next.getX() * SalmonLadderConstants.PIXEL_PER_METER != getX() - 13) {
+                if (getX() - 13 < next.getX() * SalmonLadderConstants.PIXEL_PER_METER) {
+                    Timer.schedule(movement.get(1), 0, 1 / 32f, (int) (next.getX() * SalmonLadderConstants.PIXEL_PER_METER - (getX() - 13)));
+                    inReposition = true;
+                } else {
+                    Timer.schedule(movement.get(3), 0, 1 / 32f, (int) ((getX() - 13) - next.getX() * SalmonLadderConstants.PIXEL_PER_METER));
+                    inReposition = true;
+                }
+            } else if (next.getY() * SalmonLadderConstants.PIXEL_PER_METER != getY() - 11) {
+                if (getY() - 13 < next.getY() * SalmonLadderConstants.PIXEL_PER_METER) {
+                    Timer.schedule(movement.get(0), 0, 1 / 32f, (int) (next.getY() * SalmonLadderConstants.PIXEL_PER_METER - (getY() - 11)));
+                    inReposition = true;
+                } else {
+                    Timer.schedule(movement.get(2), 0, 1 / 32f, (int) ((getY() - 11) - next.getY() * SalmonLadderConstants.PIXEL_PER_METER));
+                    inReposition = true;
+                }
             }
         } else {
-            if (noTaskScheduled()) {
-                LevelParser.inAnimation = false;
-
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled() && !soundPlayed) {
-
-                    SalmonLadderConstants.SOUND_DEATH_FISHERMAN.play();
-
-                    soundPlayed = true;
-
-                }
-
-                LevelParser.inDeath = true;
+            for (Timer.Task i : movement) {
+                i.cancel();
             }
         }
         super.draw(batch);
     }
 
     private void movement() {
-        EventFisher next;
         current = arr.get(index);
         if (direction) {
             next = arr.get(--index);
@@ -111,14 +138,6 @@ public class BobberSprite extends Sprite {
         return arr.get(y).getY();
     }
 
-    public int getFishermanX() {
-        return fishermanX;
-    }
-
-    public int getFishermanY() {
-        return fishermanY;
-    }
-
     public void animate() {
         inAnimation = true;
 
@@ -144,5 +163,9 @@ public class BobberSprite extends Sprite {
 
     private boolean noTaskScheduled() {
         return !movement.get(0).isScheduled() && !movement.get(1).isScheduled() && !movement.get(2).isScheduled() && !movement.get(3).isScheduled();
+    }
+
+    public void reposition() {
+        reposition = true;
     }
 }

@@ -78,6 +78,8 @@ class Menu extends Table {
 
             LevelParser.inMenu = false;
 
+            LevelParser.releaseBobbers();
+
         } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_TUTORIAL)) {
 
             LevelParser.inTutorial = false;

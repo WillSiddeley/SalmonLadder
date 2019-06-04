@@ -45,7 +45,7 @@ public class LevelParser implements Screen {
 
     private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
 
-    private Array<BobberSprite> bobberSprites = new Array<BobberSprite>();
+    private static Array<BobberSprite> bobberSprites = new Array<BobberSprite>();
 
     private ShapeRenderer DimRectangle;
 
@@ -507,6 +507,12 @@ public class LevelParser implements Screen {
         } else if (((TiledMapTileLayer) propertyLayer).getCell(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() - 2).getTile().getProperties().get("Name", String.class).equals("Fisherman")) {
             return new Fisherman(arr.get(arr.size / 2).getX(), arr.get(arr.size / 2).getY() - 2);
         } else return null;
+    }
+
+    public static void releaseBobbers() {
+        for (BobberSprite i : bobberSprites) {
+            i.reposition();
+        }
     }
 }
 
