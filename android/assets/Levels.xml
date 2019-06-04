@@ -212,31 +212,31 @@
 
     <Level22 LevelFile="Levels/Level22.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="32" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="7" y="12" />
 
     </Level22>
 
     <Level23 LevelFile="Levels/Level23.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="31" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="10" y="12" />
 
     </Level23>
 
     <Level24 LevelFile="Levels/Level24.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="31" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="7" y="12" />
 
     </Level24>
 
