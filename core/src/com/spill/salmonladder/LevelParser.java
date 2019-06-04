@@ -512,7 +512,5 @@ public class LevelParser implements Screen {
 
 /* TODO:
  * Final Win Screen
- * Grey Out Locked Levels
  * Levels
- * Remove sound from fish sprite
  * */

@@ -13,21 +13,34 @@ ButtonLevel
   index: -1
 ImageStar
   rotate: false
-  xy: 1003, 1003
+  xy: 1, 1
   size: 1000, 1000
   orig: 1000, 1000
   offset: 0, 0
   index: -1
 ImageStarEmpty
   rotate: false
-  xy: 1, 1
+  xy: 1003, 1003
   size: 1000, 1000
   orig: 1000, 1000
   offset: 0, 0
   index: -1
+ImagePadlock
+  rotate: false
+  xy: 1003, 1
+  size: 1000, 1000
+  orig: 1000, 1000
+  offset: 0, 0
+  index: -1
+
+LevelSkin2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 MovesFont
   rotate: false
-  xy: 1003, 489
+  xy: 1, 1
   size: 512, 512
   orig: 512, 512
   offset: 0, 0

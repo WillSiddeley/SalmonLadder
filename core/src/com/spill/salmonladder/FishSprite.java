@@ -591,26 +591,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
             if (CheckCollisionIn() && CheckCollisionOut()) {
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
-
-                    if (random.nextInt(100) < 20) {
-
-                        if (random.nextInt(2) == 0) {
-
-                            SalmonLadderConstants.SOUND_WATER_1.play();
-
-                        } else {
-
-                            SalmonLadderConstants.SOUND_WATER_2.play();
-
-                        }
-
-                    }
-
-                }
-
                 HUDTable.setMoves(HUDTable.getMoves() + 1);
-
 
                 if (map.getCell((int) (getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
 
