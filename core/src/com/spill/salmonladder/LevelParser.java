@@ -68,7 +68,7 @@ public class LevelParser implements Screen {
 
         int starsToAward;
 
-        if (HUDTable.getMoves() == MinMoves) {
+        if (HUDTable.getMoves() <= MinMoves) {
 
             if (SalmonLadderConstants.STARS.getStars(levelNumber) < 3) {
 

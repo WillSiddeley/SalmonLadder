@@ -52,7 +52,7 @@
 
     <Level6 LevelFile="Levels/Level6.tmx">
 
-        <MinMoves Best="34" />
+        <MinMoves Best="33" />
 
         <Tutorial Type="None" />
 
@@ -92,7 +92,7 @@
 
     <Level10 LevelFile="Levels/Level10.tmx">
 
-        <MinMoves Best="73" />
+        <MinMoves Best="72" />
 
         <Tutorial Type="None" />
 
@@ -182,21 +182,21 @@
 
     <Level19 LevelFile="Levels/Level19.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="32" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="22" y="12" />
 
     </Level19>
 
     <Level20 LevelFile="Levels/Level20.tmx">
 
-        <MinMoves Best="6" />
+        <MinMoves Best="35" />
 
-        <Tutorial Type="Rock" />
+        <Tutorial Type="None" />
 
-        <StartCoords x="14" y="12" />
+        <StartCoords x="7" y="12" />
 
     </Level20>
 
