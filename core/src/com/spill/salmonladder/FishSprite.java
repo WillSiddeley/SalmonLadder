@@ -12,12 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.Random;
-
-
 public class FishSprite extends Sprite implements GestureDetector.GestureListener {
-
-    private Random random;
 
     private float elapsedTime = 0, alpha = 0.8f, underwaterTime = 0;
 
@@ -58,8 +53,6 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
     FishSprite(int skin, TiledMapTileLayer tiledMap) {
 
         super(new Texture("Sprites/Textures/ChinookStagnant_1.png"));
-
-        random = new Random();
 
         switch (skin) {
 
