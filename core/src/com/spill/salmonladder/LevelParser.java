@@ -164,7 +164,7 @@ public class LevelParser implements Screen {
         }
 
         // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
-        if (!winCameraLock) {
+        if (!winCameraLock || levelNumber == 1) {
             camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
         }
         camera.update();
