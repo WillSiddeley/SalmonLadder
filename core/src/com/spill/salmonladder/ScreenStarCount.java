@@ -203,7 +203,7 @@ public class ScreenStarCount implements Screen {
 
         Label label3;
 
-        if (getTotalStars() == SalmonLadderConstants.LEVEL_COUNT * 3) {
+        if (getTotalStars() < SalmonLadderConstants.LEVEL_COUNT * 3) {
 
             label2 = new Label("Try to collect", SalmonLadderConstants.SKIN);
 
