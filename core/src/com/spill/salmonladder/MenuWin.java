@@ -75,7 +75,7 @@ class MenuWin extends Menu {
 
                     LevelParser.resetBooleans(false);
 
-                    ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenLevelSelect());
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new ScreenStarCount());
 
                 } else {
 
