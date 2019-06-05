@@ -602,11 +602,17 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                         LevelParser.inAnimation = false;
 
+                    } else if (event.equals("EventFisher") || event.equals("EventBear") || nextTile().equals("EventFisher") || nextTile().equals("EventBear")) {
+
+                        Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
+
+                        LevelParser.inAnimation = false;
 
                     }
 
+                }
 
-                } else if (nextTile().substring(0, 5).equals("Event")) {
+                if (nextTile().substring(0, 5).equals("Event") && !map.getCell((int) (getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
 
                     event = nextTile();
 
@@ -622,11 +628,12 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                         LevelParser.inAnimation = false;
 
-
                     }
 
 
-                } else {
+                }
+
+                if (!nextTile().substring(0, 5).equals("Event") && !map.getCell((int) (getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event")) {
 
                     Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
 
