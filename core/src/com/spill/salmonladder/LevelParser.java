@@ -41,9 +41,9 @@ public class LevelParser implements Screen {
 
     private BearSprite bear;
 
-    private Array<BearSprite> bearSprites = new Array<BearSprite>();
+    private static Array<BearSprite> bearSprites = new Array<BearSprite>();
 
-    private Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
+    private static Array<Array<EventFisher>> eventFishers = new Array<Array<EventFisher>>();
 
     private static Array<BobberSprite> bobberSprites = new Array<BobberSprite>();
 
@@ -136,11 +136,17 @@ public class LevelParser implements Screen {
 
         inWin = reset;
 
+        bobberSprites = new Array<BobberSprite>();
+
+        bearSprites = new Array<BearSprite>();
+
+        eventFishers = new Array<Array<EventFisher>>();
+
     }
 
     @Override
     public void render(float delta) {
-
+        
         // BACKGROUND SET COLOUR
         Gdx.gl.glClearColor(112 / 255f, 166 / 255f, 130 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -177,7 +183,7 @@ public class LevelParser implements Screen {
         }
 
         for (BobberSprite i : bobberSprites) {
-            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle()) && !inAnimation) {
+            if (i.getBoundingRectangle().overlaps(fish.getBoundingRectangle()) && !inAnimation && !inMenu && !inDeath) {
                 inAnimation = true;
                 i.animate();
                 fish.animate(i);
@@ -328,8 +334,6 @@ public class LevelParser implements Screen {
 
         if (levelNumber != 1) {
             winCameraLock = true;
-            System.out.println(startX);
-            System.out.println(startY);
             camera.position.set(startX * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, startY * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
             camera.update();
         }

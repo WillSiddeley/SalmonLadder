@@ -297,7 +297,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                         Timer.schedule(movement[0], 0, 1 / 40f, 103);
 
-                    } else if (event.substring(0, 11).equals("EventLadder") || event.substring(0, 14).equals("EventWaterfall")) {
+                    } else if (event.equals("EventLadder") || event.equals("EventWaterfall")) {
 
                         LevelParser.inAnimation = false;
 
@@ -606,10 +606,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                     }
 
 
-                }
-
-
-                if (nextTile().substring(0, 5).equals("Event")) {
+                } else if (nextTile().substring(0, 5).equals("Event")) {
 
                     event = nextTile();
 
@@ -629,15 +626,11 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
                     }
 
 
-                }
-
-
-                if (!map.getCell((int) (getX() / SalmonLadderConstants.PIXEL_PER_METER), (int) (getY() / SalmonLadderConstants.PIXEL_PER_METER)).getTile().getProperties().get("Name", String.class).substring(0, 5).equals("Event") && !nextTile().substring(0, 5).equals("Event")) {
+                } else {
 
                     Timer.schedule(movement[orientation], 0, 1 / 64f, 7);
 
                     LevelParser.inAnimation = false;
-
 
                 }
 

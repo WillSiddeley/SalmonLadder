@@ -10,7 +10,7 @@ public class BobberSprite extends Sprite {
     private Array<EventFisher> arr;
     private EventFisher current, next;
     private int index = 0, fishermanX, fishermanY;
-    private boolean direction = false, inAnimation = false, reposition = false, inReposition = false;
+    private boolean direction = false, inAnimation = false, reposition = false, inReposition = false, override = false;
     private boolean soundPlayed = false;
     private Array<Timer.Task> movement = new Array<Timer.Task>(4);
 
@@ -59,7 +59,7 @@ public class BobberSprite extends Sprite {
         }
 
         if (!LevelParser.inMenu && !reposition && !inReposition) {
-            if (!inAnimation) {
+            if (!inAnimation || !LevelParser.inAnimation || override) {
                 if ((getX() - 13) % 32 == 0 && (getY() - 11) % 32 == 0 && noTaskScheduled()) {
                     movement();
                 }
@@ -74,6 +74,8 @@ public class BobberSprite extends Sprite {
                         soundPlayed = true;
 
                     }
+
+                    override = true;
 
                     LevelParser.inDeath = true;
                 }
