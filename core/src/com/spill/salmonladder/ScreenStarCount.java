@@ -259,9 +259,9 @@ public class ScreenStarCount implements Screen {
 
         int starCountInt = 0;
 
-        for (int i = 0; i < SalmonLadderConstants.LEVEL_COUNT; i++) {
+        for (int i = 1; i <= SalmonLadderConstants.LEVEL_COUNT; i++) {
 
-            starCountInt += SalmonLadderConstants.STARS.getStars(1);
+            starCountInt += SalmonLadderConstants.STARS.getStars(i);
 
         }
 
