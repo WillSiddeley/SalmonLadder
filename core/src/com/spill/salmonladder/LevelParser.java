@@ -164,7 +164,7 @@ public class LevelParser implements Screen {
         }
 
         // POSITION CAMERA TO THE CENTER OF THE FISH SPRITE
-        if (!winCameraLock || levelNumber == 1) {
+        if (!winCameraLock) {
             camera.position.set(fish.getX() + SalmonLadderConstants.PIXEL_PER_METER / 2, fish.getY() + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
         }
         camera.update();
@@ -336,6 +336,8 @@ public class LevelParser implements Screen {
             winCameraLock = true;
             camera.position.set(startX * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, startY * SalmonLadderConstants.PIXEL_PER_METER + SalmonLadderConstants.PIXEL_PER_METER / 2, 0);
             camera.update();
+        } else {
+            winCameraLock = false;
         }
 
         // VARIABLE FOR SKIN OF THE FISH

@@ -32,7 +32,7 @@
 
     <Level4 LevelFile="Levels/Level4.tmx">
 
-        <MinMoves Best="72" />
+        <MinMoves Best="71" />
 
         <Tutorial Type="None" />
 
@@ -192,7 +192,7 @@
 
     <Level20 LevelFile="Levels/Level20.tmx">
 
-        <MinMoves Best="35" />
+        <MinMoves Best="39" />
 
         <Tutorial Type="None" />
 
