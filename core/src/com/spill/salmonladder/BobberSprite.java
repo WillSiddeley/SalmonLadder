@@ -84,21 +84,23 @@ public class BobberSprite extends Sprite {
             reposition = false;
             if (next.getX() * SalmonLadderConstants.PIXEL_PER_METER != getX() - 13) {
                 if (getX() - 13 < next.getX() * SalmonLadderConstants.PIXEL_PER_METER) {
-                    Timer.schedule(movement.get(1), 0, 1 / 32f, (int) (next.getX() * SalmonLadderConstants.PIXEL_PER_METER - (getX() - 13)));
+                    Timer.schedule(movement.get(1), 0, 1 / 32f, (int) (next.getX() * SalmonLadderConstants.PIXEL_PER_METER - (getX() - 13)) - 1);
                     inReposition = true;
                 } else {
-                    Timer.schedule(movement.get(3), 0, 1 / 32f, (int) ((getX() - 13) - next.getX() * SalmonLadderConstants.PIXEL_PER_METER));
+                    Timer.schedule(movement.get(3), 0, 1 / 32f, (int) ((getX() - 13) - next.getX() * SalmonLadderConstants.PIXEL_PER_METER) - 1);
                     inReposition = true;
                 }
             } else if (next.getY() * SalmonLadderConstants.PIXEL_PER_METER != getY() - 11) {
                 if (getY() - 13 < next.getY() * SalmonLadderConstants.PIXEL_PER_METER) {
-                    Timer.schedule(movement.get(0), 0, 1 / 32f, (int) (next.getY() * SalmonLadderConstants.PIXEL_PER_METER - (getY() - 11)));
+                    Timer.schedule(movement.get(0), 0, 1 / 32f, (int) (next.getY() * SalmonLadderConstants.PIXEL_PER_METER - (getY() - 11)) - 1);
                     inReposition = true;
                 } else {
-                    Timer.schedule(movement.get(2), 0, 1 / 32f, (int) ((getY() - 11) - next.getY() * SalmonLadderConstants.PIXEL_PER_METER));
+                    Timer.schedule(movement.get(2), 0, 1 / 32f, (int) ((getY() - 11) - next.getY() * SalmonLadderConstants.PIXEL_PER_METER) - 1);
                     inReposition = true;
                 }
             }
+        } else if (inReposition) {
+
         } else {
             for (Timer.Task i : movement) {
                 i.cancel();

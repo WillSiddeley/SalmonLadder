@@ -182,7 +182,7 @@
 
     <Level19 LevelFile="Levels/Level19.tmx">
 
-        <MinMoves Best="32" />
+        <MinMoves Best="30" />
 
         <Tutorial Type="None" />
 

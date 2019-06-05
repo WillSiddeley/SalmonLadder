@@ -146,7 +146,7 @@ public class LevelParser implements Screen {
 
     @Override
     public void render(float delta) {
-        
+
         // BACKGROUND SET COLOUR
         Gdx.gl.glClearColor(112 / 255f, 166 / 255f, 130 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
