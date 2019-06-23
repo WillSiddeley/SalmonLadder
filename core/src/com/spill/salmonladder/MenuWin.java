@@ -48,7 +48,7 @@ class MenuWin extends Menu {
 
                 LevelParser.resetBooleans(false);
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 
@@ -65,7 +65,7 @@ class MenuWin extends Menu {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 

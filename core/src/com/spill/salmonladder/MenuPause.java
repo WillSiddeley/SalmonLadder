@@ -16,13 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 class MenuPause extends Menu {
 
-    private SalmonLadderSettings preferences;
+    private SalmonLadderPreferences preferences;
 
     MenuPause(float heightModifier, float widthModifier, String ninePatchBG) {
 
         super(heightModifier, widthModifier, ninePatchBG);
 
-        preferences = new SalmonLadderSettings();
+        preferences = new SalmonLadderPreferences();
 
         Label pauseLabel = new Label("Game Paused!", SalmonLadderConstants.SKIN);
 
@@ -142,7 +142,7 @@ class MenuPause extends Menu {
 
                 LevelParser.resetBooleans(false);
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 
@@ -161,7 +161,7 @@ class MenuPause extends Menu {
 
                 LevelParser.resetBooleans(false);
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 
@@ -178,7 +178,7 @@ class MenuPause extends Menu {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 

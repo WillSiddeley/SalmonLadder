@@ -70,9 +70,9 @@ public class LevelParser implements Screen {
 
         if (HUDTable.getMoves() <= MinMoves) {
 
-            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 3) {
+            if (SalmonLadderConstants.PREFERENCES.getStars(levelNumber) < 3) {
 
-                SalmonLadderConstants.STARS.setStars(levelNumber, 3);
+                SalmonLadderConstants.PREFERENCES.setStars(levelNumber, 3);
 
             }
 
@@ -80,9 +80,9 @@ public class LevelParser implements Screen {
 
         } else if (HUDTable.getMoves() < (int) (MinMoves * 1.5)) {
 
-            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 2) {
+            if (SalmonLadderConstants.PREFERENCES.getStars(levelNumber) < 2) {
 
-                SalmonLadderConstants.STARS.setStars(levelNumber, 2);
+                SalmonLadderConstants.PREFERENCES.setStars(levelNumber, 2);
 
             }
 
@@ -90,9 +90,9 @@ public class LevelParser implements Screen {
 
         } else if (HUDTable.getMoves() < MinMoves * 2) {
 
-            if (SalmonLadderConstants.STARS.getStars(levelNumber) < 1) {
+            if (SalmonLadderConstants.PREFERENCES.getStars(levelNumber) < 1) {
 
-                SalmonLadderConstants.STARS.setStars(levelNumber, 1);
+                SalmonLadderConstants.PREFERENCES.setStars(levelNumber, 1);
 
             }
 
@@ -100,13 +100,19 @@ public class LevelParser implements Screen {
 
         } else {
 
-            if (SalmonLadderConstants.STARS.getStars(levelNumber) == 0) {
+            if (SalmonLadderConstants.PREFERENCES.getStars(levelNumber) == 0) {
 
-                SalmonLadderConstants.STARS.setStars(levelNumber, 0);
+                SalmonLadderConstants.PREFERENCES.setStars(levelNumber, 0);
 
             }
 
             starsToAward = 0;
+
+        }
+
+        if (HUDTable.getMoves() < SalmonLadderConstants.PREFERENCES.getBestMoves(levelNumber)) {
+
+            SalmonLadderConstants.PREFERENCES.setBestMoves(levelNumber, HUDTable.getMoves());
 
         }
 
@@ -118,7 +124,7 @@ public class LevelParser implements Screen {
 
         if (levelNumber != SalmonLadderConstants.LEVEL_COUNT) {
 
-            SalmonLadderConstants.STARS.setStatus(levelNumber + 1, "Unlocked");
+            SalmonLadderConstants.PREFERENCES.setStatus(levelNumber + 1, "Unlocked");
 
         }
 
@@ -151,9 +157,9 @@ public class LevelParser implements Screen {
         Gdx.gl.glClearColor(112 / 255f, 166 / 255f, 130 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!FishSprite.entranceAnimation && !getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !SalmonLadderConstants.TUTORIAL.getTutorialCompeted(levelNumber)) {
+        if (!FishSprite.entranceAnimation && !getXMLRoot().getChildByName("Tutorial").get("Type").equals("None") && !SalmonLadderConstants.PREFERENCES.getTutorialCompeted(levelNumber)) {
 
-            SalmonLadderConstants.TUTORIAL.setTutorialCompleted(levelNumber, true);
+            SalmonLadderConstants.PREFERENCES.setTutorialCompleted(levelNumber, true);
 
             TutorialTable = new MenuTutorial(1.75f, 1.25f, SalmonLadderConstants.BACKGROUND_PAUSE, getXMLRoot().getChildByName("Tutorial").get("Type"));
 
@@ -249,7 +255,7 @@ public class LevelParser implements Screen {
         stage.act();
         stage.draw();
 
-        if (SalmonLadderConstants.SETTINGS.isMusicEnabled()) {
+        if (SalmonLadderConstants.PREFERENCES.isMusicEnabled()) {
 
             SalmonLadderConstants.MUSIC_AMBIANT.play();
 
@@ -259,7 +265,7 @@ public class LevelParser implements Screen {
 
         }
 
-        if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+        if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
             soundTime += Gdx.graphics.getDeltaTime();
 

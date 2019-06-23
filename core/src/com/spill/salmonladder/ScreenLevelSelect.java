@@ -81,7 +81,7 @@ public class ScreenLevelSelect implements Screen {
     @Override
     public void show() {
 
-        SalmonLadderConstants.STARS.setStatus(1, "Unlocked");
+        SalmonLadderConstants.PREFERENCES.setStatus(1, "Unlocked");
 
         int levelLabel = 1;
 
@@ -198,7 +198,7 @@ public class ScreenLevelSelect implements Screen {
         label.setAlignment(Align.center);
 
         // PUT THE LABEL INSIDE THE BUTTON
-        if (SalmonLadderConstants.STARS.getStatus(level).equals("Unlocked")) {
+        if (SalmonLadderConstants.PREFERENCES.getStatus(level).equals("Unlocked")) {
 
             button.stack(new Image(skin.getDrawable("Level-Unlocked")), label).expand().fill();
 
@@ -212,7 +212,7 @@ public class ScreenLevelSelect implements Screen {
 
         }
 
-        int stars = SalmonLadderConstants.STARS.getStars(level);
+        int stars = SalmonLadderConstants.PREFERENCES.getStars(level);
 
         // CREATE A TABLE BELOW THE BUTTON THAT RESPERESNTS STARS THE PLAYER GOT ON THE LEVEL
         Table starTable = new Table();
@@ -244,9 +244,9 @@ public class ScreenLevelSelect implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (SalmonLadderConstants.STARS.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
+                if (SalmonLadderConstants.PREFERENCES.getStatus(Integer.parseInt(event.getListenerActor().getName())).equals("Unlocked")) {
 
-                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                    if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                         SalmonLadderConstants.SOUND_CLICK.play();
 

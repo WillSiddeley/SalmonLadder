@@ -40,7 +40,7 @@ class MenuDeath extends Menu {
 
                 LevelParser.resetBooleans(false);
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 
@@ -59,7 +59,7 @@ class MenuDeath extends Menu {
 
                 LevelParser.resetBooleans(false);
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_MENU_CLOSE.play();
 

@@ -283,7 +283,7 @@ public class FishSprite extends Sprite implements GestureDetector.GestureListene
 
                     elapsedTime = 9 / 20f;
 
-                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                    if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                         SalmonLadderConstants.SOUND_WATER_SPLASH.play();
 

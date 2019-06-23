@@ -67,7 +67,7 @@ public class BobberSprite extends Sprite {
                 if (noTaskScheduled()) {
                     LevelParser.inAnimation = false;
 
-                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled() && !soundPlayed) {
+                    if (SalmonLadderConstants.PREFERENCES.isSoundEnabled() && !soundPlayed) {
 
                         SalmonLadderConstants.SOUND_DEATH_FISHERMAN.play();
 

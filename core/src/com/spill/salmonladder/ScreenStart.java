@@ -49,7 +49,7 @@ public class ScreenStart implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_CLICK.play();
 

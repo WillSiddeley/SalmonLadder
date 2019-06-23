@@ -44,7 +44,7 @@ public class ScreenStarCount implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_CLICK.play();
 
@@ -261,7 +261,7 @@ public class ScreenStarCount implements Screen {
 
         for (int i = 1; i <= SalmonLadderConstants.LEVEL_COUNT; i++) {
 
-            starCountInt += SalmonLadderConstants.STARS.getStars(i);
+            starCountInt += SalmonLadderConstants.PREFERENCES.getStars(i);
 
         }
 

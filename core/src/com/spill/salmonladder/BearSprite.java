@@ -63,7 +63,7 @@ public class BearSprite extends Sprite {
 
                 inAnimation = false;
 
-                if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                     SalmonLadderConstants.SOUND_DEATH_BEAR.play();
 

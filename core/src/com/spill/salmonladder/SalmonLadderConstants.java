@@ -118,11 +118,6 @@ public class SalmonLadderConstants {
 
     static BitmapFont FONT = new BitmapFont(Gdx.files.internal("Skins/MovesFont.fnt"));
 
-    static SalmonLadderSettings SETTINGS = new SalmonLadderSettings();
-
-    static SalmonLadderStars STARS = new SalmonLadderStars();
-
-    static SalmonLadderTutorials TUTORIAL = new SalmonLadderTutorials();
-
+    static SalmonLadderPreferences PREFERENCES = new SalmonLadderPreferences();
 
 }

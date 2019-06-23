@@ -78,7 +78,7 @@ class HUDTable extends Table {
 
                 if (!LevelParser.inAnimation && !LevelParser.inDeath && !LevelParser.inMenu && !LevelParser.inWin) {
 
-                    if (SalmonLadderConstants.SETTINGS.isSoundEnabled()) {
+                    if (SalmonLadderConstants.PREFERENCES.isSoundEnabled()) {
 
                         SalmonLadderConstants.SOUND_MENU_OPEN.play();
 

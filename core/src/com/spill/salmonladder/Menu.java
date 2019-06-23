@@ -84,7 +84,7 @@ class Menu extends Table {
 
             LevelParser.inTutorial = false;
 
-            SalmonLadderConstants.TUTORIAL.setTutorialCompleted(LevelParser.levelNumber, true);
+            SalmonLadderConstants.PREFERENCES.setTutorialCompleted(LevelParser.levelNumber, true);
 
         } else if (menu.equals(SalmonLadderConstants.MENU_TYPE_WIN)) {
 
